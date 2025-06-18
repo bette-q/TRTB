@@ -4,10 +4,14 @@ using System.Collections.Generic;
 public class PlayerInteraction : MonoBehaviour
 {
     public KeyCode interactKey = KeyCode.E;
+    public GameObject interactPrompt;
+
     private List<Interactable> nearbyInteractables = new List<Interactable>();
 
     void Update()
     {
+        interactPrompt.SetActive(nearbyInteractables.Count > 0);
+
         if (Input.GetKeyDown(interactKey) && nearbyInteractables.Count > 0)
         {
             // Interact with the closest interactable

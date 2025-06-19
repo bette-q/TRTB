@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-// handles notebook UI
+// handles notebook ? tbd
 public class NotebookManager : MonoBehaviour
 {
     public static NotebookManager Instance;

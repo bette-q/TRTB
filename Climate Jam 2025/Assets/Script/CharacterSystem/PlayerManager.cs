@@ -19,6 +19,9 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
+        if (NotebookUIManager.IsOpen)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Keypad1)) SetActiveCharacter(0);
         if (Input.GetKeyDown(KeyCode.Keypad2)) SetActiveCharacter(1);
         if (Input.GetKeyDown(KeyCode.Keypad3)) SetActiveCharacter(2);

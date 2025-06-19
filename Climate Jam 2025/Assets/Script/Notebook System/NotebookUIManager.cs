@@ -3,8 +3,12 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
+// handles notebook UI
 public class NotebookUIManager : MonoBehaviour
 {
+    [HideInInspector]
+    public static bool IsOpen { get; private set; }
+
     public GameObject notebookPanel;       
     public Transform ebPanel;              
     public GameObject evidenceBlockPrefab; 
@@ -13,15 +17,38 @@ public class NotebookUIManager : MonoBehaviour
 
     private List<GameObject> spawnedCards = new List<GameObject>();
 
+    void Start()
+    {
+        notebookPanel.SetActive(false);
+        IsOpen = false;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(toggleKey))
         {
-            bool open = !notebookPanel.activeSelf;
-            notebookPanel.SetActive(open);
-            if (open)
-                RefreshUI(); // UI updates itself!
+            if (!notebookPanel.activeSelf)
+                Open();
+            else
+                Close();
         }
+    }
+
+    public void Open()
+    {
+        notebookPanel.SetActive(true);
+        IsOpen = true;
+        RefreshUI();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void Close()
+    {
+        notebookPanel.SetActive(false);
+        IsOpen = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void RefreshUI()

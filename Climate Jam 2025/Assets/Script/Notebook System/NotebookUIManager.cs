@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
-using System.Linq;
 
 public class NotebookUIManager : MonoBehaviour
 {
@@ -11,16 +10,15 @@ public class NotebookUIManager : MonoBehaviour
 
     public GameObject notebookPanel;
     public RectTransform blockParentPanel;
-    public Transform blockLayout;
+    public RectTransform blockGridPanel;
     public GameObject evidenceBlockPrefab;
     public TMP_Text descriptionBox;
-    public Button combineButton;
     public KeyCode toggleKey = KeyCode.N;
 
     public CardPanelLinkManager cardPanelLinkManager;
 
-    private List<GameObject> spawnedCards = new List<GameObject>();
-    private List<EvidenceBlock> selectedBlocks = new List<EvidenceBlock>();
+    // Track spawned cards by evidence ID
+    private Dictionary<string, GameObject> spawnedCardDict = new Dictionary<string, GameObject>();
 
     void Start()
     {
@@ -37,17 +35,16 @@ public class NotebookUIManager : MonoBehaviour
             else
                 Close();
         }
-        // Only allow combine if 2+ EBs are selected
-        combineButton.interactable = selectedBlocks.Count >= 2 && selectedBlocks.All(b => b.blockType == EvidenceBlockType.Evidence);
     }
 
     public void Open()
     {
         notebookPanel.SetActive(true);
         IsOpen = true;
-        RefreshUI();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        AddNewBlocksIfAny();
     }
 
     public void Close()
@@ -58,78 +55,77 @@ public class NotebookUIManager : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void RefreshUI()
+    private void AddNewBlocksIfAny()
     {
-        foreach (var go in spawnedCards) Destroy(go);
-        spawnedCards.Clear();
-        selectedBlocks.Clear();
-
         var blocks = GameStateManager.Instance.GetAvailableBlocks();
         foreach (var block in blocks)
         {
-            var go = Instantiate(evidenceBlockPrefab, blockLayout);
-
-            go.GetComponent<FreeDragBlock>().Init(blockParentPanel);
-            go.GetComponent<CardLinkHandler>().Init(cardPanelLinkManager);
-
-            go.transform.Find("Title").GetComponent<TMP_Text>().text = block.title;
-
-            var btn = go.GetComponent<Button>();
-            if (block.blockType == EvidenceBlockType.Evidence)
-            {
-                btn.onClick.AddListener(() =>
-                {
-                    descriptionBox.text = block.text;
-                    // Toggle selection
-                    if (selectedBlocks.Contains(block))
-                    {
-                        selectedBlocks.Remove(block);
-                        go.GetComponent<Image>().color = Color.white;
-                    }
-                    else
-                    {
-                        selectedBlocks.Add(block);
-                        go.GetComponent<Image>().color = Color.yellow;
-                    }
-                });
-            }
-            else
-            {
-                btn.onClick.AddListener(() =>
-                {
-                    descriptionBox.text = block.text;
-                });
-                go.GetComponent<Image>().color = Color.cyan;
-            }
-            spawnedCards.Add(go);
+            if (!spawnedCardDict.ContainsKey(block.id))
+                AddNewBlock(block);
         }
-
-        // Clear description if nothing is selected
-        if (blocks.Count == 0)
-            descriptionBox.text = "";
     }
 
-    public void OnCombineButtonClicked()
+    public void AddNewBlock(EvidenceBlock block)
     {
-        var selectedIDs = selectedBlocks.Select(b => b.id).ToList();
-        var combo = ComboManager.Instance.FindValidCombo(selectedIDs);
+        var go = Instantiate(evidenceBlockPrefab, blockParentPanel);
+        go.GetComponent<FreeDragBlock>().Init(blockParentPanel);
+        go.GetComponent<CardLinkHandler>().Init(cardPanelLinkManager);
 
-        if (combo != null)
+        go.transform.Find("Title").GetComponent<TMP_Text>().text = block.title;
+
+        var btn = go.GetComponent<Button>();
+        btn.onClick.AddListener(() => descriptionBox.text = block.text);
+
+        // ComboBlock visuals
+        if (block.blockType != EvidenceBlockType.Evidence)
+            go.GetComponent<Image>().color = Color.cyan;
+
+        spawnedCardDict.Add(block.id, go);
+    }
+
+    public void OnComboCreated(ComboBlock comboBlock)
+    {
+        // 1. Calculate average anchored position of all used EBs
+        Vector2 avgPosition = Vector2.zero;
+        int count = 0;
+        foreach (var id in comboBlock.comboOrder)
         {
-            // Remove used evidence blocks
-            GameStateManager.Instance.RemoveBlocksByIds(selectedIDs);
-
-            // Add the new combo block
-            var deductionEB = InteractEvidence.GenerateEvidenceBlock(combo.resultEvidence, GameStateManager.Instance.currentCharacterID);
-            deductionEB.blockType = EvidenceBlockType.ComboBlock; // Mark as deduction
-            GameStateManager.Instance.AddBlock(deductionEB);
-
-            RefreshUI();
+            if (spawnedCardDict.TryGetValue(id, out var go))
+            {
+                avgPosition += ((RectTransform)go.transform).anchoredPosition;
+                count++;
+            }
         }
-        else
+        if (count > 0) avgPosition /= count;
+
+        // 2. Remove used EBs (UI and GSM)
+        RemoveBlocksByIds(comboBlock.comboOrder);
+        GameStateManager.Instance.RemoveBlocksByIds(comboBlock.comboOrder);
+
+        // 3. Create and add the new CB using AddNewBlock
+        var deductionEB = InteractEvidence.GenerateEvidenceBlock(
+            comboBlock.resultEvidence, GameStateManager.Instance.currentCharacterID);
+        deductionEB.blockType = EvidenceBlockType.ComboBlock;
+        GameStateManager.Instance.AddBlock(deductionEB);
+
+        AddNewBlock(deductionEB);
+
+        // 4. Set CB position (get from dict immediately after adding)
+        if (spawnedCardDict.TryGetValue(deductionEB.id, out var cbGO))
         {
-            Debug.Log("Invalid combo.");
-            // Optionally: feedback for invalid combo (shake, sound, etc.)
+            ((RectTransform)cbGO.transform).anchoredPosition = avgPosition;
+        }
+    }
+
+    public void RemoveBlocksByIds(List<string> ids)
+    {
+        foreach (var id in ids)
+        {
+            if (spawnedCardDict.TryGetValue(id, out var go))
+            {
+                Destroy(go);
+                spawnedCardDict.Remove(id);
+            }
         }
     }
 }

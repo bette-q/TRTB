@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class ComboBlock
 {
-    public List<string> ingredientIDs;     // Ordered list of IDs required for combo
+    public List<string> comboOrder;     // Ordered list of IDs required for combo
     public EvidenceData resultEvidence;    // Deduction block ED asset
 }
 
@@ -25,8 +25,8 @@ public class ComboManager : MonoBehaviour
     {
         foreach (var combo in allCombos)
         {
-            if (combo.ingredientIDs.Count == selectedIDs.Count &&
-                combo.ingredientIDs.SequenceEqual(selectedIDs))
+            if (combo.comboOrder.Count == selectedIDs.Count &&
+                combo.comboOrder.SequenceEqual(selectedIDs))
             {
                 return combo;
             }

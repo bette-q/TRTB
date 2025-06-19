@@ -6,31 +6,33 @@ public class PlayerInteraction : MonoBehaviour
     public KeyCode interactKey = KeyCode.E;
     public GameObject interactPrompt;
 
+    private Interactable currentlyClosest = null;
     private List<Interactable> nearbyInteractables = new List<Interactable>();
 
     void Update()
     {
+        // Show prompt only if something is in range
         interactPrompt.SetActive(nearbyInteractables.Count > 0);
 
-        if (Input.GetKeyDown(interactKey) && nearbyInteractables.Count > 0)
+        // Find the closest interactable (no highlighting now)
+        Interactable closest = null;
+        float closestDist = float.MaxValue;
+        foreach (var interactable in nearbyInteractables)
         {
-            // Interact with the closest interactable
-            Interactable closest = null;
-            float closestDist = float.MaxValue;
-            foreach (var interactable in nearbyInteractables)
+            float dist = (interactable.transform.position - transform.position).sqrMagnitude;
+            if (dist < closestDist)
             {
-                float dist = (interactable.transform.position - transform.position).sqrMagnitude;
-                if (dist < closestDist)
-                {
-                    closestDist = dist;
-                    closest = interactable;
-                }
+                closestDist = dist;
+                closest = interactable;
             }
+        }
 
-            if (closest != null)
-            {
-                closest.Interact();
-            }
+        currentlyClosest = closest;
+
+        // Interact logic (delegates to Interactable, which uses GSM)
+        if (Input.GetKeyDown(interactKey) && currentlyClosest != null)
+        {
+            currentlyClosest.Interact();
         }
     }
 

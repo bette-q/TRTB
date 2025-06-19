@@ -10,11 +10,14 @@ public class NotebookUIManager : MonoBehaviour
     public static bool IsOpen { get; private set; }
 
     public GameObject notebookPanel;
-    public Transform ebPanel;
+    public RectTransform blockParentPanel;
+    public Transform blockLayout;
     public GameObject evidenceBlockPrefab;
     public TMP_Text descriptionBox;
     public Button combineButton;
     public KeyCode toggleKey = KeyCode.N;
+
+    public CardPanelLinkManager cardPanelLinkManager;
 
     private List<GameObject> spawnedCards = new List<GameObject>();
     private List<EvidenceBlock> selectedBlocks = new List<EvidenceBlock>();
@@ -64,7 +67,11 @@ public class NotebookUIManager : MonoBehaviour
         var blocks = GameStateManager.Instance.GetAvailableBlocks();
         foreach (var block in blocks)
         {
-            var go = Instantiate(evidenceBlockPrefab, ebPanel);
+            var go = Instantiate(evidenceBlockPrefab, blockLayout);
+
+            go.GetComponent<FreeDragBlock>().Init(blockParentPanel);
+            go.GetComponent<CardLinkHandler>().Init(cardPanelLinkManager);
+
             go.transform.Find("Title").GetComponent<TMP_Text>().text = block.title;
 
             var btn = go.GetComponent<Button>();

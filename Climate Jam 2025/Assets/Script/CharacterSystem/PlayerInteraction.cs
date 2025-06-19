@@ -11,10 +11,13 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
+        // Remove any interactables that are null or inactive
+        nearbyInteractables.RemoveAll(i => i == null || !i.gameObject.activeInHierarchy);
+
         // Show prompt only if something is in range
         interactPrompt.SetActive(nearbyInteractables.Count > 0);
 
-        // Find the closest interactable (no highlighting now)
+        // Find the closest interactable
         Interactable closest = null;
         float closestDist = float.MaxValue;
         foreach (var interactable in nearbyInteractables)
@@ -29,7 +32,7 @@ public class PlayerInteraction : MonoBehaviour
 
         currentlyClosest = closest;
 
-        // Interact logic (delegates to Interactable, which uses GSM)
+        // Interact logic
         if (Input.GetKeyDown(interactKey) && currentlyClosest != null)
         {
             currentlyClosest.Interact();

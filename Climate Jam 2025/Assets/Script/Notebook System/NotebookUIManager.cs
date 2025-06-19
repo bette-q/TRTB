@@ -2,20 +2,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using System.Linq;
 
-// handles notebook UI
 public class NotebookUIManager : MonoBehaviour
 {
     [HideInInspector]
     public static bool IsOpen { get; private set; }
 
-    public GameObject notebookPanel;       
-    public Transform ebPanel;              
-    public GameObject evidenceBlockPrefab; 
-    public TMP_Text descriptionBox;        
+    public GameObject notebookPanel;
+    public Transform ebPanel;
+    public GameObject evidenceBlockPrefab;
+    public TMP_Text descriptionBox;
+    public Button combineButton;
     public KeyCode toggleKey = KeyCode.N;
 
     private List<GameObject> spawnedCards = new List<GameObject>();
+    private List<EvidenceBlock> selectedBlocks = new List<EvidenceBlock>();
 
     void Start()
     {
@@ -32,6 +34,8 @@ public class NotebookUIManager : MonoBehaviour
             else
                 Close();
         }
+        // Only allow combine if 2+ EBs are selected
+        combineButton.interactable = selectedBlocks.Count >= 2 && selectedBlocks.All(b => b.blockType == EvidenceBlockType.Evidence);
     }
 
     public void Open()
@@ -55,21 +59,70 @@ public class NotebookUIManager : MonoBehaviour
     {
         foreach (var go in spawnedCards) Destroy(go);
         spawnedCards.Clear();
+        selectedBlocks.Clear();
 
-        var blocks = GameStateManager.Instance.GetCollectedBlocks();
-        foreach (var eb in blocks)
+        var blocks = GameStateManager.Instance.GetAvailableBlocks();
+        foreach (var block in blocks)
         {
             var go = Instantiate(evidenceBlockPrefab, ebPanel);
-            go.transform.Find("Title").GetComponent<TMP_Text>().text = eb.title;
-            go.GetComponent<Button>().onClick.AddListener(() =>
+            go.transform.Find("Title").GetComponent<TMP_Text>().text = block.title;
+
+            var btn = go.GetComponent<Button>();
+            if (block.blockType == EvidenceBlockType.Evidence)
             {
-                descriptionBox.text = eb.text;
-            });
+                btn.onClick.AddListener(() =>
+                {
+                    descriptionBox.text = block.text;
+                    // Toggle selection
+                    if (selectedBlocks.Contains(block))
+                    {
+                        selectedBlocks.Remove(block);
+                        go.GetComponent<Image>().color = Color.white;
+                    }
+                    else
+                    {
+                        selectedBlocks.Add(block);
+                        go.GetComponent<Image>().color = Color.yellow;
+                    }
+                });
+            }
+            else
+            {
+                btn.onClick.AddListener(() =>
+                {
+                    descriptionBox.text = block.text;
+                });
+                go.GetComponent<Image>().color = Color.cyan;
+            }
             spawnedCards.Add(go);
         }
 
         // Clear description if nothing is selected
         if (blocks.Count == 0)
             descriptionBox.text = "";
+    }
+
+    public void OnCombineButtonClicked()
+    {
+        var selectedIDs = selectedBlocks.Select(b => b.id).ToList();
+        var combo = ComboManager.Instance.FindValidCombo(selectedIDs);
+
+        if (combo != null)
+        {
+            // Remove used evidence blocks
+            GameStateManager.Instance.RemoveBlocksByIds(selectedIDs);
+
+            // Add the new combo block
+            var deductionEB = InteractEvidence.GenerateEvidenceBlock(combo.resultEvidence, GameStateManager.Instance.currentCharacterID);
+            deductionEB.blockType = EvidenceBlockType.ComboBlock; // Mark as deduction
+            GameStateManager.Instance.AddBlock(deductionEB);
+
+            RefreshUI();
+        }
+        else
+        {
+            Debug.Log("Invalid combo.");
+            // Optionally: feedback for invalid combo (shake, sound, etc.)
+        }
     }
 }

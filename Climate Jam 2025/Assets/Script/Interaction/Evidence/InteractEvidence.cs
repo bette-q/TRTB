@@ -8,10 +8,13 @@ public class InteractEvidence : Interactable // your abstract base class
     {
         // Get the currently active character from GameStateManager
         CharacterID characterID = GameStateManager.Instance.currentCharacterID;
+
         // Create the appropriate evidence block
         EvidenceBlock block = GenerateEvidenceBlock(evidenceData, characterID);
+
         // Add it to the notebook via GameStateManager
-        GameStateManager.Instance.AddEvidence(block);
+        GameStateManager.Instance.AddBlock(block);
+
         // Remove this object from the world after collection
         gameObject.SetActive(false);
     }

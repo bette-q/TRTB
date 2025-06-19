@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 //global, handles player state, stores evidence, s/l, and ending
 public class GameStateManager : MonoBehaviour
@@ -9,8 +10,8 @@ public class GameStateManager : MonoBehaviour
     // Current controlled character
     public CharacterID currentCharacterID { get; private set; }
 
-    // Collected notebook blocks (runtime only)
-    private List<EvidenceBlock> collectedBlocks = new List<EvidenceBlock>();
+    // Collected notebook + combined blocks
+    private List<EvidenceBlock> availableBlocks = new List<EvidenceBlock>();
 
     void Awake()
     {
@@ -28,26 +29,34 @@ public class GameStateManager : MonoBehaviour
     public void SwitchCharacter(CharacterID newID)
     {
         currentCharacterID = newID;
-        // TODO: Notify UI, handle camera, etc.
     }
 
     // ---- NOTEBOOK (Evidence) Logic ----
 
-    public bool AddEvidence(EvidenceBlock block)
+    public bool AddBlock(EvidenceBlock block)
     {
-        if (collectedBlocks.Exists(b => b.id == block.id))
-            return false; // Already collected
-        collectedBlocks.Add(block);
-        // TODO: Notify notebook UI
-        Debug.Log($"Collected: {block.title} ({block.id})");
+        if (HasBlock(block.id)) return false;
+        availableBlocks.Add(block);
         return true;
     }
 
-    public IReadOnlyList<EvidenceBlock> GetCollectedBlocks() => collectedBlocks.AsReadOnly();
-
-    public bool HasEvidence(string edID)
+    public void RemoveBlocksByIds(List<string> ids)
     {
-        return collectedBlocks.Exists(b => b.id == edID);
+        availableBlocks.RemoveAll(b => ids.Contains(b.id));
+    }
+
+    public bool HasBlock(string id)
+    {
+        return availableBlocks.Exists(b => b.id == id);
+    }
+
+    public IReadOnlyList<EvidenceBlock> GetAvailableBlocks() => availableBlocks;
+
+
+    public List<EvidenceBlock> GetAllComboBlocks()
+    {
+        // Only return blocks of type ComboBlock
+        return availableBlocks.Where(b => b.blockType == EvidenceBlockType.ComboBlock).ToList();
     }
 
     // ---- SAVE/LOAD LOGIC ----

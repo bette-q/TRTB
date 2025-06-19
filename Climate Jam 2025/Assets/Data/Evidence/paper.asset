@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db006bf5789a4b459ae753d38fdb7f4, type: 3}
   m_Name: paper
   m_EditorClassIdentifier: 
-  id: 002
+  id: e002
   displayName: letter
   genericTitle: paper
   genericText: "a piece of paper\t"

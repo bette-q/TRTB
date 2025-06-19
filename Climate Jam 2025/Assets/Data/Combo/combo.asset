@@ -10,19 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1db006bf5789a4b459ae753d38fdb7f4, type: 3}
-  m_Name: banana
+  m_Name: combo
   m_EditorClassIdentifier: 
-  id: e003
-  displayName: rotten banana
-  genericTitle: banana
-  genericText: half eaten banana
+  id: c001
+  displayName: lover_paper_banana_deduction_eb
+  genericTitle: lover paper banana
+  genericText: lover used paper to eat banana
   genericIcon: {fileID: 0}
-  specialBlocks:
-  - characterID: 1
-    title: my banana
-    description: my banana
-    icon: {fileID: 0}
-  - characterID: 3
-    title: her banana
-    description: her banana
-    icon: {fileID: 0}
+  specialBlocks: []

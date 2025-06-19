@@ -36,20 +36,28 @@ public class EvidenceData : ScriptableObject
     public List<SpecialEvidenceBlock> specialBlocks;
 }
 
+public enum EvidenceBlockType
+{
+    Evidence,   // Regular collected evidence
+    ComboBlock  // Result from a combo/deduction
+}
+
 // Stored in Notebook ED -> EB
 [System.Serializable]
 public class EvidenceBlock
 {
-    public string id;        // Source ED id
-    public string title;     // Title to show in notebook
-    public string text;      // Description
-    public Sprite icon;      // Optional, for display
+    public string id;       
+    public string title;    
+    public string text;     
+    public Sprite icon;     
+    public EvidenceBlockType blockType;
 
-    public EvidenceBlock(string id, string title, string text, Sprite icon = null)
+    public EvidenceBlock(string id, string title, string text, Sprite icon = null, EvidenceBlockType type = EvidenceBlockType.Evidence)
     {
         this.id = id;
         this.title = title;
         this.text = text;
         this.icon = icon;
+        this.blockType = type;
     }
 }

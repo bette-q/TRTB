@@ -821,6 +821,7 @@ GameObject:
   - component: {fileID: 436531239}
   - component: {fileID: 436531238}
   - component: {fileID: 436531240}
+  - component: {fileID: 436531241}
   m_Layer: 5
   m_Name: ComboPanel
   m_TagString: Untagged
@@ -901,6 +902,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linesOverlay: {fileID: 313542451}
   linePrefab: {fileID: 4991222355828322162, guid: 03cb21a00b7bf5a4eabbcfe9eb691a69, type: 3}
+--- !u!114 &436531241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436531235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b0f3b7030a1d048ad2288f9ca15efe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notebookUI: {fileID: 1082884575}
 --- !u!1 &475389483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,7 +1437,6 @@ GameObject:
   - component: {fileID: 755907726}
   - component: {fileID: 755907729}
   - component: {fileID: 755907728}
-  - component: {fileID: 755907727}
   m_Layer: 5
   m_Name: BlockLayout
   m_TagString: Untagged
@@ -1450,30 +1463,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &755907727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 755907725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 10, y: 10}
-  m_Constraint: 0
-  m_ConstraintCount: 2
 --- !u!114 &755907728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2210,6 +2199,8 @@ MonoBehaviour:
   evidenceListItemPrefab: {fileID: 8760451594565234706, guid: d50d1cb37fdef9545bb58d5f069d54ae, type: 3}
   contentParent: {fileID: 870746331}
   descriptionBox: {fileID: 1484141312}
+  notebookPanelRect: {fileID: 812278279}
+  notebookUIManager: {fileID: 1082884575}
 --- !u!1 &1280584270
 GameObject:
   m_ObjectHideFlags: 0
@@ -3051,7 +3042,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 775261993}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9995179
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

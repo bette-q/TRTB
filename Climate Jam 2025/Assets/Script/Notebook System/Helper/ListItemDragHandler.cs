@@ -2,35 +2,33 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-// make list item draggable
+// Makes list item draggable, spawns a ghost card that follows mouse
 public class ListItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public EvidenceBlock myBlock;
     public System.Func<bool> canDragCheck;
-    public GameObject dragGhostPrefab; // Assign your evidence block prefab or a ghost version in inspector
+    public GameObject dragGhostPrefab; // Assign in inspector (ghost/normal block prefab)
 
     private GameObject dragGhost;
     private RectTransform dragGhostRect;
     private RectTransform notebookPanelRect;
-    private Canvas rootCanvas;
 
     public void Init(
-    EvidenceBlock block,
-    System.Func<bool> canDragCheck,
-    RectTransform notebookPanelRect)
+        EvidenceBlock block,
+        System.Func<bool> canDragCheck,
+        RectTransform notebookPanelRect)
     {
         this.myBlock = block;
         this.canDragCheck = canDragCheck;
         this.notebookPanelRect = notebookPanelRect;
     }
 
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (canDragCheck != null && !canDragCheck())
             return;
 
-        // Instantiate ghost card and parent it to the root canvas (so it appears on top)
+        // Instantiate ghost card, parent to notebook panel for correct positioning
         dragGhost = Instantiate(dragGhostPrefab, notebookPanelRect);
         dragGhostRect = dragGhost.GetComponent<RectTransform>();
 
@@ -39,7 +37,7 @@ public class ListItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
         var cg = dragGhost.GetComponent<CanvasGroup>();
         if (cg == null) cg = dragGhost.AddComponent<CanvasGroup>();
         cg.blocksRaycasts = false;
-        cg.alpha = 0.8f; // Make it a bit transparent
+        cg.alpha = 0.8f; // semi-transparent
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -48,7 +46,7 @@ public class ListItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
         {
             Vector2 localPoint;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                notebookPanelRect,                     // <-- now using the notebook panel!
+                notebookPanelRect,
                 eventData.position,
                 eventData.pressEventCamera,
                 out localPoint);

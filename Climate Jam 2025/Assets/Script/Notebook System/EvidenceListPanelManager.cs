@@ -37,8 +37,11 @@ public class EvidenceListPanelManager : MonoBehaviour
 
             // Set up drag handler with duplicate check
             var dragHandler = go.GetComponent<ListItemDragHandler>();
-            dragHandler.myBlock = block;
-            dragHandler.canDragCheck = () => !notebookUIManager.HasBlockInComboPanel(block.id);
+            dragHandler.Init(
+                block,
+                () => !notebookUIManager.HasBlockInComboPanel(block.id),
+                notebookPanelRect
+            );
 
             evidenceItemDict.Add(block.id, go);
         }

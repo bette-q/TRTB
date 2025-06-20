@@ -9,6 +9,7 @@ public class EvidenceListPanelManager : MonoBehaviour
     public GameObject evidenceListItemPrefab; // Assign your EvidenceListItem prefab
     public Transform contentParent;           // Assign EvidenceListPanel/Viewport/Content here
     public TMP_Text descriptionBox;           // Assign your Description box
+    public RectTransform notebookPanelRect;
     public NotebookUIManager notebookUIManager; // Assign in Inspector
 
     // To keep track of current entries
@@ -69,8 +70,11 @@ public class EvidenceListPanelManager : MonoBehaviour
 
         // Assign the EvidenceBlock to the drag handler
         var dragHandler = go.GetComponent<ListItemDragHandler>();
-        dragHandler.myBlock = block;
-        dragHandler.canDragCheck = () => !notebookUIManager.HasBlockInComboPanel(block.id);
+        dragHandler.Init(
+            block,
+            () => !notebookUIManager.HasBlockInComboPanel(block.id),
+            notebookPanelRect
+        );
 
         evidenceItemDict.Add(block.id, go);
     }

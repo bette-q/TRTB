@@ -1,53 +1,76 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
-//make list item draggable
+// make list item draggable
 public class ListItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public EvidenceBlock myBlock;
     public System.Func<bool> canDragCheck;
-    public EvidenceBlock myBlock; // Assign when instantiating
-    private CanvasGroup canvasGroup;
-    private RectTransform rectTransform;
-    private Vector2 originalPosition;
+    public GameObject dragGhostPrefab; // Assign your evidence block prefab or a ghost version in inspector
 
-    void Awake()
+    private GameObject dragGhost;
+    private RectTransform dragGhostRect;
+    private RectTransform notebookPanelRect;
+    private Canvas rootCanvas;
+
+    public void Init(
+    EvidenceBlock block,
+    System.Func<bool> canDragCheck,
+    RectTransform notebookPanelRect)
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        rectTransform = GetComponent<RectTransform>();
+        this.myBlock = block;
+        this.canDragCheck = canDragCheck;
+        this.notebookPanelRect = notebookPanelRect;
     }
+
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (canDragCheck != null && !canDragCheck())
-        {
-            Debug.LogWarning("block already exist");
             return;
-        }
-        originalPosition = rectTransform.anchoredPosition;
-        canvasGroup.blocksRaycasts = false; // So drop target can receive events
-        canvasGroup.alpha = 0.6f; // Optional: make it look ¡°dragged¡±
+
+        // Instantiate ghost card and parent it to the root canvas (so it appears on top)
+        dragGhost = Instantiate(dragGhostPrefab, notebookPanelRect);
+        dragGhostRect = dragGhost.GetComponent<RectTransform>();
+
+        // Set ghost visuals
+        dragGhost.transform.Find("Title").GetComponent<TMP_Text>().text = myBlock.title;
+        var cg = dragGhost.GetComponent<CanvasGroup>();
+        if (cg == null) cg = dragGhost.AddComponent<CanvasGroup>();
+        cg.blocksRaycasts = false;
+        cg.alpha = 0.8f; // Make it a bit transparent
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / GetCanvasScaleFactor();
+        if (dragGhostRect != null && notebookPanelRect != null)
+        {
+            Vector2 localPoint;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                notebookPanelRect,                     // <-- now using the notebook panel!
+                eventData.position,
+                eventData.pressEventCamera,
+                out localPoint);
+
+            // Clamp within the panel bounds
+            Vector2 min = notebookPanelRect.rect.min + dragGhostRect.rect.size * dragGhostRect.pivot;
+            Vector2 max = notebookPanelRect.rect.max - dragGhostRect.rect.size * (Vector2.one - dragGhostRect.pivot);
+
+            localPoint.x = Mathf.Clamp(localPoint.x, min.x, max.x);
+            localPoint.y = Mathf.Clamp(localPoint.y, min.y, max.y);
+
+            dragGhostRect.anchoredPosition = localPoint;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.alpha = 1f;
-        rectTransform.anchoredPosition = originalPosition; // Snap back to list
-
-        // If dropped over ComboPanel, ComboPanel will handle creating the card
-    }
-
-    // Helper for correct screen scaling
-    private float GetCanvasScaleFactor()
-    {
-        Canvas canvas = GetComponentInParent<Canvas>();
-        return canvas ? canvas.scaleFactor : 1f;
+        if (dragGhost != null)
+        {
+            Destroy(dragGhost);
+            dragGhost = null;
+            dragGhostRect = null;
+        }
     }
 }

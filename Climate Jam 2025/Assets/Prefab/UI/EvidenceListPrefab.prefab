@@ -276,3 +276,4 @@ MonoBehaviour:
     text: 
     icon: {fileID: 0}
     blockType: 0
+  dragGhostPrefab: {fileID: 8640424755033865355, guid: fccef1ccc62d489409815ecdc3973fa2, type: 3}

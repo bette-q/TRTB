@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+//data for final combined blocks
 [System.Serializable]
 public class ComboBlock
 {
@@ -9,6 +10,7 @@ public class ComboBlock
     public EvidenceData resultEvidence;    // Deduction block ED asset
 }
 
+//stores all valid combos and checks for them
 public class ComboManager : MonoBehaviour
 {
     public static ComboManager Instance { get; private set; }

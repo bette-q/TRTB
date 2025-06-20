@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+//handles line drawing and linking
 public class CardPanelLinkManager : MonoBehaviour
 {
     public RectTransform linesOverlay; // Fullscreen overlay for lines (UI canvas)

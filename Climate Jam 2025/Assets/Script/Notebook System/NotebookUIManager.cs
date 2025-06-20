@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
+//handles entire notebook ui panel
 public class NotebookUIManager : MonoBehaviour
 {
     [HideInInspector]
@@ -16,6 +17,7 @@ public class NotebookUIManager : MonoBehaviour
     public KeyCode toggleKey = KeyCode.N;
 
     public CardPanelLinkManager cardPanelLinkManager;
+    public EvidenceListPanelManager evidenceListPanelManager;
 
     // Track spawned cards by evidence ID
     private Dictionary<string, GameObject> spawnedCardDict = new Dictionary<string, GameObject>();
@@ -44,7 +46,8 @@ public class NotebookUIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        AddNewBlocksIfAny();
+        // Update evidence list UI with current blocks
+        evidenceListPanelManager.RefreshEvidenceList(GameStateManager.Instance.GetAvailableBlocks());
     }
 
     public void Close()
@@ -55,18 +58,11 @@ public class NotebookUIManager : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void AddNewBlocksIfAny()
+    public void AddNewBlock(EvidenceBlock block, Vector2 localDropPos)
     {
-        var blocks = GameStateManager.Instance.GetAvailableBlocks();
-        foreach (var block in blocks)
-        {
-            if (!spawnedCardDict.ContainsKey(block.id))
-                AddNewBlock(block);
-        }
-    }
+        if (spawnedCardDict.ContainsKey(block.id))
+            return;
 
-    public void AddNewBlock(EvidenceBlock block)
-    {
         var go = Instantiate(evidenceBlockPrefab, blockParentPanel);
         go.GetComponent<FreeDragBlock>().Init(blockParentPanel);
         go.GetComponent<CardLinkHandler>().Init(cardPanelLinkManager);
@@ -76,46 +72,33 @@ public class NotebookUIManager : MonoBehaviour
         var btn = go.GetComponent<Button>();
         btn.onClick.AddListener(() => descriptionBox.text = block.text);
 
-        // ComboBlock visuals
         if (block.blockType != EvidenceBlockType.Evidence)
             go.GetComponent<Image>().color = Color.cyan;
+
+        var rect = (RectTransform)go.transform;
+        rect.anchoredPosition = localDropPos; // Place at drop position!
 
         spawnedCardDict.Add(block.id, go);
     }
 
+
     public void OnComboCreated(ComboBlock comboBlock)
     {
-        // 1. Calculate average anchored position of all used EBs
-        Vector2 avgPosition = Vector2.zero;
-        int count = 0;
-        foreach (var id in comboBlock.comboOrder)
-        {
-            if (spawnedCardDict.TryGetValue(id, out var go))
-            {
-                avgPosition += ((RectTransform)go.transform).anchoredPosition;
-                count++;
-            }
-        }
-        if (count > 0) avgPosition /= count;
-
-        // 2. Remove used EBs (UI and GSM)
-        RemoveBlocksByIds(comboBlock.comboOrder);
+        // Remove used EBs from combo panel and evidence list panel
+        RemoveBlocksByIds(comboBlock.comboOrder); // for combo panel
         GameStateManager.Instance.RemoveBlocksByIds(comboBlock.comboOrder);
 
-        // 3. Create and add the new CB using AddNewBlock
+        evidenceListPanelManager.RemoveBlocksByIds(comboBlock.comboOrder); // for evidence list panel
+
+        // Add new CB to both GSM and evidence list panel
         var deductionEB = InteractEvidence.GenerateEvidenceBlock(
             comboBlock.resultEvidence, GameStateManager.Instance.currentCharacterID);
         deductionEB.blockType = EvidenceBlockType.ComboBlock;
         GameStateManager.Instance.AddBlock(deductionEB);
 
-        AddNewBlock(deductionEB);
-
-        // 4. Set CB position (get from dict immediately after adding)
-        if (spawnedCardDict.TryGetValue(deductionEB.id, out var cbGO))
-        {
-            ((RectTransform)cbGO.transform).anchoredPosition = avgPosition;
-        }
+        evidenceListPanelManager.AddBlock(deductionEB); // add to evidence list panel
     }
+
 
     public void RemoveBlocksByIds(List<string> ids)
     {
@@ -128,4 +111,10 @@ public class NotebookUIManager : MonoBehaviour
             }
         }
     }
+
+    public bool HasBlockInComboPanel(string id)
+    {
+        return spawnedCardDict.ContainsKey(id);
+    }
+
 }

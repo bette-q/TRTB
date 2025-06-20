@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 7233351906175855490}
   - component: {fileID: 6884041748887617249}
   - component: {fileID: 2434205042078644886}
+  - component: {fileID: 683348192673830890}
   m_Layer: 5
   m_Name: EvidenceListPrefab
   m_TagString: Untagged
@@ -257,3 +258,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &683348192673830890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8760451594565234706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da2d08a862edac4a8c45347d3118728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myBlock:
+    id: 
+    title: 
+    text: 
+    icon: {fileID: 0}
+    blockType: 0

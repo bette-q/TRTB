@@ -902,6 +902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linesOverlay: {fileID: 313542451}
   linePrefab: {fileID: 4991222355828322162, guid: 03cb21a00b7bf5a4eabbcfe9eb691a69, type: 3}
+  notebookUIManager: {fileID: 0}
 --- !u!114 &436531241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2433,7 +2434,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allCombos:
-  - comboOrder: []
+  - comboOrder:
+    - e001
+    - e002
+    - e003
     resultEvidence: {fileID: 11400000, guid: b45c6c0f2c9e7c846b9b08eb463a3973, type: 2}
 --- !u!1 &1462761708
 GameObject:

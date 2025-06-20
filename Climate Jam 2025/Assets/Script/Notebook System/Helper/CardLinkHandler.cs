@@ -6,11 +6,14 @@ public class CardLinkHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 {
     public RectTransform linkHandle;       // Assign in Inspector
     public CardPanelLinkManager linkManager; // Assign in Inspector or Find at Start
+    public EvidenceBlock myBlock;
+
     private bool isLinking = false;
 
-    public void Init(CardPanelLinkManager manager)
+    public void Init(CardPanelLinkManager manager, EvidenceBlock block)
     {
         linkManager = manager;
+        myBlock = block;
     }
 
     public void OnPointerDown(PointerEventData eventData)

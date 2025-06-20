@@ -8,6 +8,7 @@ public class CardPanelLinkManager : MonoBehaviour
 {
     public RectTransform linesOverlay; // Fullscreen overlay for lines (UI canvas)
     public GameObject linePrefab;      // Simple prefab with UI LineRenderer/Image
+    public NotebookUIManager notebookUIManager;
 
     private List<(CardLinkHandler, CardLinkHandler, GameObject)> links = new();
     private GameObject tempLine;
@@ -39,19 +40,72 @@ public class CardPanelLinkManager : MonoBehaviour
         // Remove any existing outgoing link from 'from'
         for (int i = links.Count - 1; i >= 0; i--)
         {
-            var (f, t, l) = links[i];
+            var (f, t, oldLine) = links[i];
             if (f == from)
             {
-                Destroy(l);
+                Destroy(oldLine);
                 links.RemoveAt(i);
             }
         }
 
+        // Add the new link
         var line = Instantiate(linePrefab, linesOverlay);
-
         links.Add((from, to, line));
         RedrawAllLines();
+
+        // 1. Traverse to chain head (block with no incoming links)
+        CardLinkHandler head = from;
+        bool foundHead;
+        do
+        {
+            foundHead = false;
+            foreach (var l in links)
+            {
+                if (l.Item2 == head)
+                {
+                    head = l.Item1;
+                    foundHead = true;
+                    break;
+                }
+            }
+        } while (foundHead);
+
+        // 2. Traverse forward to build the whole chain
+        List<CardLinkHandler> chain = new List<CardLinkHandler>();
+        var current = head;
+        while (current != null)
+        {
+            chain.Add(current);
+            var nextLink = links.Find(l => l.Item1 == current);
+            if (nextLink == default) break;
+            current = nextLink.Item2;
+            // Prevent accidental cycles
+            if (chain.Contains(current)) break;
+        }
+
+        // 3. Build the ID list
+        List<string> selectedIDs = new List<string>();
+        foreach (var handler in chain)
+            selectedIDs.Add(handler.myBlock.id);
+
+        // 4. Check for a matching combo
+        var combo = ComboManager.Instance.FindValidCombo(selectedIDs);
+        if (combo != null)
+        {
+            notebookUIManager.OnComboCreated(combo);
+
+            // Remove all involved links/lines in the chain
+            for (int i = links.Count - 1; i >= 0; i--)
+            {
+                if (chain.Contains(links[i].Item1) || chain.Contains(links[i].Item2))
+                {
+                    Destroy(links[i].Item3);
+                    links.RemoveAt(i);
+                }
+            }
+        }
     }
+
 
 
     public void RemoveLink(CardLinkHandler from, CardLinkHandler to)
@@ -105,6 +159,41 @@ public class CardPanelLinkManager : MonoBehaviour
             }
         }
     }
+
+    public List<CardLinkHandler> GetChainFromHead(CardLinkHandler anyBlock)
+    {
+        // Step 1: Find head (block with no incoming links)
+        CardLinkHandler head = anyBlock;
+        bool foundHead;
+        do
+        {
+            foundHead = false;
+            foreach (var l in links)
+            {
+                if (l.Item2 == head)
+                {
+                    head = l.Item1;
+                    foundHead = true;
+                    break;
+                }
+            }
+        } while (foundHead);
+
+        // Step 2: Traverse forward through outgoing links
+        List<CardLinkHandler> chain = new List<CardLinkHandler>();
+        var current = head;
+        while (current != null)
+        {
+            chain.Add(current);
+            var nextLink = links.Find(l => l.Item1 == current);
+            if (nextLink == default) break;
+            current = nextLink.Item2;
+            // Safety: Stop if we hit a cycle
+            if (chain.Contains(current)) break;
+        }
+        return chain;
+    }
+
 
 
 }

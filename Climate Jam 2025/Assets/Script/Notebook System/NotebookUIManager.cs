@@ -65,7 +65,7 @@ public class NotebookUIManager : MonoBehaviour
 
         var go = Instantiate(evidenceBlockPrefab, blockParentPanel);
         go.GetComponent<FreeDragBlock>().Init(blockParentPanel);
-        go.GetComponent<CardLinkHandler>().Init(cardPanelLinkManager);
+        go.GetComponent<CardLinkHandler>().Init(cardPanelLinkManager, block);
 
         go.transform.Find("Title").GetComponent<TMP_Text>().text = block.title;
 

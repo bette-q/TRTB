@@ -902,7 +902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linesOverlay: {fileID: 313542451}
   linePrefab: {fileID: 4991222355828322162, guid: 03cb21a00b7bf5a4eabbcfe9eb691a69, type: 3}
-  notebookUIManager: {fileID: 0}
+  notebookUIManager: {fileID: 1082884575}
 --- !u!114 &436531241
 MonoBehaviour:
   m_ObjectHideFlags: 0

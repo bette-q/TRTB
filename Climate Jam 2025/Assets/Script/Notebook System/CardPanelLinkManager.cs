@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 //handles line drawing and linking
 public class CardPanelLinkManager : MonoBehaviour
@@ -30,14 +31,41 @@ public class CardPanelLinkManager : MonoBehaviour
 
     public void RegisterLink(CardLinkHandler from, CardLinkHandler to)
     {
-        // Prevent duplicates
+        // Block duplicate or reverse (b->a if a->b exists)
         foreach (var l in links)
-            if ((l.Item1 == from && l.Item2 == to) || (l.Item1 == to && l.Item2 == from)) return;
+            if ((l.Item1 == from && l.Item2 == to) || (l.Item1 == to && l.Item2 == from))
+                return;
+
+        // Remove any existing outgoing link from 'from'
+        for (int i = links.Count - 1; i >= 0; i--)
+        {
+            var (f, t, l) = links[i];
+            if (f == from)
+            {
+                Destroy(l);
+                links.RemoveAt(i);
+            }
+        }
 
         var line = Instantiate(linePrefab, linesOverlay);
+
         links.Add((from, to, line));
         RedrawAllLines();
-        // TODO: Call combo logic here if needed!
+    }
+
+
+    public void RemoveLink(CardLinkHandler from, CardLinkHandler to)
+    {
+        for (int i = 0; i < links.Count; i++)
+        {
+            var (f, t, line) = links[i];
+            if ((f == from && t == to) || (f == to && t == from))
+            {
+                Destroy(line);
+                links.RemoveAt(i);
+                break;
+            }
+        }
     }
 
     void Update()
@@ -63,4 +91,20 @@ public class CardPanelLinkManager : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         rect.rotation = Quaternion.Euler(0, 0, angle);
     }
+        public void RemoveOutgoingLinks(CardLinkHandler block)
+    {
+        // Remove only links where block is the FROM node (outgoing)
+        for (int i = links.Count - 1; i >= 0; i--)
+        {
+            var (from, to, line) = links[i];
+            if (from == block)
+            {
+                Destroy(line);
+                links.RemoveAt(i);
+                Debug.Log("Removed outgoing line from: " + block.name);
+            }
+        }
+    }
+
+
 }

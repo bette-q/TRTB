@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class CardLinkHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
 {
@@ -16,6 +17,15 @@ public class CardLinkHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         isLinking = RectTransformUtility.RectangleContainsScreenPoint(linkHandle, eventData.position, null);
     }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            Debug.Log("Right click received on block: " + name);
+            linkManager.RemoveOutgoingLinks(this);
+        }
+    }
+
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -30,15 +40,34 @@ public class CardLinkHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         if (isLinking)
         {
             linkManager.UpdateTempLine(linkHandle.position, eventData.position);
+            if (Input.GetMouseButtonDown(1)) // Right mouse
+            {
+                linkManager.EndTempLine();
+                isLinking = false;
+            }
         }
     }
+
 
     public void OnEndDrag(PointerEventData eventData)
     {
         if (isLinking)
         {
             linkManager.EndTempLine();
-            // Add code here to detect link target and register if needed
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventData, results);
+
+            foreach (var hit in results)
+            {
+                // Look for CardLinkHandler that is NOT yourself
+                var target = hit.gameObject.GetComponent<CardLinkHandler>();
+                if (target != null && target != this)
+                {
+                    linkManager.RegisterLink(this, target);
+                    break; // Only register once!
+                }
+            }
         }
         isLinking = false;
     }

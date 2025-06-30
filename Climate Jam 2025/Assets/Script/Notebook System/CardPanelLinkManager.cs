@@ -72,15 +72,18 @@ public class CardPanelLinkManager : MonoBehaviour
 
         // 2. Traverse forward to build the whole chain
         List<CardLinkHandler> chain = new List<CardLinkHandler>();
+        var visited = new HashSet<CardLinkHandler>();
         var current = head;
         while (current != null)
         {
+            if (visited.Contains(current))
+                break; // Cycle detected, abort traversal
+            visited.Add(current);
             chain.Add(current);
+
             var nextLink = links.Find(l => l.Item1 == current);
             if (nextLink == default) break;
             current = nextLink.Item2;
-            // Prevent accidental cycles
-            if (chain.Contains(current)) break;
         }
 
         // 3. Build the ID list

@@ -8,56 +8,71 @@ public enum CharacterID
     one,
     two,
     three,
-    four
+    four,
+    Null
 }
 
 [System.Serializable]
-public class SpecialEvidenceBlock
+public class EvidenceInfo
 {
-    public CharacterID characterID;
+    [Tooltip("Unique string ID for this evidence. Must not duplicate any other evidence.")]
+    public string id;
+
+    [Tooltip("Display name shown in UI (e.g., notebook or popups).")]
+    public string displayName;
+
+    [Tooltip("Short title used as the headline for this evidence.")]
     public string title;
 
+    [Tooltip("Detailed description or notes shown to the player.")]
     [TextArea]
-    public string description;
+    public string text;
+
+    [Tooltip("Icon to visually represent this evidence.")]
     public Sprite icon;
 }
 
-[CreateAssetMenu(fileName = "EvidenceData", menuName = "Game/Evidence Data")]
+[System.Serializable]
+public class SpecialEvidenceInfo : EvidenceInfo
+{
+    public CharacterID characterID = CharacterID.Null;
+}
+
+[CreateAssetMenu(menuName = "Evidence/EvidenceData")]
 public class EvidenceData : ScriptableObject
 {
-    public string id;
-    public string displayName;
+    public EvidenceInfo info;
 
-    public string genericTitle;
-    [TextArea]
-    public string genericText;
-    public Sprite genericIcon;
-
-    public List<SpecialEvidenceBlock> specialBlocks;
+    [Tooltip("Character-specific override. If set and the interacting character matches, this will be shown instead of the generic info.")]
+    public SpecialEvidenceInfo specialEvidence;
 }
 
 public enum EvidenceBlockType
 {
     Evidence,   // Regular collected evidence
-    ComboBlock  // Result from a combo/deduction
+    SecCombo,   //secondary combo
+    FinalCombo  //final deduction -> used for ending eval
 }
 
 // Stored in Notebook ED -> EB
 [System.Serializable]
 public class EvidenceBlock
 {
-    public string id;       
-    public string title;    
-    public string text;     
-    public Sprite icon;     
+    public string id;
+    public EvidenceInfo info;   
     public EvidenceBlockType blockType;
+    
 
-    public EvidenceBlock(string id, string title, string text, Sprite icon = null, EvidenceBlockType type = EvidenceBlockType.Evidence)
+    public EvidenceBlock prev;
+    public EvidenceBlock next;
+
+    public EvidenceBlock(EvidenceInfo infoIn, EvidenceBlockType type = EvidenceBlockType.Evidence)
     {
-        this.id = id;
-        this.title = title;
-        this.text = text;
-        this.icon = icon;
+        this.id = infoIn.id;
+        this.info = infoIn;
         this.blockType = type;
     }
 }
+
+
+

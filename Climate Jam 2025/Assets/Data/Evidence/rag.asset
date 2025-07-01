@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db006bf5789a4b459ae753d38fdb7f4, type: 3}
   m_Name: rag
   m_EditorClassIdentifier: 
-  id: e001
-  displayName: blood rag
-  genericTitle: rag
-  genericText: "a piece of bloody rag\t"
-  genericIcon: {fileID: 0}
-  specialBlocks:
-  - characterID: 0
-    title: lover cloth
-    description: cloth of deceased lover
+  info:
+    id: e004
+    displayName: rag
+    title: rag
+    text: "rag\t\t"
     icon: {fileID: 0}
+  specialEvidence:
+    id: se001
+    displayName: lover cloth
+    title: lover cloth
+    text: lover cloth
+    icon: {fileID: 0}
+    characterID: 0

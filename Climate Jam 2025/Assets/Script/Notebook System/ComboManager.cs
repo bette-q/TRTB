@@ -2,20 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-//data for final combined blocks
-[System.Serializable]
-public class ComboBlock
-{
-    public List<string> comboOrder;     // Ordered list of IDs required for combo
-    public EvidenceData resultEvidence;    // Deduction block ED asset
-}
-
 //stores all valid combos and checks for them
 public class ComboManager : MonoBehaviour
 {
     public static ComboManager Instance { get; private set; }
 
-    public List<ComboBlock> allCombos;
+    public List<ComboData> secCombos;
+    public List<ComboData> finalCombos;
 
     void Awake()
     {
@@ -23,9 +16,13 @@ public class ComboManager : MonoBehaviour
     }
 
     // Returns a matching combo recipe, or null if not found
-    public ComboBlock FindValidCombo(List<string> selectedIDs)
+    public ComboData FindValidCombo(List<string> selectedIDs, EvidenceBlockType type)
     {
-        foreach (var combo in allCombos)
+        var comboList = (type == EvidenceBlockType.Evidence)
+            ? secCombos        // List<ComboData> for EB¡úSecCombo
+            : finalCombos;     // List<ComboData> for SecCombo¡úFinalCombo
+
+        foreach (var combo in comboList)
         {
             if (combo.comboOrder.Count == selectedIDs.Count &&
                 combo.comboOrder.SequenceEqual(selectedIDs))
@@ -35,4 +32,5 @@ public class ComboManager : MonoBehaviour
         }
         return null;
     }
+
 }

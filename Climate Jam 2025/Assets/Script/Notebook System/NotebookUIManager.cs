@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.Rendering.Universal;
 
-//handles entire notebook ui panel
+//handles entire notebook ui panel + deduction panel card placement
 public class NotebookUIManager : MonoBehaviour
 {
     [HideInInspector]
@@ -19,7 +20,7 @@ public class NotebookUIManager : MonoBehaviour
     public CardPanelLinkManager cardPanelLinkManager;
     public EvidenceListPanelManager evidenceListPanelManager;
 
-    // Track spawned cards by evidence ID
+    // Track spawned cards inside deduction panel by evidence ID
     private Dictionary<string, GameObject> spawnedCardDict = new Dictionary<string, GameObject>();
 
     void Start()
@@ -67,10 +68,10 @@ public class NotebookUIManager : MonoBehaviour
         go.GetComponent<FreeDragBlock>().Init(blockParentPanel);
         go.GetComponent<CardLinkHandler>().Init(cardPanelLinkManager, block);
 
-        go.transform.Find("Title").GetComponent<TMP_Text>().text = block.title;
+        go.transform.Find("Title").GetComponent<TMP_Text>().text = block.info.title;
 
         var btn = go.GetComponent<Button>();
-        btn.onClick.AddListener(() => descriptionBox.text = block.text);
+        btn.onClick.AddListener(() => descriptionBox.text = block.info.text);
 
         if (block.blockType != EvidenceBlockType.Evidence)
             go.GetComponent<Image>().color = Color.cyan;
@@ -82,21 +83,17 @@ public class NotebookUIManager : MonoBehaviour
     }
 
 
-    public void OnComboCreated(ComboBlock comboBlock)
+    public void OnComboCreated(ComboData comboBlock, EvidenceBlockType type)
     {
         // Remove used EBs from combo panel and evidence list panel
-        RemoveBlocksByIds(comboBlock.comboOrder); // for combo panel
+        RemoveBlocksByIds(comboBlock.comboOrder); 
         GameStateManager.Instance.RemoveBlocksByIds(comboBlock.comboOrder);
+        evidenceListPanelManager.RemoveBlocksByIds(comboBlock.comboOrder); 
 
-        evidenceListPanelManager.RemoveBlocksByIds(comboBlock.comboOrder); // for evidence list panel
+        var newBlock = new EvidenceBlock(comboBlock.resultEvidence, type);
 
-        // Add new CB to both GSM and evidence list panel
-        var deductionEB = InteractEvidence.GenerateEvidenceBlock(
-            comboBlock.resultEvidence, GameStateManager.Instance.currentCharacterID);
-        deductionEB.blockType = EvidenceBlockType.ComboBlock;
-        GameStateManager.Instance.AddBlock(deductionEB);
-
-        evidenceListPanelManager.AddBlock(deductionEB); // add to evidence list panel
+        GameStateManager.Instance.AddBlock(newBlock);
+        evidenceListPanelManager.AddBlock(newBlock); // add to evidence list panel
     }
 
 

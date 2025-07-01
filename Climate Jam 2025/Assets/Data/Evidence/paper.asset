@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db006bf5789a4b459ae753d38fdb7f4, type: 3}
   m_Name: paper
   m_EditorClassIdentifier: 
-  id: e002
-  displayName: letter
-  genericTitle: paper
-  genericText: "a piece of paper\t"
-  genericIcon: {fileID: 0}
-  specialBlocks: []
+  info:
+    id: e003
+    displayName: paper
+    title: paper
+    text: paper
+    icon: {fileID: 0}
+  specialEvidence:
+    id: 
+    displayName: 
+    title: 
+    text: 
+    icon: {fileID: 0}
+    characterID: 4

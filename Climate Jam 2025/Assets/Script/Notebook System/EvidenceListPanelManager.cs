@@ -27,12 +27,12 @@ public class EvidenceListPanelManager : MonoBehaviour
         foreach (var block in allBlocks)
         {
             var go = Instantiate(evidenceListItemPrefab, contentParent);
-            go.transform.Find("Text").GetComponent<TMP_Text>().text = block.title;
+            go.transform.Find("Text").GetComponent<TMP_Text>().text = block.info.text;
 
             // Set up click to show description
             go.GetComponent<Button>().onClick.AddListener(() =>
             {
-                descriptionBox.text = block.text;
+                descriptionBox.text = block.info.text;
             });
 
             // Set up drag handler with duplicate check
@@ -67,9 +67,9 @@ public class EvidenceListPanelManager : MonoBehaviour
             return;
 
         var go = Instantiate(evidenceListItemPrefab, contentParent);
-        go.transform.Find("Text").GetComponent<TMP_Text>().text = block.title;
+        go.transform.Find("Text").GetComponent<TMP_Text>().text = block.info.title;
 
-        go.GetComponent<Button>().onClick.AddListener(() => descriptionBox.text = block.text);
+        go.GetComponent<Button>().onClick.AddListener(() => descriptionBox.text = block.info.text);
 
         // Assign the EvidenceBlock to the drag handler
         var dragHandler = go.GetComponent<ListItemDragHandler>();

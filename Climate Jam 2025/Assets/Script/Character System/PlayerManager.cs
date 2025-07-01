@@ -22,10 +22,10 @@ public class PlayerManager : MonoBehaviour
         if (NotebookUIManager.IsOpen)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Keypad1)) SetActiveCharacter(0);
-        if (Input.GetKeyDown(KeyCode.Keypad2)) SetActiveCharacter(1);
-        if (Input.GetKeyDown(KeyCode.Keypad3)) SetActiveCharacter(2);
-        if (Input.GetKeyDown(KeyCode.Keypad4)) SetActiveCharacter(3);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SetActiveCharacter(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SetActiveCharacter(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) SetActiveCharacter(2);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) SetActiveCharacter(3);
     }
 
     void SetActiveCharacter(int idx)

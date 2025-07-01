@@ -53,10 +53,10 @@ public class GameStateManager : MonoBehaviour
     public IReadOnlyList<EvidenceBlock> GetAvailableBlocks() => availableBlocks;
 
 
-    public List<EvidenceBlock> GetAllComboBlocks()
+    public List<EvidenceBlock> GetAllFinalBlocks()
     {
         // Only return blocks of type ComboBlock
-        return availableBlocks.Where(b => b.blockType == EvidenceBlockType.ComboBlock).ToList();
+        return availableBlocks.Where(b => b.blockType == EvidenceBlockType.FinalCombo).ToList();
     }
 
     // ---- SAVE/LOAD LOGIC ----

@@ -1,15 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
 
-//handles line drawing and linking
+// Handles line drawing, linking, and combo chain logic
 public class CardPanelLinkManager : MonoBehaviour
 {
-    public RectTransform linesOverlay; // Fullscreen overlay for lines (UI canvas)
-    public GameObject linePrefab;      // Simple prefab with UI LineRenderer/Image
+    public RectTransform linesOverlay;
+    public GameObject linePrefab;
     public NotebookUIManager notebookUIManager;
 
+    // Tuple: (from, to, lineGO)
     private List<(CardLinkHandler, CardLinkHandler, GameObject)> links = new();
     private GameObject tempLine;
 
@@ -30,14 +30,31 @@ public class CardPanelLinkManager : MonoBehaviour
         if (tempLine != null) Destroy(tempLine);
     }
 
+    // Register a new link and check for combos
     public void RegisterLink(CardLinkHandler from, CardLinkHandler to)
     {
-        // Block duplicate or reverse (b->a if a->b exists)
+        // 1. Prevent linking between different block types
+        if (from.myBlock.blockType != to.myBlock.blockType)
+            return;
+
+        // 2. Prevent duplicate or reverse links
         foreach (var l in links)
             if ((l.Item1 == from && l.Item2 == to) || (l.Item1 == to && l.Item2 == from))
                 return;
 
-        // Remove any existing outgoing link from 'from'
+        // 3. Prevent multiple outgoing/incoming (forks)
+        foreach (var l in links)
+        {
+            if (l.Item1 == from || l.Item2 == to)
+                return;
+        }
+
+        // 4. Prevent cycles (can't link to block in your own chain)
+        var chain = GetChainFromHead(from);
+        if (chain.Contains(to))
+            return;
+
+        // Remove existing outgoing link from 'from'
         for (int i = links.Count - 1; i >= 0; i--)
         {
             var (f, t, oldLine) = links[i];
@@ -45,57 +62,30 @@ public class CardPanelLinkManager : MonoBehaviour
             {
                 Destroy(oldLine);
                 links.RemoveAt(i);
+                break;
             }
         }
 
-        // Add the new link
+        // 5. Add new link and redraw
         var line = Instantiate(linePrefab, linesOverlay);
         links.Add((from, to, line));
         RedrawAllLines();
 
-        // 1. Traverse to chain head (block with no incoming links)
-        CardLinkHandler head = from;
-        bool foundHead;
-        do
-        {
-            foundHead = false;
-            foreach (var l in links)
-            {
-                if (l.Item2 == head)
-                {
-                    head = l.Item1;
-                    foundHead = true;
-                    break;
-                }
-            }
-        } while (foundHead);
+        // 6. Find full chain from head (always linear)
+        chain = GetChainFromHead(from);
 
-        // 2. Traverse forward to build the whole chain
-        List<CardLinkHandler> chain = new List<CardLinkHandler>();
-        var visited = new HashSet<CardLinkHandler>();
-        var current = head;
-        while (current != null)
-        {
-            if (visited.Contains(current))
-                break; // Cycle detected, abort traversal
-            visited.Add(current);
-            chain.Add(current);
-
-            var nextLink = links.Find(l => l.Item1 == current);
-            if (nextLink == default) break;
-            current = nextLink.Item2;
-        }
-
-        // 3. Build the ID list
+        // 7. Build ID list for combo check
         List<string> selectedIDs = new List<string>();
         foreach (var handler in chain)
-            selectedIDs.Add(handler.myBlock.id);
+            selectedIDs.Add(handler.myBlock.info.id);
 
-        // 4. Check for a matching combo
-        var combo = ComboManager.Instance.FindValidCombo(selectedIDs);
+        // 8. Determine which combo list to check
+        var type = from.myBlock.blockType;
+        var combo = ComboManager.Instance.FindValidCombo(selectedIDs, type);
         if (combo != null)
         {
-            notebookUIManager.OnComboCreated(combo);
+            notebookUIManager.OnComboCreated(combo,
+                type == EvidenceBlockType.Evidence ? EvidenceBlockType.SecCombo : EvidenceBlockType.FinalCombo);
 
             // Remove all involved links/lines in the chain
             for (int i = links.Count - 1; i >= 0; i--)
@@ -109,8 +99,7 @@ public class CardPanelLinkManager : MonoBehaviour
         }
     }
 
-
-
+    // Remove a specific link and redraw
     public void RemoveLink(CardLinkHandler from, CardLinkHandler to)
     {
         for (int i = 0; i < links.Count; i++)
@@ -140,17 +129,17 @@ public class CardPanelLinkManager : MonoBehaviour
 
     void DrawUILine(RectTransform rect, Vector2 from, Vector2 to)
     {
-        // Quick/dirty UI line: reposition, rotate, stretch an Image between from/to
         Vector2 dir = to - from;
         float length = dir.magnitude;
         rect.position = from;
-        rect.sizeDelta = new Vector2(length, 3); // 3px thick
+        rect.sizeDelta = new Vector2(length, 3);
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         rect.rotation = Quaternion.Euler(0, 0, angle);
     }
-        public void RemoveOutgoingLinks(CardLinkHandler block)
+
+    // Remove all outgoing links from a block
+    public void RemoveOutgoingLinks(CardLinkHandler block)
     {
-        // Remove only links where block is the FROM node (outgoing)
         for (int i = links.Count - 1; i >= 0; i--)
         {
             var (from, to, line) = links[i];
@@ -158,14 +147,14 @@ public class CardPanelLinkManager : MonoBehaviour
             {
                 Destroy(line);
                 links.RemoveAt(i);
-                Debug.Log("Removed outgoing line from: " + block.name);
             }
         }
     }
 
+    // Returns the linear chain from the head node containing the given block
     public List<CardLinkHandler> GetChainFromHead(CardLinkHandler anyBlock)
     {
-        // Step 1: Find head (block with no incoming links)
+        // Go to head
         CardLinkHandler head = anyBlock;
         bool foundHead;
         do
@@ -182,21 +171,19 @@ public class CardPanelLinkManager : MonoBehaviour
             }
         } while (foundHead);
 
-        // Step 2: Traverse forward through outgoing links
+        // Traverse forward
         List<CardLinkHandler> chain = new List<CardLinkHandler>();
         var current = head;
+        var visited = new HashSet<CardLinkHandler>();
         while (current != null)
         {
+            if (!visited.Add(current))
+                break; // Cycle safety
             chain.Add(current);
             var nextLink = links.Find(l => l.Item1 == current);
             if (nextLink == default) break;
             current = nextLink.Item2;
-            // Safety: Stop if we hit a cycle
-            if (chain.Contains(current)) break;
         }
         return chain;
     }
-
-
-
 }

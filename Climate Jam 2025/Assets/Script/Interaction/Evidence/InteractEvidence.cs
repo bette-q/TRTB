@@ -22,10 +22,10 @@ public class InteractEvidence : Interactable // your abstract base class
     // Converts EvidenceData to an EvidenceBlock based on characterID
     public static EvidenceBlock GenerateEvidenceBlock(EvidenceData ed, CharacterID characterID)
     {
-        var special = ed.specialBlocks.Find(s => s.characterID == characterID);
-        if (special != null)
-            return new EvidenceBlock(ed.id, special.title, special.description, special.icon);
+        var sd = ed.specialEvidence;
+        if (sd.characterID == characterID)
+            return new EvidenceBlock(sd);
         else
-            return new EvidenceBlock(ed.id, ed.genericTitle, ed.genericText, ed.genericIcon);
+            return new EvidenceBlock(ed.info);
     }
 }

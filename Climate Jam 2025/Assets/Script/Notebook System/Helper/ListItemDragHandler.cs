@@ -33,7 +33,7 @@ public class ListItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
         dragGhostRect = dragGhost.GetComponent<RectTransform>();
 
         // Set ghost visuals
-        dragGhost.transform.Find("Title").GetComponent<TMP_Text>().text = myBlock.title;
+        dragGhost.transform.Find("Title").GetComponent<TMP_Text>().text = myBlock.info.text;
         var cg = dragGhost.GetComponent<CanvasGroup>();
         if (cg == null) cg = dragGhost.AddComponent<CanvasGroup>();
         cg.blocksRaycasts = false;

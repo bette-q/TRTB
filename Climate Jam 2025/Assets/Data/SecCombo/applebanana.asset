@@ -9,19 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1db006bf5789a4b459ae753d38fdb7f4, type: 3}
-  m_Name: banana
+  m_Script: {fileID: 11500000, guid: 53c30a01aa105aa459574d0098442751, type: 3}
+  m_Name: applebanana
   m_EditorClassIdentifier: 
-  info:
-    id: e002
-    displayName: banana
-    title: bad banana
-    text: good banana
+  comboOrder:
+  - e001
+  - e002
+  resultEvidence:
+    id: sc001
+    displayName: applebanana
+    title: applebanana
+    text: applebanana
     icon: {fileID: 0}
-  specialEvidence:
-    id: 
-    displayName: 
-    title: 
-    text: 
-    icon: {fileID: 0}
-    characterID: 4

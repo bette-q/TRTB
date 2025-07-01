@@ -9,12 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1db006bf5789a4b459ae753d38fdb7f4, type: 3}
-  m_Name: combo
+  m_Script: {fileID: 11500000, guid: 53c30a01aa105aa459574d0098442751, type: 3}
+  m_Name: final
   m_EditorClassIdentifier: 
-  id: c001
-  displayName: lover_paper_banana_deduction_eb
-  genericTitle: lover paper banana
-  genericText: lover used paper to eat banana
-  genericIcon: {fileID: 0}
-  specialBlocks: []
+  comboOrder:
+  - sc001
+  - sc002
+  resultEvidence:
+    id: fc001
+    displayName: everything
+    title: everything
+    text: everything
+    icon: {fileID: 0}

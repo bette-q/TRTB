@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 // Handles line drawing, linking, and combo chain logic
 public class CardPanelLinkManager : MonoBehaviour
@@ -42,10 +43,10 @@ public class CardPanelLinkManager : MonoBehaviour
             if ((l.Item1 == from && l.Item2 == to) || (l.Item1 == to && l.Item2 == from))
                 return;
 
-        // 3. Prevent multiple outgoing/incoming (forks)
+        // 3. Prevent multiple incoming (forks)
         foreach (var l in links)
         {
-            if (l.Item1 == from || l.Item2 == to)
+            if (l.Item2 == to)
                 return;
         }
 
@@ -54,7 +55,7 @@ public class CardPanelLinkManager : MonoBehaviour
         if (chain.Contains(to))
             return;
 
-        // Remove existing outgoing link from 'from'
+        // Remove existing outgoing link -> can have at most one outgoing
         for (int i = links.Count - 1; i >= 0; i--)
         {
             var (f, t, oldLine) = links[i];
@@ -114,6 +115,24 @@ public class CardPanelLinkManager : MonoBehaviour
         }
     }
 
+    // Remove all outgoing links from a block
+    public void RemoveOutgoingLinks(CardLinkHandler block)
+    {
+        for (int i = links.Count - 1; i >= 0; i--)
+        {
+            var (from, to, line) = links[i];
+            if (from == block)
+            {
+                Destroy(line);
+                links.RemoveAt(i);
+
+                // Only one outgoing possible, so break.
+                break;
+            }
+        }
+    }
+
+
     void Update()
     {
         RedrawAllLines();
@@ -135,20 +154,6 @@ public class CardPanelLinkManager : MonoBehaviour
         rect.sizeDelta = new Vector2(length, 3);
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         rect.rotation = Quaternion.Euler(0, 0, angle);
-    }
-
-    // Remove all outgoing links from a block
-    public void RemoveOutgoingLinks(CardLinkHandler block)
-    {
-        for (int i = links.Count - 1; i >= 0; i--)
-        {
-            var (from, to, line) = links[i];
-            if (from == block)
-            {
-                Destroy(line);
-                links.RemoveAt(i);
-            }
-        }
     }
 
     // Returns the linear chain from the head node containing the given block

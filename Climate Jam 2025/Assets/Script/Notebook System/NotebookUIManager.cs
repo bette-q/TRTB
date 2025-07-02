@@ -44,8 +44,6 @@ public class NotebookUIManager : MonoBehaviour
     {
         notebookPanel.SetActive(true);
         IsOpen = true;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
 
         // Update evidence list UI with current blocks
         evidenceListPanelManager.RefreshEvidenceList(GameStateManager.Instance.GetAvailableBlocks());
@@ -55,8 +53,6 @@ public class NotebookUIManager : MonoBehaviour
     {
         notebookPanel.SetActive(false);
         IsOpen = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     public void AddNewBlock(EvidenceBlock block, Vector2 localDropPos)

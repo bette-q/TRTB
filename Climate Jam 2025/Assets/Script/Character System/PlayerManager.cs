@@ -63,4 +63,17 @@ public class PlayerManager : MonoBehaviour
         playableList = GameStateManager.Instance.GetSwitchableCharacters();
     }
     public int GetActiveIndex() => activeIndex;
+
+    void OnEnable()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.OnPlayableCharacterListChanged += UpdatePlayableList;
+    }
+
+    void OnDisable()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.OnPlayableCharacterListChanged -= UpdatePlayableList;
+    }
+
 }

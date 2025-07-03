@@ -1,18 +1,29 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
-
-//handles character switch
+// handles character switch
 public class PlayerManager : MonoBehaviour
 {
-    public GameObject[] characters; // assign all CharacterN children of Player here in Inspector
-    public CharacterID[] characterIDs = new CharacterID[4]; // Assign these in Inspector (0=Investigator, 1=Reporter, etc.)
+    public GameObject[] characters; // assign Main, Qiu, Ella, Mateo in order
+    public CharacterID[] characterIDs = new CharacterID[4]; // [0]=Main, [1]=Qiu, [2]=Ella, [3]=Mateo
 
     public TMP_Text profileText;
     private int activeIndex = 0;
 
     private List<CharacterID> playableList = new List<CharacterID>();
+    private Dictionary<CharacterID, int> characterIndexMap = new Dictionary<CharacterID, int>();
+
+    void Awake()
+    {
+        // Build dictionary mapping CharacterID -> index (based on array order)
+        for (int i = 0; i < characterIDs.Length; i++)
+        {
+            if (!characterIndexMap.ContainsKey(characterIDs[i]))
+                characterIndexMap[characterIDs[i]] = i;
+        }
+    }
 
     void Start()
     {
@@ -25,23 +36,25 @@ public class PlayerManager : MonoBehaviour
         if (NotebookUIManager.IsOpen)
             return;
 
-        // Refresh the playable list in case new characters have joined
         UpdatePlayableList();
 
-        for (int i = 0; i < playableList.Count; i++)
+        for (int i = 0; i < characterIDs.Length; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
-                SetActiveCharacter(playableList[i]);
-                break;
+                if (playableList.Contains(characterIDs[i]))
+                {
+                    SetActiveCharacter(characterIDs[i]);
+                    break;
+                }
             }
         }
     }
 
+
     void SetActiveCharacter(CharacterID id)
     {
-        int idx = System.Array.IndexOf(characterIDs, id);
-        if (idx < 0) return;
+        if (!characterIndexMap.TryGetValue(id, out int idx) || idx < 0) return;
 
         profileText.text = $"{idx + 1}";
 
@@ -60,8 +73,16 @@ public class PlayerManager : MonoBehaviour
 
     void UpdatePlayableList()
     {
-        playableList = GameStateManager.Instance.GetSwitchableCharacters();
+        var party = GameStateManager.Instance.GetSwitchableCharacters();
+        // Sort playableList by your fixed characterIDs order (always Main, Qiu, Ella, Mateo order)
+        playableList = new List<CharacterID>();
+        for (int i = 0; i < characterIDs.Length; i++)
+        {
+            if (party.Contains(characterIDs[i]))
+                playableList.Add(characterIDs[i]);
+        }
     }
+
     public int GetActiveIndex() => activeIndex;
 
     void OnEnable()
@@ -75,5 +96,4 @@ public class PlayerManager : MonoBehaviour
         if (GameStateManager.Instance != null)
             GameStateManager.Instance.OnPlayableCharacterListChanged -= UpdatePlayableList;
     }
-
 }

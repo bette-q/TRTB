@@ -9,8 +9,8 @@ public class GameStateManager : MonoBehaviour
 
     // Player Logic
     public CharacterID currentCharacter { get; private set; } // Current controlled character
-    private List<CharacterID> switchableCharacters = new List<CharacterID>(); // Playable party
-    public event System.Action OnPlayableCharacterListChanged;
+    private HashSet<CharacterID> partyMembers = new HashSet<CharacterID>();
+    public event System.Action OnPlayableCharacterListChanged; //event for player man
 
     // Collected notebook + combined blocks
     private List<EvidenceBlock> availableBlocks = new List<EvidenceBlock>();
@@ -26,8 +26,8 @@ public class GameStateManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         // If you want to start with just the investigator:
-        switchableCharacters.Clear();
-        switchableCharacters.Add(CharacterID.Main);
+        partyMembers.Clear();
+        partyMembers.Add(CharacterID.Main);
         currentCharacter = CharacterID.Main;
     }
 
@@ -36,17 +36,17 @@ public class GameStateManager : MonoBehaviour
     // Called by PlayerManager or NPC when adding new member
     public void AddSwitchableCharacter(CharacterID newChar)
     {
-        if (!switchableCharacters.Contains(newChar))
-            switchableCharacters.Add(newChar);
-
-        OnPlayableCharacterListChanged?.Invoke();// notify PlayerManager
+        if (partyMembers.Add(newChar))
+            OnPlayableCharacterListChanged?.Invoke();
     }
 
-    public List<CharacterID> GetSwitchableCharacters() => new List<CharacterID>(switchableCharacters);
+    public IEnumerable<CharacterID> GetSwitchableCharacters() => partyMembers;
+
+    public bool HasCharacter(CharacterID id) => partyMembers.Contains(id);
 
     public void SwitchCharacter(CharacterID id)
     {
-        if (switchableCharacters.Contains(id))
+        if (partyMembers.Contains(id))
             currentCharacter = id;
     }
 

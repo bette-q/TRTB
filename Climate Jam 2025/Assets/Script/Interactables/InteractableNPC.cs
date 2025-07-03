@@ -9,9 +9,9 @@ public class InteractableNPC : Interactable
 
     public override void Interact()
     {
-        //if (!string.IsNullOrEmpty(eventID))
-        //{
-        //    EventManager.Instance.ExecuteEvent(eventID);
-        //}
+        AddCharacterEventContext.CurrentSourceGameObject = this.gameObject;
+        base.Interact(); // This will run the event sequence
+        AddCharacterEventContext.CurrentSourceGameObject = null;
     }
+
 }

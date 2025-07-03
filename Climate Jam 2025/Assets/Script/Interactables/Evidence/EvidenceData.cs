@@ -2,13 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 
 //all evidence related object defined here
-
 public enum CharacterID
 {
-    one,
-    two,
-    three,
-    four,
+    Main,
+    Qiu,
+    Ella,
+    Mateo,
     Null
 }
 
@@ -51,7 +50,8 @@ public enum EvidenceBlockType
 {
     Evidence,   // Regular collected evidence
     SecCombo,   //secondary combo
-    FinalCombo  //final deduction -> used for ending eval
+    FinalCombo,  //final deduction -> used for ending eval
+    Info //non-deduction block
 }
 
 // Stored in Notebook ED -> EB

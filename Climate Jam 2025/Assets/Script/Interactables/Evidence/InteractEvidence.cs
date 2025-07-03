@@ -7,7 +7,7 @@ public class InteractEvidence : Interactable // your abstract base class
     public override void Interact()
     {
         // Get the currently active character from GameStateManager
-        CharacterID characterID = GameStateManager.Instance.currentCharacterID;
+        CharacterID characterID = GameStateManager.Instance.currentCharacter;
 
         // Create the appropriate evidence block
         EvidenceBlock block = GenerateEvidenceBlock(evidenceData, characterID);

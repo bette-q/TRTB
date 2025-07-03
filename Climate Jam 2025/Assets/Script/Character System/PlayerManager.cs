@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+
 
 //handles character switch
 public class PlayerManager : MonoBehaviour
@@ -10,11 +12,12 @@ public class PlayerManager : MonoBehaviour
     public TMP_Text profileText;
     private int activeIndex = 0;
 
-
+    private List<CharacterID> playableList = new List<CharacterID>();
 
     void Start()
     {
-        SetActiveCharacter(0);
+        UpdatePlayableList();
+        SetActiveCharacter(GameStateManager.Instance.GetCurrentCharacter());
     }
 
     void Update()
@@ -22,14 +25,24 @@ public class PlayerManager : MonoBehaviour
         if (NotebookUIManager.IsOpen)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SetActiveCharacter(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SetActiveCharacter(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SetActiveCharacter(2);
-        if (Input.GetKeyDown(KeyCode.Alpha4)) SetActiveCharacter(3);
+        // Refresh the playable list in case new characters have joined
+        UpdatePlayableList();
+
+        for (int i = 0; i < playableList.Count; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                SetActiveCharacter(playableList[i]);
+                break;
+            }
+        }
     }
 
-    void SetActiveCharacter(int idx)
+    void SetActiveCharacter(CharacterID id)
     {
+        int idx = System.Array.IndexOf(characterIDs, id);
+        if (idx < 0) return;
+
         profileText.text = $"{idx + 1}";
 
         for (int i = 0; i < characters.Length; i++)
@@ -45,6 +58,9 @@ public class PlayerManager : MonoBehaviour
             GameStateManager.Instance.SwitchCharacter(characterIDs[idx]);
     }
 
-
+    void UpdatePlayableList()
+    {
+        playableList = GameStateManager.Instance.GetSwitchableCharacters();
+    }
     public int GetActiveIndex() => activeIndex;
 }

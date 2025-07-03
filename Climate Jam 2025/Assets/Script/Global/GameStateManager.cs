@@ -7,8 +7,10 @@ public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance { get; private set; }
 
-    // Current controlled character
-    public CharacterID currentCharacterID { get; private set; }
+    // Player Logic
+    public CharacterID currentCharacter { get; private set; } // Current controlled character
+    private List<CharacterID> switchableCharacters = new List<CharacterID>(); // Playable party
+    public event System.Action OnPlayableCharacterListChanged;
 
     // Collected notebook + combined blocks
     private List<EvidenceBlock> availableBlocks = new List<EvidenceBlock>();
@@ -22,14 +24,33 @@ public class GameStateManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
+
+        // If you want to start with just the investigator:
+        switchableCharacters.Clear();
+        switchableCharacters.Add(CharacterID.Main);
+        currentCharacter = CharacterID.Main;
     }
 
     // ---- PLAYER (Character) Logic ----
 
-    public void SwitchCharacter(CharacterID newID)
+    // Called by PlayerManager or NPC when adding new member
+    public void AddSwitchableCharacter(CharacterID newChar)
     {
-        currentCharacterID = newID;
+        if (!switchableCharacters.Contains(newChar))
+            switchableCharacters.Add(newChar);
+
+        OnPlayableCharacterListChanged?.Invoke();// notify PlayerManager
     }
+
+    public List<CharacterID> GetSwitchableCharacters() => new List<CharacterID>(switchableCharacters);
+
+    public void SwitchCharacter(CharacterID id)
+    {
+        if (switchableCharacters.Contains(id))
+            currentCharacter = id;
+    }
+
+    public CharacterID GetCurrentCharacter() => currentCharacter;
 
     // ---- NOTEBOOK (Evidence) Logic ----
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 264431088084180299}
   - component: {fileID: 1708135373334153601}
   m_Layer: 0
-  m_Name: Character4
+  m_Name: Mateo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 119930235330065962}
   - component: {fileID: 4864754997637946019}
   m_Layer: 0
-  m_Name: Character3
+  m_Name: Ella
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -463,7 +463,7 @@ GameObject:
   - component: {fileID: 1275070424196367930}
   - component: {fileID: 2163924668099928636}
   m_Layer: 0
-  m_Name: Character1
+  m_Name: Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 5486887005324920687}
   - component: {fileID: 6651145343307590274}
   m_Layer: 0
-  m_Name: Character2
+  m_Name: Qiu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

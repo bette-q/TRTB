@@ -28,11 +28,14 @@ public class EventManager : MonoBehaviour
         sequence.Execute();
     }
 
-    //private IEnumerator ExecuteSequence(EventSequence sequence)
-    //{
-    //    // TEMP: Just log the sequence name, since EventSequence is not yet defined
-    //    //Debug.Log($"[EventManager] Executing sequence: {sequence.name}");
-    //    // TODO: Loop through actions
-    //    yield return null;
-    //}
+    // Overload: Execute a single EventAction
+    public void Execute(EventAction action)
+    {
+        if (action == null)
+        {
+            Debug.LogWarning("EventManager: Tried to execute a null EventAction.");
+            return;
+        }
+        action.Execute(); // Assuming your EventAction has an Execute() method
+    }
 }

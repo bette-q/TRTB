@@ -37,7 +37,7 @@ public class SpecialEvidenceInfo : EvidenceInfo
     public CharacterID characterID = CharacterID.Null;
 }
 
-[CreateAssetMenu(menuName = "Evidence/EvidenceData")]
+[CreateAssetMenu(fileName = "EvidenceData", menuName = "Evidence/EvidenceData", order = 0)]
 public class EvidenceData : ScriptableObject
 {
     public EvidenceInfo info;

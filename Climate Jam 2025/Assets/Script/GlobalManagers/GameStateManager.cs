@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 //global, handles player state, stores evidence, s/l, and ending
 public class GameStateManager : MonoBehaviour
@@ -82,4 +83,10 @@ public class GameStateManager : MonoBehaviour
 
     // ---- SAVE/LOAD LOGIC ----
     // Add your serialization/deserialization here in the future.
+
+    // ---- SCENE SWITCHING ----
+    public void LoadScene1()
+    {
+        SceneManager.LoadScene(1);
+    }
 }

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: cherry_info
   m_EditorClassIdentifier: 
   info:
-    id: 
-    displayName: 
-    title: 
-    text: 
+    id: info001
+    displayName: cherry
+    title: cherry
+    text: cherry
     icon: {fileID: 0}
   specialEvidence:
     id: 
@@ -25,4 +25,4 @@ MonoBehaviour:
     text: 
     icon: {fileID: 0}
     characterID: 4
-  type: 2
+  type: 1

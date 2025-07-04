@@ -21,9 +21,9 @@ public class EvidenceEventAction : EventAction
     public static EvidenceBlock GenerateEvidenceBlock(EvidenceData ed, CharacterID characterID)
     {
         if (ed.specialEvidence.characterID == characterID)
-            return new EvidenceBlock(ed.specialEvidence);
+            return new EvidenceBlock(ed.specialEvidence, ed.type);
         else
-            return new EvidenceBlock(ed.info);
+            return new EvidenceBlock(ed.info, ed.type);
     }
 }
 

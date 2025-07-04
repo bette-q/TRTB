@@ -1,39 +1,38 @@
 using UnityEditor;
 using UnityEngine;
 
-// Make sure this applies to all Interactable subclasses
 [CustomEditor(typeof(Interactable), true)]
 public class InteractableEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        // Get the target as Interactable
-        Interactable interactable = (Interactable)target;
+        serializedObject.Update();
 
-        EditorGUILayout.HelpBox("Assign EITHER an EventSequence OR a single EventAction.\n(If you assign one, the other will be hidden in the inspector.)", MessageType.Info);
+        EditorGUILayout.HelpBox("Assign EITHER an EventSequence OR a single EventAction.", MessageType.Info);
 
-        // Only allow one to be assigned at a time through the inspector
-        if (interactable.eventSeq == null)
+        var eventSeqProp = serializedObject.FindProperty("eventSeq");
+        var eventActionProp = serializedObject.FindProperty("eventAction");
+
+        // Disable EventSequence if EventAction is assigned
+        using (new EditorGUI.DisabledScope(eventActionProp.objectReferenceValue != null))
         {
-            interactable.eventAction = (EventAction)EditorGUILayout.ObjectField(
-                "Event Action", interactable.eventAction, typeof(EventAction), false);
+            EditorGUILayout.PropertyField(eventSeqProp);
         }
-        if (interactable.eventAction == null)
+        // Disable EventAction if EventSequence is assigned
+        using (new EditorGUI.DisabledScope(eventSeqProp.objectReferenceValue != null))
         {
-            interactable.eventSeq = (EventSequence)EditorGUILayout.ObjectField(
-                "Event Sequence", interactable.eventSeq, typeof(EventSequence), false);
+            EditorGUILayout.PropertyField(eventActionProp);
         }
 
-        // Show a warning if both are set (possible via script/serialization)
-        if (interactable.eventSeq != null && interactable.eventAction != null)
+        // Error warning if both are set (shouldn't be possible from Inspector)
+        if (eventSeqProp.objectReferenceValue != null && eventActionProp.objectReferenceValue != null)
         {
             EditorGUILayout.HelpBox("Both EventSequence and EventAction are assigned! Only one should be used.", MessageType.Error);
         }
 
-        // Ensure changes are saved
-        if (GUI.changed)
-        {
-            EditorUtility.SetDirty(target);
-        }
+        // Draw the rest of the inspector (other fields from child classes)
+        DrawPropertiesExcluding(serializedObject, "eventSeq", "eventAction", "m_Script");
+
+        serializedObject.ApplyModifiedProperties();
     }
 }

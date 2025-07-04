@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebbb119d488d3847b8c47e4c741d0bb, type: 3}
   m_Name: AddCharEA_Qiu
   m_EditorClassIdentifier: 
-  characterID: 2
+  characterID: 1

@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class NotebookTabController : MonoBehaviour
 {
+    public DeductionUIManager notebookUIManager;
+
     public GameObject infoPage;
     public GameObject deductionPage;
     public GameObject reportPage;
@@ -28,6 +30,7 @@ public class NotebookTabController : MonoBehaviour
         deductionPage.SetActive(tab == NotebookTab.Deduction);
         reportPage.SetActive(tab == NotebookTab.Report);
         currentTab = tab;
-        // Optionally, call your RefreshBlockList here.
+        
+
     }
 }

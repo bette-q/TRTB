@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 //handles list item drops on combo panel
 public class ComboPanelDropHandler : MonoBehaviour, IDropHandler
 {
-    public NotebookUIManager notebookUI;
+    public DeductionUIManager deductionUIMan;
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -36,7 +36,7 @@ public class ComboPanelDropHandler : MonoBehaviour, IDropHandler
             localPoint.y = Mathf.Clamp(localPoint.y, min.y, max.y);
             // --- End Clamp ---
 
-            notebookUI.AddNewBlock(dragHandler.myBlock, localPoint);
+            deductionUIMan.AddNewBlock(dragHandler.myBlock, localPoint);
         }
     }
 

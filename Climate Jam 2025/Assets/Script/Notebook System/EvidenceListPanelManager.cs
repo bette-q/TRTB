@@ -10,7 +10,7 @@ public class EvidenceListPanelManager : MonoBehaviour
     public Transform contentParent;           // Assign EvidenceListPanel/Viewport/Content here
     public TMP_Text descriptionBox;           // Assign your Description box
     public RectTransform notebookPanelRect;
-    public NotebookUIManager notebookUIManager; // Assign in Inspector
+    public DeductionUIManager deductionUIMan; // Assign in Inspector
 
     // To keep track of current entries
     private Dictionary<string, GameObject> evidenceItemDict = new Dictionary<string, GameObject>();
@@ -39,7 +39,7 @@ public class EvidenceListPanelManager : MonoBehaviour
             var dragHandler = go.GetComponent<ListItemDragHandler>();
             dragHandler.Init(
                 block,
-                () => !notebookUIManager.HasBlockInComboPanel(block.id),
+                () => !deductionUIMan.HasBlockInComboPanel(block.id),
                 notebookPanelRect
             );
 
@@ -75,7 +75,7 @@ public class EvidenceListPanelManager : MonoBehaviour
         var dragHandler = go.GetComponent<ListItemDragHandler>();
         dragHandler.Init(
             block,
-            () => !notebookUIManager.HasBlockInComboPanel(block.id),
+            () => !deductionUIMan.HasBlockInComboPanel(block.id),
             notebookPanelRect
         );
 

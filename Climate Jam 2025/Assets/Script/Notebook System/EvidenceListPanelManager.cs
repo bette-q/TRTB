@@ -66,6 +66,9 @@ public class EvidenceListPanelManager : MonoBehaviour
     // For when a new EB or CB is added
     public void AddBlock(EvidenceBlock block)
     {
+        if (block.blockType != EvidenceBlockType.Evidence && block.blockType != EvidenceBlockType.SecCombo)
+            return;
+
         if (evidenceItemDict.ContainsKey(block.id))
             return;
 

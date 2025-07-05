@@ -5,7 +5,7 @@ using System;
 
 public class InfoBlockItemUI : MonoBehaviour
 {
-    //public Image icon;
+    public Image icon;
     public TMP_Text title;
     private EvidenceBlock block;
     private Action<EvidenceBlock> onClick;
@@ -13,7 +13,7 @@ public class InfoBlockItemUI : MonoBehaviour
     public void Setup(EvidenceBlock block, Action<EvidenceBlock> clickCallback)
     {
         this.block = block;
-        //icon.sprite = block.info.icon;
+        icon.sprite = block.info.icon;
         title.text = block.info.title;
         onClick = clickCallback;
 

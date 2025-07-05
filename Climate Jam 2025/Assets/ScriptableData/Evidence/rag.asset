@@ -25,3 +25,4 @@ MonoBehaviour:
     text: lover cloth
     icon: {fileID: 0}
     characterID: 0
+  type: 0

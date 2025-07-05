@@ -1,7 +1,8 @@
+using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ComboData", menuName = "Evidence/ComboData")]
+[CreateAssetMenu(fileName = "ComboData", menuName = "Evidence/ComboData", order = 1)]
 public class ComboData : ScriptableObject
 {
     public List<string> comboOrder; // Ordered IDs required for combo

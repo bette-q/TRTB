@@ -11,7 +11,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
-        if (NotebookUIManager.IsOpen)
+        if (NotebookUIController.IsOpen)
             return;
 
         // Remove any interactables that are null or inactive

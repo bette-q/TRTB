@@ -8,7 +8,7 @@ public class CardPanelLinkManager : MonoBehaviour
 {
     public RectTransform linesOverlay;
     public GameObject linePrefab;
-    public NotebookUIManager notebookUIManager;
+    public DeductionUIManager deductionUIMan;
 
     // Tuple: (from, to, lineGO)
     private List<(CardLinkHandler, CardLinkHandler, GameObject)> links = new();
@@ -85,7 +85,7 @@ public class CardPanelLinkManager : MonoBehaviour
         var combo = ComboManager.Instance.FindValidCombo(selectedIDs, type);
         if (combo != null)
         {
-            notebookUIManager.OnComboCreated(combo,
+            deductionUIMan.OnComboCreated(combo,
                 type == EvidenceBlockType.Evidence ? EvidenceBlockType.SecCombo : EvidenceBlockType.FinalCombo);
 
             // Remove all involved links/lines in the chain
@@ -131,7 +131,6 @@ public class CardPanelLinkManager : MonoBehaviour
             }
         }
     }
-
 
     void Update()
     {

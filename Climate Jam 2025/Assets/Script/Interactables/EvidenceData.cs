@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using static UnityEditor.LightingExplorerTableColumn;
 
 //all evidence related object defined here
 public enum CharacterID
@@ -37,21 +38,30 @@ public class SpecialEvidenceInfo : EvidenceInfo
     public CharacterID characterID = CharacterID.Null;
 }
 
-[CreateAssetMenu(menuName = "Evidence/EvidenceData")]
+[CreateAssetMenu(fileName = "EvidenceData", menuName = "Evidence/EvidenceData", order = 0)]
 public class EvidenceData : ScriptableObject
 {
     public EvidenceInfo info;
 
     [Tooltip("Character-specific override. If set and the interacting character matches, this will be shown instead of the generic info.")]
     public SpecialEvidenceInfo specialEvidence;
+
+    [Tooltip("Info: not in deduction, Evidence: will be able to link in deduction")]
+    public EvidenceDataType type = EvidenceDataType.Null;
+}
+public enum EvidenceDataType
+{
+    Evidence,
+    Info,
+    Null
 }
 
 public enum EvidenceBlockType
 {
+    Info, //non-deduction block
     Evidence,   // Regular collected evidence
     SecCombo,   //secondary combo
-    FinalCombo,  //final deduction -> used for ending eval
-    Info //non-deduction block
+    FinalCombo  //final deduction -> used for ending eval
 }
 
 // Stored in Notebook ED -> EB
@@ -61,16 +71,28 @@ public class EvidenceBlock
     public string id;
     public EvidenceInfo info;   
     public EvidenceBlockType blockType;
-    
+
+    public bool missionFinished;
 
     public EvidenceBlock prev;
     public EvidenceBlock next;
 
-    public EvidenceBlock(EvidenceInfo infoIn, EvidenceBlockType type = EvidenceBlockType.Evidence)
+    public EvidenceBlock(EvidenceInfo infoIn, EvidenceDataType type)
+    {
+        this.id = infoIn.id;
+        this.info = infoIn;
+        this.blockType = (type == EvidenceDataType.Info)
+                            ? EvidenceBlockType.Info
+                            : EvidenceBlockType.Evidence; ;
+        missionFinished = false;
+    }
+
+    public EvidenceBlock(EvidenceInfo infoIn, EvidenceBlockType type)
     {
         this.id = infoIn.id;
         this.info = infoIn;
         this.blockType = type;
+        missionFinished = false;
     }
 }
 

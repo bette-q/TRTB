@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26edb816149c29a4185057a5852f87f8, type: 3}
-  m_Name: AddCharES_Ella
+  m_Script: {fileID: 11500000, guid: 2ebbb119d488d3847b8c47e4c741d0bb, type: 3}
+  m_Name: AddCharEA_Qiu
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: 9c6e6dc32bf9a834d99d6790e9f5b2e2, type: 2}
+  characterID: 1

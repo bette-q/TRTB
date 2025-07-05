@@ -33,7 +33,7 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        if (NotebookUIManager.IsOpen)
+        if (NotebookUIController.IsOpen)
             return;
 
         UpdatePlayableList();

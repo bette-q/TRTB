@@ -10,7 +10,7 @@ public class EvidenceListPanelManager : MonoBehaviour
     public Transform contentParent;           // Assign EvidenceListPanel/Viewport/Content here
     public TMP_Text descriptionBox;           // Assign your Description box
     public RectTransform notebookPanelRect;
-    public NotebookUIManager notebookUIManager; // Assign in Inspector
+    public DeductionUIManager deductionUIMan; // Assign in Inspector
 
     // To keep track of current entries
     private Dictionary<string, GameObject> evidenceItemDict = new Dictionary<string, GameObject>();
@@ -26,6 +26,9 @@ public class EvidenceListPanelManager : MonoBehaviour
         // 2. Create one item per EB/CB in list
         foreach (var block in allBlocks)
         {
+            if (block.blockType != EvidenceBlockType.Evidence && block.blockType != EvidenceBlockType.SecCombo)
+                continue;
+
             var go = Instantiate(evidenceListItemPrefab, contentParent);
             go.transform.Find("Text").GetComponent<TMP_Text>().text = block.info.text;
 
@@ -39,7 +42,7 @@ public class EvidenceListPanelManager : MonoBehaviour
             var dragHandler = go.GetComponent<ListItemDragHandler>();
             dragHandler.Init(
                 block,
-                () => !notebookUIManager.HasBlockInComboPanel(block.id),
+                () => !deductionUIMan.HasBlockInComboPanel(block.id),
                 notebookPanelRect
             );
 
@@ -63,6 +66,9 @@ public class EvidenceListPanelManager : MonoBehaviour
     // For when a new EB or CB is added
     public void AddBlock(EvidenceBlock block)
     {
+        if (block.blockType != EvidenceBlockType.Evidence && block.blockType != EvidenceBlockType.SecCombo)
+            return;
+
         if (evidenceItemDict.ContainsKey(block.id))
             return;
 
@@ -75,7 +81,7 @@ public class EvidenceListPanelManager : MonoBehaviour
         var dragHandler = go.GetComponent<ListItemDragHandler>();
         dragHandler.Init(
             block,
-            () => !notebookUIManager.HasBlockInComboPanel(block.id),
+            () => !deductionUIMan.HasBlockInComboPanel(block.id),
             notebookPanelRect
         );
 

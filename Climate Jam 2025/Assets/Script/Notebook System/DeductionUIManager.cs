@@ -4,55 +4,23 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.Rendering.Universal;
 
-//handles entire notebook ui panel + deduction panel card placement
-public class NotebookUIManager : MonoBehaviour
+//handles deduction panel card placement
+public class DeductionUIManager : MonoBehaviour
 {
-    [HideInInspector]
-    public static bool IsOpen { get; private set; }
-
-    public GameObject notebookPanel;
-    public RectTransform blockParentPanel;
-    public RectTransform blockGridPanel;
+    //Deduction Page
+    public GameObject deductionPagePanel;
+    public RectTransform ComboCardParentPanel;
     public GameObject evidenceBlockPrefab;
-    public TMP_Text descriptionBox;
-    public KeyCode toggleKey = KeyCode.N;
-
+    public TMP_Text DeductionText;
     public CardPanelLinkManager cardPanelLinkManager;
     public EvidenceListPanelManager evidenceListPanelManager;
 
     // Track spawned cards inside deduction panel by evidence ID
     private Dictionary<string, GameObject> spawnedCardDict = new Dictionary<string, GameObject>();
 
-    void Start()
+    public void RefreshPage()
     {
-        notebookPanel.SetActive(false);
-        IsOpen = false;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(toggleKey))
-        {
-            if (!notebookPanel.activeSelf)
-                Open();
-            else
-                Close();
-        }
-    }
-
-    public void Open()
-    {
-        notebookPanel.SetActive(true);
-        IsOpen = true;
-
-        // Update evidence list UI with current blocks
         evidenceListPanelManager.RefreshEvidenceList(GameStateManager.Instance.GetAvailableBlocks());
-    }
-
-    public void Close()
-    {
-        notebookPanel.SetActive(false);
-        IsOpen = false;
     }
 
     public void AddNewBlock(EvidenceBlock block, Vector2 localDropPos)
@@ -60,14 +28,14 @@ public class NotebookUIManager : MonoBehaviour
         if (spawnedCardDict.ContainsKey(block.id))
             return;
 
-        var go = Instantiate(evidenceBlockPrefab, blockParentPanel);
-        go.GetComponent<FreeDragBlock>().Init(blockParentPanel);
+        var go = Instantiate(evidenceBlockPrefab, ComboCardParentPanel);
+        go.GetComponent<FreeDragBlock>().Init(ComboCardParentPanel);
         go.GetComponent<CardLinkHandler>().Init(cardPanelLinkManager, block);
 
         go.transform.Find("Title").GetComponent<TMP_Text>().text = block.info.title;
 
         var btn = go.GetComponent<Button>();
-        btn.onClick.AddListener(() => descriptionBox.text = block.info.text);
+        btn.onClick.AddListener(() => DeductionText.text = block.info.text);
 
         if (block.blockType != EvidenceBlockType.Evidence)
             go.GetComponent<Image>().color = Color.cyan;

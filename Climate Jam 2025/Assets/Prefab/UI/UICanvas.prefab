@@ -2848,7 +2848,7 @@ MonoBehaviour:
   infoPageManager: {fileID: 8496238967810253375}
   deductionPageManager: {fileID: 278950376932695630}
   reportPageManager: {fileID: 4326852074173647940}
-  currentTab: 1
+  currentTab: 0
 --- !u!1 &5030492577830610870
 GameObject:
   m_ObjectHideFlags: 0

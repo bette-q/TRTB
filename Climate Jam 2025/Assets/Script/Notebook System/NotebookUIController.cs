@@ -26,7 +26,7 @@ public class NotebookUIController : MonoBehaviour
     public InfoReportUIManager reportPageManager;
 
     public enum NotebookTab { Info, Deduction, Report }
-    public NotebookTab currentTab = NotebookTab.Deduction;
+    public NotebookTab currentTab = NotebookTab.Info;
 
     void Start()
     {

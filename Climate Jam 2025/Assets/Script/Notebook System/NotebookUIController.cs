@@ -21,8 +21,9 @@ public class NotebookUIController : MonoBehaviour
     public Button tabReport;
 
     [Header("Page Managers")]
-    public InfoPageUIManager infoPageManager;
+    public InfoReportUIManager infoPageManager;
     public DeductionUIManager deductionPageManager;
+    public InfoReportUIManager reportPageManager;
 
     public enum NotebookTab { Info, Deduction, Report }
     public NotebookTab currentTab = NotebookTab.Deduction;
@@ -69,12 +70,11 @@ public class NotebookUIController : MonoBehaviour
         reportPage.SetActive(tab == NotebookTab.Report);
         currentTab = tab;
 
-        // Optional: update content when switching
-        //if (tab == NotebookTab.Info)
-        //    infoPageManager.SetBlocks(GameStateManager.Instance.GetAvailableBlocks());
+        if (tab == NotebookTab.Info)
+            infoPageManager.SetBlocks(GameStateManager.Instance.GetAvailableBlocks());
         if (tab == NotebookTab.Deduction)
-            deductionPageManager.RefreshPage(); // or similar
-        //else if (tab == NotebookTab.Report && reportPageManager != null)
-        //    reportPageManager.SetBlocks(GameStateManager.Instance.GetAvailableBlocks());
+            deductionPageManager.RefreshPage(); 
+        else if (tab == NotebookTab.Report && reportPageManager != null)
+            reportPageManager.SetBlocks(GameStateManager.Instance.GetAvailableBlocks());
     }
 }

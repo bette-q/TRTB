@@ -4,11 +4,11 @@ using TMPro;
 using System.Collections.Generic;
 using System.Linq;
 
-public class InfoPageUIManager : MonoBehaviour
+public class InfoReportUIManager : MonoBehaviour
 {
     [Header("Grid List")]
-    public Transform gridContent; // Parent with Grid Layout Group
-    public GameObject infoBlockItemPrefab;
+    public Transform gridContent; // The parent object with Grid Layout Group
+    public GameObject blockItemPrefab;
 
     [Header("Paging Controls")]
     public Button prevButton;
@@ -20,22 +20,26 @@ public class InfoPageUIManager : MonoBehaviour
     public TMP_Text detailTitle;
     public TMP_Text detailDesc;
 
-    private List<EvidenceBlock> infoBlocks = new List<EvidenceBlock>();
+    [Header("Block Types To Display")]
+    public List<EvidenceBlockType> allowedTypes;
+
+    [Header("Visual Options")]
+    public bool dimFinishedBlocks = true;
+
+    private List<EvidenceBlock> filteredBlocks = new List<EvidenceBlock>();
     private int currentPage = 0;
     private const int blocksPerPage = 8;
 
-    // Call this when switching to Info tab!
-    public void SetBlocks(List<EvidenceBlock> allBlocks)
+    public void SetBlocks(IReadOnlyList<EvidenceBlock> allBlocks)
     {
-        // Filter: show all except FinalCombo
-        infoBlocks = allBlocks
-            .Where(b => b.blockType != EvidenceBlockType.FinalCombo)
+        filteredBlocks = allBlocks
+            .Where(b => allowedTypes.Contains(b.blockType))
             .OrderBy(b => b.missionFinished) // Optional: unfinished first
             .ToList();
 
         currentPage = 0;
         RefreshGrid();
-        ShowDetails(null); // Clear detail by default
+        ShowDetails(null); // Hide detail by default
     }
 
     void Start()
@@ -50,23 +54,23 @@ public class InfoPageUIManager : MonoBehaviour
             Destroy(child.gameObject);
 
         int start = currentPage * blocksPerPage;
-        int end = Mathf.Min(start + blocksPerPage, infoBlocks.Count);
+        int end = Mathf.Min(start + blocksPerPage, filteredBlocks.Count);
 
         for (int i = start; i < end; ++i)
         {
-            var block = infoBlocks[i];
-            var go = Instantiate(infoBlockItemPrefab, gridContent);
+            var block = filteredBlocks[i];
+            var go = Instantiate(blockItemPrefab, gridContent);
             var item = go.GetComponent<InfoBlockItemUI>();
             item.Setup(block, OnSelectBlock);
 
-            // Optional: visually dim if missionFinished
+            // Optional: visually dim if missionFinished and option is on
             var cg = go.GetComponent<CanvasGroup>();
-            if (cg != null)
+            if (cg != null && dimFinishedBlocks)
                 cg.alpha = block.missionFinished ? 0.4f : 1.0f;
         }
 
         prevButton.interactable = currentPage > 0;
-        nextButton.interactable = end < infoBlocks.Count;
+        nextButton.interactable = end < filteredBlocks.Count;
     }
 
     void OnPrevPage()
@@ -80,7 +84,7 @@ public class InfoPageUIManager : MonoBehaviour
 
     void OnNextPage()
     {
-        if ((currentPage + 1) * blocksPerPage < infoBlocks.Count)
+        if ((currentPage + 1) * blocksPerPage < filteredBlocks.Count)
         {
             currentPage++;
             RefreshGrid();

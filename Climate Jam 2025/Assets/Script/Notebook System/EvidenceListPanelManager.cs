@@ -26,6 +26,9 @@ public class EvidenceListPanelManager : MonoBehaviour
         // 2. Create one item per EB/CB in list
         foreach (var block in allBlocks)
         {
+            if (block.blockType != EvidenceBlockType.Evidence && block.blockType != EvidenceBlockType.SecCombo)
+                continue;
+
             var go = Instantiate(evidenceListItemPrefab, contentParent);
             go.transform.Find("Text").GetComponent<TMP_Text>().text = block.info.text;
 

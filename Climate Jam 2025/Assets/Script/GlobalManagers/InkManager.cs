@@ -1,162 +1,126 @@
-//using UnityEngine;
-//using Ink.Runtime;
-//using System;
-//using System.Collections.Generic;
-//using System.Text.RegularExpressions;
-//using System.Linq;
+using UnityEngine;
+using Ink.Runtime;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
-//public class InkManager : MonoBehaviour
-//{
-//    public static InkManager Instance { get; private set; }
+public class InkManager : MonoBehaviour
+{
+    public static InkManager Instance { get; private set; }
 
-//    [Header("Ink JSON Asset")]
-//    public TextAsset inkJSONAsset;
+    [Header("Ink JSON Asset")]
+    public TextAsset inkJSONAsset;
+    private Story story;
 
-//    private Story story;
+    public event Action<string> OnLine;
+    public event Action<List<string>> OnChoices;
+    public event Action OnDialogueEnd;
 
-//    // Events for UI hookup
-//    public event Action<string> OnLine;              // Called for dialogue/narration lines
-//    public event Action<List<string>> OnChoices;     // Called to display player choices
-//    public event Action OnDialogueEnd;               // Called when dialogue is finished
+    private Dictionary<string, Action<List<string>>> commandHandlers = new Dictionary<string, Action<List<string>>>();
 
-//    // #command dispatcher
-//    private Dictionary<string, Action<List<string>>> commandHandlers = new Dictionary<string, Action<List<string>>>();
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
 
-//    void Awake()
-//    {
-//        if (Instance == null) Instance = this;
-//        else Destroy(gameObject);
+        commandHandlers["show_popup"] = args => UIManager.Instance.ShowPopup(args[0]);
+        commandHandlers["enable"] = args => UIManager.Instance.EnablePanel(args[0]);
+        commandHandlers["add_notebook"] = args => GameStateManager.Instance.AddEvidenceById(args[0]);
+        commandHandlers["show"] = args =>
+        {
+            if (args[0].ToLower() == "item" && args.Count > 1)
+                UIManager.Instance.ShowItem(args[1]);
+        };
+    }
 
-//        // Register default #command handlers
-//        RegisterDefaultHandlers();
-//    }
+    public void StartDialogue(string knot)
+    {
+        story = new Story(inkJSONAsset.text);
+        story.ChoosePathString(knot);
+        ContinueStory();
+    }
 
-//    void RegisterDefaultHandlers()
-//    {
-//        // Example mappings, expand as needed
-//        commandHandlers["add_notebook"] = args => GameStateManager.Instance.AddEvidence(args[0]);
-//        commandHandlers["update_flag"] = args => SyncFlag(args[0], args[1]);
-//        commandHandlers["play_sfx"] = args => AudioManager.Instance.PlaySfx(args[0]);
-//        commandHandlers["advance_phase"] = args => GSM.Instance.AdvancePhase(args[0], args[1]);
-//        commandHandlers["show_item"] = args => UIManager.Instance.ShowItem(args[0]);
-//        commandHandlers["enable_ui"] = args => UIManager.Instance.EnablePanel(args[0]);
-//        commandHandlers["show_popup"] = args => UIManager.Instance.ShowPopup(args[0]);
-//        commandHandlers["add_notebook_block"] = args => NotebookManager.Instance.AddInfoBlock(args[0]);
-//        // Add other custom handlers here...
-//    }
+    public void ContinueStory(int choiceIndex = -1)
+    {
+        if (choiceIndex >= 0) story.ChooseChoiceIndex(choiceIndex);
 
-//    // Example: For syncing flags between Ink and GSM
-//    void SyncFlag(string flagName, string value)
-//    {
-//        bool boolValue = value.ToLower() == "true";
-//        GSM.Instance.SetFlag(flagName, boolValue);
-//        if (story != null)
-//        {
-//            // Also sync to Ink global variables if they exist
-//            if (story.variablesState.Contains(flagName))
-//                story.variablesState[flagName] = boolValue;
-//        }
-//    }
+        while (story.canContinue)
+        {
+            string text = story.Continue().Trim();
+            if (string.IsNullOrEmpty(text))
+                continue;
 
-//    // Allow external registration of new #command handlers if needed
-//    public void RegisterCommand(string command, Action<List<string>> handler)
-//    {
-//        commandHandlers[command.ToLower()] = handler;
-//    }
+            // Handle commands in #command(args) or #command arg1 arg2 format
+            if (text.StartsWith("#"))
+            {
+                ParseAndDispatchCommand(text);
+                continue;
+            }
+            if (text.StartsWith("==="))
+                continue;
 
-//    public void StartDialogue(string knot)
-//    {
-//        story = new Story(inkJSONAsset.text);
+            OnLine?.Invoke(text);
+        }
 
-//        // Register external functions for querying only
-//        story.BindExternalFunction("HAS_FLAG", (string flagName) => GSM.Instance.GetFlag(flagName));
-//        story.BindExternalFunction("HAS_EVIDENCE", (string id) => NotebookManager.Instance.HasEvidence(id));
-//        story.BindExternalFunction("GET_PHASE", (string missionID) => GSM.Instance.GetPhase(missionID));
-//        story.BindExternalFunction("GET_ACTIVE_CHARACTER", () => PlayerManager.Instance.CurrentCharacterID);
-//        // Register other query functions as needed...
+        if (story.currentChoices.Count > 0)
+        {
+            var choices = new List<string>();
+            foreach (var c in story.currentChoices)
+                choices.Add(c.text.Trim());
+            OnChoices?.Invoke(choices);
+        }
+        else
+        {
+            OnDialogueEnd?.Invoke();
+        }
+    }
 
-//        story.ChoosePathString(knot);
-//        ContinueStory();
-//    }
+    void ParseAndDispatchCommand(string line)
+    {
+        // Handles #command(args); or #command arg1 arg2
+        var matchParen = Regex.Match(line, @"^#\s*(\w+)\s*\(([^)]*)\)");
+        if (matchParen.Success)
+        {
+            string command = matchParen.Groups[1].Value.ToLower();
+            string argsRaw = matchParen.Groups[2].Value;
+            var args = ParseArguments(argsRaw);
+            if (commandHandlers.TryGetValue(command, out var handler))
+                handler.Invoke(args);
+            else
+                Debug.LogWarning($"[InkManager] Unrecognized #command: {command} ({string.Join(", ", args)})");
+            return;
+        }
 
-//    public void ContinueStory(int choiceIndex = -1)
-//    {
-//        if (choiceIndex >= 0) story.ChooseChoiceIndex(choiceIndex);
+        // Fallback for #show Item UnknownMail etc
+        var matchSpace = Regex.Match(line, @"^#\s*(\w+)\s+(\w+)\s+(\S+)$");
+        if (matchSpace.Success)
+        {
+            string command = matchSpace.Groups[1].Value.ToLower();
+            string arg0 = matchSpace.Groups[2].Value;
+            string arg1 = matchSpace.Groups[3].Value;
+            if (commandHandlers.TryGetValue(command, out var handler))
+                handler.Invoke(new List<string> { arg0, arg1 });
+            else
+                Debug.LogWarning($"[InkManager] Unrecognized #command: {command} ({arg0}, {arg1})");
+        }
+        else
+        {
+            Debug.LogWarning($"[InkManager] Failed to parse command: {line}");
+        }
+    }
 
-//        while (story.canContinue)
-//        {
-//            string text = story.Continue().Trim();
-
-//            if (string.IsNullOrEmpty(text))
-//                continue;
-
-//            // Parse #command lines
-//            if (text.StartsWith("#"))
-//            {
-//                ParseAndDispatchCommand(text);
-//                continue;
-//            }
-
-//            // Section headers (optional to skip)
-//            if (text.StartsWith("==="))
-//                continue;
-
-//            // Otherwise, dispatch dialogue/narration to UI
-//            OnLine?.Invoke(text);
-//        }
-
-//        // Present choices, if any
-//        if (story.currentChoices.Count > 0)
-//        {
-//            var choices = new List<string>();
-//            foreach (var c in story.currentChoices)
-//                choices.Add(c.text.Trim());
-//            OnChoices?.Invoke(choices);
-//        }
-//        else
-//        {
-//            OnDialogueEnd?.Invoke();
-//        }
-//    }
-
-//    void ParseAndDispatchCommand(string line)
-//    {
-//        // Regex: #command param1 param2 ... (quoted string parameters allowed)
-//        var match = Regex.Match(line, @"^#(\w+)\s*(.*)$");
-//        if (!match.Success)
-//        {
-//            Debug.LogWarning($"[InkManager] Could not parse command line: {line}");
-//            return;
-//        }
-
-//        string command = match.Groups[1].Value.ToLower(); // e.g. add_notebook
-//        string paramStr = match.Groups[2].Value;
-
-//        // Parse parameters, supporting quoted strings and normal words
-//        var paramList = ParseParameters(paramStr);
-
-//        if (commandHandlers.TryGetValue(command, out var handler))
-//        {
-//            handler?.Invoke(paramList);
-//        }
-//        else
-//        {
-//            Debug.LogWarning($"[InkManager] Unrecognized #command: {command} ({string.Join(", ", paramList)})");
-//        }
-//    }
-
-//    // Parse parameters: supports "quoted string" and bare words
-//    List<string> ParseParameters(string paramStr)
-//    {
-//        var matches = Regex.Matches(paramStr, @"""([^""]+)""|(\S+)");
-//        var list = new List<string>();
-//        foreach (Match m in matches)
-//        {
-//            if (m.Groups[1].Success)
-//                list.Add(m.Groups[1].Value);
-//            else
-//                list.Add(m.Groups[2].Value);
-//        }
-//        return list;
-//    }
-//}
+    List<string> ParseArguments(string argsRaw)
+    {
+        var results = new List<string>();
+        var regex = new Regex("\"([^\"]*)\"|([^,]+)");
+        var matches = regex.Matches(argsRaw);
+        foreach (Match m in matches)
+        {
+            if (m.Groups[1].Success)
+                results.Add(m.Groups[1].Value.Trim());
+            else if (m.Groups[2].Success)
+                results.Add(m.Groups[2].Value.Trim());
+        }
+        return results;
+    }
+}

@@ -81,6 +81,21 @@ public class GameStateManager : MonoBehaviour
         return availableBlocks.Where(b => b.blockType == EvidenceBlockType.FinalCombo).ToList();
     }
 
+    public bool AddEvidenceById(string evidenceId)
+    {
+        // Assume you have a singleton EvidenceDatabase with GetEvidenceById()
+        var ed = EvidenceDatabase.Instance.GetEvidenceData(evidenceId);
+        if (ed == null)
+        {
+            Debug.LogWarning($"[GSM] No EvidenceData found for id: {evidenceId}");
+            return false;
+        }
+        var characterID = GetCurrentCharacter();
+        var eb = EvidenceEventAction.GenerateEvidenceBlock(ed, characterID);
+        return AddBlock(eb);
+    }
+
+
     // ---- SAVE/LOAD LOGIC ----
     // Add your serialization/deserialization here in the future.
 

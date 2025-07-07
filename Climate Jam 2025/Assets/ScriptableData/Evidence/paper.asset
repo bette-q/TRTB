@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: paper
   m_EditorClassIdentifier: 
   info:
-    id: e003
+    id: paper
     displayName: paper
     title: paper
     text: paper

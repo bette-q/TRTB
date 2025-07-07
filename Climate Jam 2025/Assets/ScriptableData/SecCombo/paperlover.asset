@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: paperlover
   m_EditorClassIdentifier: 
   comboOrder:
-  - e003
-  - se001
+  - paper
+  - lover_cloth
   resultEvidence:
-    id: sc002
+    id: paperlover
     displayName: paperlover
     title: paperlover
     text: paperlover

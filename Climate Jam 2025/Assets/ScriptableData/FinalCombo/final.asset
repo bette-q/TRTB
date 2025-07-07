@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: final
   m_EditorClassIdentifier: 
   comboOrder:
-  - sc001
-  - sc002
+  - applebanana
+  - paperlover
   resultEvidence:
     id: fc001
     displayName: everything

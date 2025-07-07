@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: apple
   m_EditorClassIdentifier: 
   info:
-    id: e001
+    id: apple
     displayName: apple
     title: an apple
     text: rotten apple

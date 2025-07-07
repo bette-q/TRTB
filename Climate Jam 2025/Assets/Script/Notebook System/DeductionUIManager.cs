@@ -54,7 +54,7 @@ public class DeductionUIManager : MonoBehaviour
         GameStateManager.Instance.RemoveBlocksByIds(comboBlock.comboOrder);
         evidenceListPanelManager.RemoveBlocksByIds(comboBlock.comboOrder); 
 
-        var newBlock = new EvidenceBlock(comboBlock.resultEvidence, type);
+        var newBlock = new EvidenceBlock(comboBlock.resultEvidence.id, type);
 
         GameStateManager.Instance.AddBlock(newBlock);
         evidenceListPanelManager.AddBlock(newBlock); // add to evidence list panel

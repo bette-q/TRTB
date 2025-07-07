@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: cherry_info
   m_EditorClassIdentifier: 
   info:
-    id: info001
+    id: cherry_info
     displayName: cherry
     title: cherry
     text: cherry

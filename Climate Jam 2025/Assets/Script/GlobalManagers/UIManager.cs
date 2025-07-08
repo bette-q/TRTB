@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,10 +14,10 @@ public class UIManager : MonoBehaviour
     public GameObject popupPanel;
     public TMP_Text popupText;
 
-    [Header("Item Display UI")]
-    public GameObject itemPanel;
-    public Image itemIcon;
-    public TMP_Text itemDescription;
+    [Header("Item Box UI")]
+    public GameObject showItemPanel;
+    public TMP_Text itemBoxText;
+    public Image itemIconImage;
 
     [Header("CharacterManager")]
     public CharacterManager characterManager;
@@ -30,7 +29,7 @@ public class UIManager : MonoBehaviour
 
         // Hide all UI by default
         if (popupPanel) popupPanel.SetActive(false);
-        if (itemPanel) itemPanel.SetActive(false);
+        if (showItemPanel) showItemPanel.SetActive(false);
         if (dialoguePanel) dialoguePanel.SetActive(false);
     }
 
@@ -49,14 +48,13 @@ public class UIManager : MonoBehaviour
 
     // ---- POPUP ----
 
-    public void ShowPopup(string text)
+    public void ShowPopup(string text, float duration = 2.0f)
     {
         if (popupPanel) popupPanel.SetActive(true);
         if (popupText) popupText.text = text;
 
-        // Optionally auto-hide after a few seconds
         CancelInvoke(nameof(HidePopup));
-        Invoke(nameof(HidePopup), 2.0f);
+        Invoke(nameof(HidePopup), duration);
     }
 
     public void HidePopup()
@@ -64,69 +62,50 @@ public class UIManager : MonoBehaviour
         if (popupPanel) popupPanel.SetActive(false);
     }
 
-    // ---- ITEM ----
-
+    // ---- ITEM DISPLAY ----
     public void ShowItem(string itemId)
     {
-        // Look up icon/description (assume EvidenceDatabase or similar)
         var info = EvidenceDatabase.Instance.GetEvidenceInfo(itemId);
         if (info == null)
         {
             Debug.LogWarning($"[UIManager] Unknown item: {itemId}");
             return;
         }
-
-        if (itemPanel) itemPanel.SetActive(true);
-        if (itemIcon) itemIcon.sprite = info.icon;
-        if (itemDescription) itemDescription.text = info.text;
-
-        // Also show description in dialogue
-        ShowDialogue(info.text);
-
-        // Optionally, auto-hide after a few seconds or on click
-        CancelInvoke(nameof(HideItem));
-        Invoke(nameof(HideItem), 2.5f);
+        if (showItemPanel) showItemPanel.SetActive(true);
+        if (itemBoxText) itemBoxText.text = info.text;
+        if (itemIconImage) itemIconImage.sprite = info.icon;
     }
 
     public void HideItem()
     {
-        if (itemPanel) itemPanel.SetActive(false);
+        if (showItemPanel) showItemPanel.SetActive(false);
     }
 
     // ---- CHARACTER ----
-
-    public void ShowCharacter(string characterName, string spriteTag = "")
+    public void ArrangeCharacters(CharacterID controlled, string targetName)
     {
-        if (characterManager == null)
-        {
-            Debug.LogWarning("[UIManager] No CharacterManager assigned.");
-            return;
-        }
-        if (string.IsNullOrEmpty(spriteTag))
-            characterManager.ShowCharacter(characterName);
-        else
-            characterManager.ForceShowCharacter(characterName, spriteTag);
+        if (characterManager != null)
+            characterManager.ArrangeForDialogue(controlled, targetName);
     }
 
-    public void HideCharacter(string characterName)
+    public void ChangeCharacterSprite(string side, string tagName)
     {
-        if (characterManager == null) return;
-        characterManager.HideCharacter(characterName);
+        if (characterManager != null)
+            characterManager.ChangeSprite(side, tagName);
     }
 
-    // ---- Panel/Other Utility (Optional for enable/disable UI panels) ----
+    // ---- Panel/Other Utility ----
 
     public void EnablePanel(string panelName)
     {
-        // This method can be extended for your own panel management (e.g. map, notebook, etc)
-        // Example:
-        // if (panelName == "Map") mapPanel.SetActive(true);
         Debug.Log($"[UIManager] EnablePanel: {panelName} (implement as needed)");
     }
 
+    // Optional: Force popup to appear instantly (no timer)
     public void ShowPopupImmediate(string text)
     {
         if (popupPanel) popupPanel.SetActive(true);
         if (popupText) popupText.text = text;
+        CancelInvoke(nameof(HidePopup));
     }
 }

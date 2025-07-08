@@ -1,40 +1,39 @@
-===0_1_2_front_desk===
+=== 0_1_2_front_desk ===
 
-#show Player Player
-#show FD FD
+#speaking_to FD
 
-FD：...是是是，艾拉姐！人到了，看着像个学生...拿着个怪球？...明白，就说您被污水厂紧急采访拖住了，让他自己...啊？拍沉淀物？记下了记下了！
+FD: ...Yes, yes, Ella! The person is here—looks like a student... holding a weird ball? ...Got it, I'll say you were delayed by an urgent interview at the sewage plant, and tell him to—what? Take photos of the sediment? Noted, noted!
 
-她看到你，马上挂断电话，深吸一口气，挤出职业笑容。
+She sees you, immediately hangs up, takes a deep breath, and forces a professional smile.
 
-FD：哎呀同学久等啦！艾拉小姐刚被污水厂紧急采访叫走了！她说特别抱歉，让你直接去新城区找她就行！
+FD: Sorry for the wait! Miss Ella was just called away for an urgent interview at the sewage plant! She apologizes and said you can go meet her directly in the new district!
 
-她递给你一份城区地图和一张名片
+She hands you a city map and a business card.
 
-FD：就这个地址，好找的很！
+FD: It's at this address, really easy to find!
 
-Player：...?
+#show_popup "Received Map"
+#Enable Map
+#show_popup "Received Ella name card"
+#add_notebook Ella_name_card
 
-#show_popup("Received Map")
-#Enable(Map)
-#show_popup("Received Ella name Card")
-#add_notebook(Ella_name_card)
+You take the note. Suddenly, your phone vibrates violently in your pocket.
 
-你接过便签，手机突然在口袋里剧烈震动。
+Player: ...?
 
-Player ：污水厂紧急采访？真的吗...?
+Player (thought): Urgent interview at the sewage plant? Really...?
 
-你手机屏幕亮起，一封新邮件。发件人：[数据删除]，主题：给拿球的人
+Your phone screen lights up—a new email. Sender: [Data Deleted], Subject: For the person with the ball.
 
-#show_popup("Received UnknownMail")
-#add_notebook(UnknownMail)
-#show Item UnknownMail
+#show_popup "Received UnknownMail"
+#add_notebook UnknownMail
+#show_item UnknownMail
 
-邮件正文：
-科考站地下三层B区，循环水箱取样口。真实水样。别信他们的‘达标’报告。砷吸附数据被手动平滑了。 附件是原始曲线。
-（附件：一份砷浓度监测折线图。大部分是平缓绿线，但一点被红圈标注，数值陡峭飙升，旁边小字批注：样本点：渔村马家井 - 7/14。）
+Email Body:  
+Research station, Basement Level 3, Section B, sample port of the recirculating water tank. This is a real water sample. Don’t trust their "qualified" report. The arsenic adsorption data was manually smoothed. The attachment is the original graph.  
+(Attachment: An arsenic concentration monitoring line chart. Most of the line is a smooth green, but one point is circled in red, showing a sudden spike. Beside it is a small note: Sample Point: Yucun Majiajing – 7/14.)
 
-Player (瞳孔微缩，手指划过屏幕上那根刺眼的红线)：
-【内心独白】 手动平滑？...邱？Professor提过的天才采样员，叛出项目那个？他给我发邮件？砷...渔村马家井？ 
+Player (pupils contract, finger sliding across that glaring red spike on the screen):  
+[Thought] Manually smoothed...? Qiu? The genius sampler Professor mentioned—the one who left the project? He sent me an email? Arsenic... Yucun Majiajing?
 
 -> END

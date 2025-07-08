@@ -17,67 +17,116 @@ public class InkManager : MonoBehaviour
     public event Action OnDialogueEnd;
 
     private Dictionary<string, Action<List<string>>> commandHandlers = new Dictionary<string, Action<List<string>>>();
+    private bool isWaitingForInput = false;
+    private string currentSpeakingTo = null; // Target character (right slot)
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
+        // Register #command handlers
+        commandHandlers["show_item"] = args => UIManager.Instance.ShowItem(args[0]);
         commandHandlers["show_popup"] = args => UIManager.Instance.ShowPopup(args[0]);
         commandHandlers["enable"] = args => UIManager.Instance.EnablePanel(args[0]);
         commandHandlers["add_notebook"] = args => GameStateManager.Instance.AddEvidenceById(args[0]);
-        commandHandlers["show"] = args =>
+        commandHandlers["speaking_to"] = args =>
         {
-            if (args[0].ToLower() == "item" && args.Count > 1)
-                UIManager.Instance.ShowItem(args[1]);
+            if (args.Count > 0)
+            {
+                currentSpeakingTo = args[0];
+                // Controlled character always on left, targetName (even NPC) on right
+                UIManager.Instance.ArrangeCharacters(
+                    GameStateManager.Instance.GetCurrentCharacter(),
+                    currentSpeakingTo
+                );
+            }
         };
+        //// (Optional) Sprite changing for later:
+        //commandHandlers["sprite"] = args => {
+        //    if (args.Count == 2)
+        //        UIManager.Instance.ChangeCharacterSprite(args[0], args[1]);
+        //};
+    }
+
+    void Start()
+    {
+        // You can auto-start here or call StartDialogue elsewhere
+        // StartDialogue("start");
+    }
+
+    void Update()
+    {
+        // Advance dialogue on any key press when waiting for input
+        if (isWaitingForInput && Input.anyKeyDown)
+        {
+            isWaitingForInput = false;
+            ContinueByPlayer();
+        }
     }
 
     public void StartDialogue(string knot)
     {
         story = new Story(inkJSONAsset.text);
         story.ChoosePathString(knot);
-        ContinueStory();
+        isWaitingForInput = false;
+        ContinueByPlayer(); // Show first line
     }
 
-    public void ContinueStory(int choiceIndex = -1)
+    public void ContinueByPlayer()
     {
-        if (choiceIndex >= 0) story.ChooseChoiceIndex(choiceIndex);
+        // Always hide item and dialogue before advancing
+        UIManager.Instance.HideItem();
+        UIManager.Instance.HideDialogue();
 
-        while (story.canContinue)
-        {
-            string text = story.Continue().Trim();
-            if (string.IsNullOrEmpty(text))
-                continue;
+        if (isWaitingForInput) return;
+        isWaitingForInput = true;
 
-            // Handle commands in #command(args) or #command arg1 arg2 format
-            if (text.StartsWith("#"))
-            {
-                ParseAndDispatchCommand(text);
-                continue;
-            }
-            if (text.StartsWith("==="))
-                continue;
+        if (story == null) return;
 
-            OnLine?.Invoke(text);
-        }
-
+        // Handle choices
         if (story.currentChoices.Count > 0)
         {
             var choices = new List<string>();
             foreach (var c in story.currentChoices)
                 choices.Add(c.text.Trim());
             OnChoices?.Invoke(choices);
+            isWaitingForInput = false;
+            return;
+        }
+
+        if (story.canContinue)
+        {
+            string text = story.Continue().Trim();
+
+            // Handle #commands
+            if (!string.IsNullOrEmpty(text) && text.StartsWith("#"))
+            {
+                ParseAndDispatchCommand(text);
+                isWaitingForInput = false;
+                return;
+            }
+            if (!string.IsNullOrEmpty(text) && text.StartsWith("==="))
+            {
+                isWaitingForInput = false;
+                return;
+            }
+
+            UIManager.Instance.ShowDialogue(text);
+            OnLine?.Invoke(text);
         }
         else
         {
+            UIManager.Instance.HideItem();
+            UIManager.Instance.HideDialogue();
             OnDialogueEnd?.Invoke();
+            isWaitingForInput = false;
         }
     }
 
     void ParseAndDispatchCommand(string line)
     {
-        // Handles #command(args); or #command arg1 arg2
+        // #command(arg1, arg2) style
         var matchParen = Regex.Match(line, @"^#\s*(\w+)\s*\(([^)]*)\)");
         if (matchParen.Success)
         {
@@ -91,22 +140,20 @@ public class InkManager : MonoBehaviour
             return;
         }
 
-        // Fallback for #show Item UnknownMail etc
-        var matchSpace = Regex.Match(line, @"^#\s*(\w+)\s+(\w+)\s+(\S+)$");
+        // #command arg1 arg2 style
+        var matchSpace = Regex.Match(line, @"^#\s*(\w+)\s+(.+)$");
         if (matchSpace.Success)
         {
             string command = matchSpace.Groups[1].Value.ToLower();
-            string arg0 = matchSpace.Groups[2].Value;
-            string arg1 = matchSpace.Groups[3].Value;
+            var args = new List<string>(matchSpace.Groups[2].Value.Trim().Split(' '));
             if (commandHandlers.TryGetValue(command, out var handler))
-                handler.Invoke(new List<string> { arg0, arg1 });
+                handler.Invoke(args);
             else
-                Debug.LogWarning($"[InkManager] Unrecognized #command: {command} ({arg0}, {arg1})");
+                Debug.LogWarning($"[InkManager] Unrecognized #command: {command} ({string.Join(", ", args)})");
+            return;
         }
-        else
-        {
-            Debug.LogWarning($"[InkManager] Failed to parse command: {line}");
-        }
+
+        Debug.LogWarning($"[InkManager] Failed to parse command: {line}");
     }
 
     List<string> ParseArguments(string argsRaw)

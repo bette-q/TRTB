@@ -3,6 +3,7 @@ using Ink.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using StarterAssets;
 
 public class InkManager : MonoBehaviour
 {
@@ -11,54 +12,37 @@ public class InkManager : MonoBehaviour
     [Header("Ink JSON Asset")]
     public TextAsset inkJSONAsset;
     private Story story;
+    private readonly Dictionary<string, Action<List<string>>> commandHandlers = new();
+    private bool isWaitingForInput;
+    private string currentSpeakingTo;
 
     public event Action<string> OnLine;
     public event Action<List<string>> OnChoices;
     public event Action OnDialogueEnd;
 
-    private Dictionary<string, Action<List<string>>> commandHandlers = new Dictionary<string, Action<List<string>>>();
-    private bool isWaitingForInput = false;
-    private string currentSpeakingTo = null; // Target character (right slot)
-
     void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else { Destroy(gameObject); return; }
 
-        // Register #command handlers
-        commandHandlers["show_item"] = args => UIManager.Instance.ShowItem(args[0]);
-        commandHandlers["show_popup"] = args => UIManager.Instance.ShowPopup(args[0]);
-        commandHandlers["enable"] = args => UIManager.Instance.EnablePanel(args[0]);
-        commandHandlers["add_notebook"] = args => GameStateManager.Instance.AddEvidenceById(args[0]);
-        commandHandlers["speaking_to"] = args =>
+        commandHandlers["show_item"] = a => UIManager.Instance.ShowItem(a[0]);
+        commandHandlers["show_popup"] = a => UIManager.Instance.ShowPopup(a[0]);
+        commandHandlers["enable"] = a => UIManager.Instance.EnablePanel(a[0]);
+        commandHandlers["add_notebook"] = a => GameStateManager.Instance.AddEvidenceById(a[0]);
+        commandHandlers["speaking_to"] = a =>
         {
-            if (args.Count > 0)
-            {
-                currentSpeakingTo = args[0];
-                // Controlled character always on left, targetName (even NPC) on right
-                UIManager.Instance.ArrangeCharacters(
-                    GameStateManager.Instance.GetCurrentCharacter(),
-                    currentSpeakingTo
-                );
-            }
+            if (a.Count == 0) return;
+            currentSpeakingTo = a[0];
+            UIManager.Instance.ArrangeCharacters(
+                GameStateManager.Instance.GetCurrentCharacter(),
+                currentSpeakingTo
+            );
         };
-        //// (Optional) Sprite changing for later:
-        //commandHandlers["sprite"] = args => {
-        //    if (args.Count == 2)
-        //        UIManager.Instance.ChangeCharacterSprite(args[0], args[1]);
-        //};
-    }
-
-    void Start()
-    {
-        // You can auto-start here or call StartDialogue elsewhere
-        // StartDialogue("start");
     }
 
     void Update()
     {
-        // Advance dialogue on any key press when waiting for input
-        if (isWaitingForInput && Input.anyKeyDown)
+        if (isWaitingForInput && Input.GetMouseButtonDown(0)) // Left mouse button only
         {
             isWaitingForInput = false;
             ContinueByPlayer();
@@ -70,104 +54,105 @@ public class InkManager : MonoBehaviour
         story = new Story(inkJSONAsset.text);
         story.ChoosePathString(knot);
         isWaitingForInput = false;
-        ContinueByPlayer(); // Show first line
+        ContinueByPlayer();
     }
 
     public void ContinueByPlayer()
     {
-        // Always hide item and dialogue before advancing
         UIManager.Instance.HideItem();
         UIManager.Instance.HideDialogue();
 
-        if (isWaitingForInput) return;
+        if (isWaitingForInput || story == null) return;
         isWaitingForInput = true;
 
-        if (story == null) return;
-
-        // Handle choices
-        if (story.currentChoices.Count > 0)
+        if (!story.canContinue)
         {
-            var choices = new List<string>();
-            foreach (var c in story.currentChoices)
-                choices.Add(c.text.Trim());
-            OnChoices?.Invoke(choices);
+            UIManager.Instance.HideItem();
+            UIManager.Instance.HideDialogue();
+            UIManager.Instance.HideCharacters();
+            OnDialogueEnd?.Invoke();
             isWaitingForInput = false;
             return;
         }
 
-        if (story.canContinue)
-        {
-            string text = story.Continue().Trim();
+        string raw = story.Continue().Trim();
+        string line = raw.TrimStart();
 
-            // Handle #commands
-            if (!string.IsNullOrEmpty(text) && text.StartsWith("#"))
-            {
-                ParseAndDispatchCommand(text);
-                isWaitingForInput = false;
-                return;
-            }
-            if (!string.IsNullOrEmpty(text) && text.StartsWith("==="))
-            {
-                isWaitingForInput = false;
-                return;
-            }
-
-            UIManager.Instance.ShowDialogue(text);
-            OnLine?.Invoke(text);
-        }
-        else
+        if (line.StartsWith("#"))
         {
-            UIManager.Instance.HideItem();
-            UIManager.Instance.HideDialogue();
-            OnDialogueEnd?.Invoke();
+            ParseAndDispatchCommand(line);
             isWaitingForInput = false;
+            return;
         }
+
+        if (line.StartsWith("==="))
+        {
+            isWaitingForInput = false;
+            return;
+        }
+
+        // Extract speaker
+        string speaker = "";
+        string content = line;
+        int colon = line.IndexOf(':');
+        if (colon > 0 && colon < 20)
+        {
+            speaker = line[..colon].Trim();
+            content = line[(colon + 1)..].Trim();
+        }
+
+        UIManager.Instance.ShowSpeaker(speaker); // <-- Only the correct one is shown
+        UIManager.Instance.ShowDialogue(speaker, content);
+        OnLine?.Invoke(line);
+
+        if (story.currentTags != null)
+            foreach (string tag in story.currentTags)
+                ParseAndDispatchCommand(tag.StartsWith("#") ? tag : "#" + tag);
     }
 
     void ParseAndDispatchCommand(string line)
     {
-        // #command(arg1, arg2) style
-        var matchParen = Regex.Match(line, @"^#\s*(\w+)\s*\(([^)]*)\)");
-        if (matchParen.Success)
+        // #command(arg1,arg2) style
+        var mParen = Regex.Match(line, @"^#\s*(\w+)\s*\(([^)]*)\)");
+        if (mParen.Success)
         {
-            string command = matchParen.Groups[1].Value.ToLower();
-            string argsRaw = matchParen.Groups[2].Value;
-            var args = ParseArguments(argsRaw);
-            if (commandHandlers.TryGetValue(command, out var handler))
-                handler.Invoke(args);
-            else
-                Debug.LogWarning($"[InkManager] Unrecognized #command: {command} ({string.Join(", ", args)})");
+            ExecuteCommand(
+                mParen.Groups[1].Value.ToLower(),
+                ParseArguments(mParen.Groups[2].Value)
+            );
             return;
         }
 
-        // #command arg1 arg2 style
-        var matchSpace = Regex.Match(line, @"^#\s*(\w+)\s+(.+)$");
-        if (matchSpace.Success)
+        // #command arg1 arg2 ... (with quoted args supported)
+        var mSpace = Regex.Match(line, @"^#\s*(\w+)\s+(.+)$");
+        if (mSpace.Success)
         {
-            string command = matchSpace.Groups[1].Value.ToLower();
-            var args = new List<string>(matchSpace.Groups[2].Value.Trim().Split(' '));
-            if (commandHandlers.TryGetValue(command, out var handler))
-                handler.Invoke(args);
-            else
-                Debug.LogWarning($"[InkManager] Unrecognized #command: {command} ({string.Join(", ", args)})");
+            ExecuteCommand(
+                mSpace.Groups[1].Value.ToLower(),
+                ParseArguments(mSpace.Groups[2].Value.Trim())
+            );
             return;
         }
 
-        Debug.LogWarning($"[InkManager] Failed to parse command: {line}");
+        Debug.LogWarning($"[InkManager] Unrecognized command line: {line}");
     }
 
-    List<string> ParseArguments(string argsRaw)
+
+    void ExecuteCommand(string cmd, List<string> args)
     {
-        var results = new List<string>();
-        var regex = new Regex("\"([^\"]*)\"|([^,]+)");
-        var matches = regex.Matches(argsRaw);
-        foreach (Match m in matches)
-        {
-            if (m.Groups[1].Success)
-                results.Add(m.Groups[1].Value.Trim());
-            else if (m.Groups[2].Success)
-                results.Add(m.Groups[2].Value.Trim());
-        }
-        return results;
+        cmd = cmd.ToLower();
+        if (commandHandlers.TryGetValue(cmd, out var h)) h(args);
+        else Debug.LogWarning($"[InkManager] No handler for #{cmd}");
+    }
+
+    List<string> ParseArguments(string raw)
+    {
+        var list = new List<string>();
+        var r = new Regex("\"([^\"]*)\"|([^,]+)");
+        foreach (Match m in r.Matches(raw))
+            list.Add((m.Groups[1].Success ? m.Groups[1] : m.Groups[2]).Value.Trim());
+        return list;
     }
 }
+
+

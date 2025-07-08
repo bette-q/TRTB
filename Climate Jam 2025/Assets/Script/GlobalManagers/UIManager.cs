@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [Header("Dialogue UI")]
     public GameObject dialoguePanel;
     public TMP_Text dialogueText;
+    public TMP_Text nameText;
 
     [Header("Popup UI")]
     public GameObject popupPanel;
@@ -35,9 +36,10 @@ public class UIManager : MonoBehaviour
 
     // ---- DIALOGUE ----
 
-    public void ShowDialogue(string text)
+    public void ShowDialogue(string speaker, string text)
     {
         if (dialoguePanel) dialoguePanel.SetActive(true);
+        if (nameText) nameText.text = speaker ?? "";
         if (dialogueText) dialogueText.text = text;
     }
 
@@ -93,7 +95,16 @@ public class UIManager : MonoBehaviour
         if (characterManager != null)
             characterManager.ChangeSprite(side, tagName);
     }
-
+    public void ShowSpeaker(string speakerName)
+    {
+        if (characterManager != null)
+            characterManager.ShowSpeaker(speakerName, GameStateManager.Instance.GetCurrentCharacter());
+    }
+    public void HideCharacters()
+    {
+        if (characterManager != null)
+            characterManager.HideAllCharacters();
+    }
     // ---- Panel/Other Utility ----
 
     public void EnablePanel(string panelName)

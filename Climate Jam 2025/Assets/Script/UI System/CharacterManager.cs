@@ -14,16 +14,16 @@ public enum CharacterID
 [System.Serializable]
 public class CharacterSprite
 {
-    public string tagName;     // e.g. "default", "angry"
+    public string tagName;
     public Sprite sprite;
 }
 
 [System.Serializable]
 public class CharacterData
 {
-    public string name;                 // e.g. "Mateo", "Qiu", "fd"
-    public CharacterID characterID;     // For controllable, else Null for NPCs
-    public GameObject prefab;           // UI prefab (with Image)
+    public string name;             // e.g. "Ella", "Mateo", "fd"
+    public CharacterID characterID; // controllable, else Null for NPCs
+    public GameObject prefab;       // UI prefab (with Image)
     public List<CharacterSprite> sprites;
 }
 
@@ -38,53 +38,82 @@ public class CharacterManager : MonoBehaviour
 
     private GameObject currentLeftCharacter;
     private GameObject currentRightCharacter;
+    private string leftName;
+    private string rightName;
 
-    /// <summary>
-    /// Places controlled character (left) and target (right) by name.
-    /// Destroys previous instances for each slot.
-    /// </summary>
+    // Destroy any characters currently in slots
+    public void HideAllCharacters()
+    {
+        if (currentLeftCharacter) { Destroy(currentLeftCharacter); currentLeftCharacter = null; leftName = ""; }
+        if (currentRightCharacter) { Destroy(currentRightCharacter); currentRightCharacter = null; rightName = ""; }
+    }
+
+    // Instantiate left (controlled) and right (target/NPC) characters
     public void ArrangeForDialogue(CharacterID controlled, string targetName)
     {
-        // Destroy previous
-        if (currentLeftCharacter) Destroy(currentLeftCharacter);
-        if (currentRightCharacter) Destroy(currentRightCharacter);
+        HideAllCharacters();
 
-        // Controlled (left)
+        // Left = controlled
         var leftData = characters.Find(c => c.characterID == controlled);
         if (leftData != null && leftData.prefab != null)
         {
             currentLeftCharacter = Instantiate(leftData.prefab, leftCharacterSlot, false);
-            currentLeftCharacter.SetActive(true);
+            SetupCharacterImage(currentLeftCharacter, leftCharacterSlot);
+            leftName = leftData.name.ToLower();
         }
 
-        // Target/NPC (right)
-        var rightData = characters.Find(c => c.name == targetName);
+        // Right = NPC/target
+        var rightData = characters.Find(c => c.name.ToLower() == targetName.ToLower());
         if (rightData != null && rightData.prefab != null)
         {
             currentRightCharacter = Instantiate(rightData.prefab, rightCharacterSlot, false);
-            currentRightCharacter.SetActive(true);
+            SetupCharacterImage(currentRightCharacter, rightCharacterSlot);
+            rightName = rightData.name.ToLower();
         }
+
+        if (currentLeftCharacter) currentLeftCharacter.SetActive(false);
+        if (currentRightCharacter) currentRightCharacter.SetActive(false);
     }
 
-    /// <summary>
-    /// Change sprite for character on a side ("left"/"right") by tagName
-    /// </summary>
+    // Ensures image fits slot, preserves aspect
+    void SetupCharacterImage(GameObject go, RectTransform slot)
+    {
+        var rect = go.GetComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.anchoredPosition = Vector2.zero;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+        rect.localScale = Vector3.one;
+
+        var img = go.GetComponent<Image>();
+        if (img) img.preserveAspect = true;
+    }
+
+    // Shows only the speaking character; hides the other
+    public void ShowSpeaker(string speakerName, CharacterID controlledID)
+    {
+        string s = speakerName.ToLower();
+        bool leftIsSpeaker = !string.IsNullOrEmpty(leftName) && (leftName == s || controlledID.ToString().ToLower() == s);
+        bool rightIsSpeaker = !string.IsNullOrEmpty(rightName) && rightName == s;
+
+        if (currentLeftCharacter) currentLeftCharacter.SetActive(leftIsSpeaker);
+        if (currentRightCharacter) currentRightCharacter.SetActive(rightIsSpeaker);
+
+        // Debug
+        Debug.Log($"[CharacterManager] ShowSpeaker: speaker={speakerName}, left={leftName}, right={rightName}, leftIsSpeaker={leftIsSpeaker}, rightIsSpeaker={rightIsSpeaker}");
+    }
+
+
+    // Optional: Change sprite for a character in slot
     public void ChangeSprite(string side, string tagName)
     {
         GameObject target = side == "left" ? currentLeftCharacter : currentRightCharacter;
         if (!target) return;
-
         var image = target.GetComponent<Image>();
         if (!image) return;
 
-        // Find character data
-        CharacterData charData = null;
-        string prefabName = target.name.Replace("(Clone)", "").Trim();
-        if (side == "left")
-            charData = characters.Find(c => c.prefab.name == prefabName);
-        else
-            charData = characters.Find(c => c.prefab.name == prefabName);
-
+        CharacterData charData = characters.Find(c => c.prefab.name == target.name.Replace("(Clone)", "").Trim());
         if (charData != null)
         {
             var spriteData = charData.sprites.Find(s => s.tagName == tagName);

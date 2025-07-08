@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1db006bf5789a4b459ae753d38fdb7f4, type: 3}
-  m_Name: cherry_info
+  m_Name: ella_name_card_info
   m_EditorClassIdentifier: 
   info:
-    id: cherry_info
-    displayName: cherry
-    title: cherry
-    text: cherry
+    id: Ella_name_card
+    displayName: Ella_name_card
+    title: Ella_name_card
+    text: Ella_name_card
     icon: {fileID: 0}
   specialEvidence:
     id: 

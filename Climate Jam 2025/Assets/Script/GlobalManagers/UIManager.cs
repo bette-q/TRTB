@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
             return;
         }
         if (showItemPanel) showItemPanel.SetActive(true);
-        if (itemBoxText) itemBoxText.text = info.text;
+        // (itemBoxText) itemBoxText.text = info.text;
         if (itemIconImage) itemIconImage.sprite = info.icon;
     }
 

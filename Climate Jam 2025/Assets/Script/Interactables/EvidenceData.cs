@@ -3,15 +3,6 @@ using System.Collections.Generic;
 using static UnityEditor.LightingExplorerTableColumn;
 
 //all evidence related object defined here
-public enum CharacterID
-{
-    Main,
-    Qiu,
-    Ella,
-    Mateo,
-    Null
-}
-
 [System.Serializable]
 public class EvidenceInfo
 {

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic; 
+
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +16,10 @@ public class UIManager : MonoBehaviour
     [Header("Popup UI")]
     public GameObject popupPanel;
     public TMP_Text popupText;
+
+    // ---- POPUP QUEUE SUPPORT ----
+    private Queue<(string text, float duration)> popupQueue = new Queue<(string, float)>();
+    private bool isShowingPopup = false;
 
     [Header("Item Box UI")]
     public GameObject showItemPanel;
@@ -35,7 +41,6 @@ public class UIManager : MonoBehaviour
     }
 
     // ---- DIALOGUE ----
-
     public void ShowDialogue(string speaker, string text)
     {
         if (dialoguePanel) dialoguePanel.SetActive(true);
@@ -49,9 +54,20 @@ public class UIManager : MonoBehaviour
     }
 
     // ---- POPUP ----
-
     public void ShowPopup(string text, float duration = 2.0f)
     {
+        popupQueue.Enqueue((text, duration));
+        TryShowNextPopup();
+    }
+
+    private void TryShowNextPopup()
+    {
+        if (isShowingPopup || popupQueue.Count == 0)
+            return;
+
+        var (text, duration) = popupQueue.Dequeue();
+        isShowingPopup = true;
+
         if (popupPanel) popupPanel.SetActive(true);
         if (popupText) popupText.text = text;
 
@@ -62,7 +78,11 @@ public class UIManager : MonoBehaviour
     public void HidePopup()
     {
         if (popupPanel) popupPanel.SetActive(false);
+        isShowingPopup = false;
+        // Now try showing the next popup in the queue, if any
+        TryShowNextPopup();
     }
+
 
     // ---- ITEM DISPLAY ----
     public void ShowItem(string itemId)
@@ -105,6 +125,7 @@ public class UIManager : MonoBehaviour
         if (characterManager != null)
             characterManager.HideAllCharacters();
     }
+
     // ---- Panel/Other Utility ----
 
     public void EnablePanel(string panelName)

@@ -9,7 +9,15 @@ public class InteractableNPC : Interactable
 
     public override void Interact()
     {
-        base.Interact(); // This will run the event sequence
+        // 1. Set the context before executing the event.
+        AddCharacterEventContext.CurrentSourceGameObject = this.gameObject;
+
+        // 2. Run the event as usual.
+        base.Interact();
+
+        // 3. (Optional) Clear the context after use, to avoid future issues.
+        AddCharacterEventContext.CurrentSourceGameObject = null;
     }
+
 
 }

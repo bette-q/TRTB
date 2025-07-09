@@ -24,7 +24,7 @@ public class CardLinkHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            linkManager.RemoveOutgoingLinks(this);
+            linkManager.RemoveLink(this);
         }
     }
 

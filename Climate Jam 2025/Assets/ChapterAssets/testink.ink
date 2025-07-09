@@ -24,7 +24,7 @@ You take the note. Suddenly, your phone vibrates violently in your pocket.
 
 Player: ...?
 
-Player (thought): Urgent interview at the sewage plant? Really...?
+Player: Urgent interview at the sewage plant? Really...?
 
 Your phone screen lights up—a new email. Sender: [Data Deleted], Subject: For the person with the ball.
 
@@ -34,10 +34,12 @@ Your phone screen lights up—a new email. Sender: [Data Deleted], Subject: For 
 
 #show_item UnknownMail
 
+An Unknown Mail 
+
 Email Body: Research station, Basement Level 3, Section B, sample port of the recirculating water tank. This is a real water sample. Don’t trust their "qualified" report. The arsenic adsorption data was manually smoothed. The attachment is the original graph.  
 Email Body: (Attachment: An arsenic concentration monitoring line chart. Most of the line is a smooth green, but one point is circled in red, showing a sudden spike. Beside it is a small note: Sample Point: Yucun Majiajing – 7/14.)
 
 Player: (pupils contract, finger sliding across that glaring red spike on the screen):  
- Player (thought): Manually smoothed...? Qiu? The genius sampler Professor mentioned—the one who left the project? He sent me an email? Arsenic... Yucun Majiajing?
+Player: Manually smoothed...? Qiu? The genius sampler Professor mentioned—the one who left the project? He sent me an email? Arsenic... Yucun Majiajing?
 
 -> END

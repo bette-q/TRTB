@@ -78,18 +78,10 @@ public class InkManager : MonoBehaviour
         string raw = story.Continue().Trim();
         string line = raw.TrimStart();
 
-        if (line.StartsWith("#"))
-        {
-            ParseAndDispatchCommand(line);
-            isWaitingForInput = false;
-            return;
-        }
-
-        if (line.StartsWith("==="))
-        {
-            isWaitingForInput = false;
-            return;
-        }
+        //parse tag to set up speaker
+        if (story.currentTags != null)
+            foreach (string tag in story.currentTags)
+                ParseAndDispatchCommand(tag.StartsWith("#") ? tag : "#" + tag);
 
         // Extract speaker
         string speaker = "";
@@ -104,10 +96,6 @@ public class InkManager : MonoBehaviour
         UIManager.Instance.ShowSpeaker(speaker); // <-- Only the correct one is shown
         UIManager.Instance.ShowDialogue(speaker, content);
         OnLine?.Invoke(line);
-
-        if (story.currentTags != null)
-            foreach (string tag in story.currentTags)
-                ParseAndDispatchCommand(tag.StartsWith("#") ? tag : "#" + tag);
     }
 
     void ParseAndDispatchCommand(string line)

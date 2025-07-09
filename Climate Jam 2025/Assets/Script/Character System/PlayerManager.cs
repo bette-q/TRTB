@@ -73,7 +73,7 @@ public class PlayerManager : MonoBehaviour
 
     void UpdatePlayableList()
     {
-        var party = GameStateManager.Instance.GetSwitchableCharacters();
+        var party = GameStateManager.Instance.GetPartyMembers();
         // Sort playableList by your fixed characterIDs order (always Main, Qiu, Ella, Mateo order)
         playableList = new List<CharacterID>();
         for (int i = 0; i < characterIDs.Length; i++)

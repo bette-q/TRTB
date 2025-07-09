@@ -13,8 +13,20 @@ public class GameStateManager : MonoBehaviour
     private HashSet<CharacterID> partyMembers = new HashSet<CharacterID>();
     public event System.Action OnPlayableCharacterListChanged; //event for player man
 
+    // Player state
+    public SerializableVector3 playerPosition;
+    public float playerRotationY;
+
     // Collected notebook + combined blocks
     private List<EvidenceBlock> availableBlocks = new List<EvidenceBlock>();
+
+    // Progress Tracking
+    public string currentChapter;
+    public List<string> completedChapters = new();
+    private Dictionary<string, ChapterProgress> chapters = new();
+
+    private HashSet<EventAction> triggeredActions = new();
+    private HashSet<EventSequence> triggeredSequences = new();
 
     void Awake()
     {
@@ -41,8 +53,6 @@ public class GameStateManager : MonoBehaviour
             OnPlayableCharacterListChanged?.Invoke();
     }
 
-    public IEnumerable<CharacterID> GetSwitchableCharacters() => partyMembers;
-
     public bool HasCharacter(CharacterID id) => partyMembers.Contains(id);
 
     public void SwitchCharacter(CharacterID id)
@@ -52,6 +62,40 @@ public class GameStateManager : MonoBehaviour
     }
 
     public CharacterID GetCurrentCharacter() => currentCharacter;
+    public CharacterID SetCurrentCharacter(CharacterID charIn) => currentCharacter = charIn;
+
+    // ---- PROGRESS TRACKING ----
+    public void SetFlag(string chapter, string mission, string flag, bool value = true)
+    {
+        if (!chapters.ContainsKey(chapter))
+            chapters[chapter] = new ChapterProgress();
+        if (!chapters[chapter].missions.ContainsKey(mission))
+            chapters[chapter].missions[mission] = new MissionProgress();
+
+        chapters[chapter].missions[mission].flags[flag] = value;
+    }
+
+    public bool GetFlag(string chapter, string mission, string flag)
+    {
+        if (!chapters.TryGetValue(chapter, out var ch)) return false;
+        if (!ch.missions.TryGetValue(mission, out var ms)) return false;
+        if (!ms.flags.TryGetValue(flag, out var value)) return false;
+        return value;
+    }
+
+    public bool Triggered(EventAction action)
+    {
+        if (triggeredActions.Contains(action)) return true;
+        triggeredActions.Add(action);
+        return false;
+    }
+
+    public bool Triggered(EventSequence sequence)
+    {
+        if (triggeredSequences.Contains(sequence)) return true;
+        triggeredSequences.Add(sequence);
+        return false;
+    }
 
     // ---- NOTEBOOK (Evidence) Logic ----
 
@@ -71,9 +115,6 @@ public class GameStateManager : MonoBehaviour
     {
         return availableBlocks.Exists(b => b.id == id);
     }
-
-    public IReadOnlyList<EvidenceBlock> GetAvailableBlocks() => availableBlocks;
-
 
     public List<EvidenceBlock> GetAllFinalBlocks()
     {
@@ -95,9 +136,37 @@ public class GameStateManager : MonoBehaviour
         return AddBlock(eb);
     }
 
-
     // ---- SAVE/LOAD LOGIC ----
-    // Add your serialization/deserialization here in the future.
+    public IReadOnlyCollection<CharacterID> GetPartyMembers() => partyMembers;
+    public IReadOnlyList<EvidenceBlock> GetAvailableBlocks() => availableBlocks.AsReadOnly();
+    public IReadOnlyCollection<EventAction> GetTriggeredActions() => triggeredActions;
+    public IReadOnlyCollection<EventSequence> GetTriggeredSequences() => triggeredSequences;
+    public IReadOnlyDictionary<string, ChapterProgress> GetChapters()
+     => new System.Collections.ObjectModel.ReadOnlyDictionary<string, ChapterProgress>(chapters);
+
+    public void SetPartyMembers(IEnumerable<CharacterID> members)
+    {
+        partyMembers = new HashSet<CharacterID>(members);
+    }
+    public void SetAvailableBlocks(IEnumerable<EvidenceBlock> blocks)
+    {
+        availableBlocks = new List<EvidenceBlock>(blocks);
+    }
+    public void SetChapters(Dictionary<string, ChapterProgress> value)
+    {
+        chapters = new Dictionary<string, ChapterProgress>(value);
+    }
+
+    public void SetTriggeredActions(IEnumerable<EventAction> set)
+    {
+        triggeredActions = new HashSet<EventAction>(set);
+    }
+
+    public void SetTriggeredSequences(IEnumerable<EventSequence> set)
+    {
+        triggeredSequences = new HashSet<EventSequence>(set);
+    }
+
 
     // ---- SCENE SWITCHING ----
     public void LoadScene1()

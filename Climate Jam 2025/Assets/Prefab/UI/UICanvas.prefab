@@ -3321,8 +3321,8 @@ MonoBehaviour:
   deductionPage: {fileID: 5030492577830610870}
   reportPage: {fileID: 484163225961246622}
   tabInfo: {fileID: 2873608434203017552}
-  tabDeduction: {fileID: 0}
-  tabReport: {fileID: 0}
+  tabDeduction: {fileID: 2418097152575572571}
+  tabReport: {fileID: 1199633787105722151}
   infoPageManager: {fileID: 8496238967810253375}
   deductionPageManager: {fileID: 278950376932695630}
   reportPageManager: {fileID: 4326852074173647940}

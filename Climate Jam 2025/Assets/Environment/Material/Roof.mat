@@ -60,7 +60,6 @@ Material:
   m_ValidKeywords:
   - DR_OUTLINE_ON
   - DR_RIM_ON
-  - DR_SPECULAR_ON
   - _DETAILMAPBLENDINGMODE_ADD
   - _RECEIVE_SHADOWS_OFF
   - _TEXTUREBLENDINGMODE_MULTIPLY
@@ -215,7 +214,7 @@ Material:
     - _ShadowEdgeSizeExtra: 0.038
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
-    - _SpecularEnabled: 1
+    - _SpecularEnabled: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0

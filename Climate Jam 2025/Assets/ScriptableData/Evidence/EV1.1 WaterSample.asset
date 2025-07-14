@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1db006bf5789a4b459ae753d38fdb7f4, type: 3}
-  m_Name: apple
+  m_Name: EV1.1 WaterSample
   m_EditorClassIdentifier: 
   info:
-    id: apple
-    displayName: apple
-    title: an apple
-    text: rotten apple
+    id: Sea Water Sample
+    displayName: Sea Water Sample
+    title: Sea Water Sample
+    text: 'Water Sample from the Fisher''s village.
+
+'
     icon: {fileID: 21300000, guid: 13cb5597ec79f421d876a91568303d44, type: 3}
   specialEvidence:
     id: 

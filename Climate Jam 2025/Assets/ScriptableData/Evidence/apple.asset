@@ -17,7 +17,7 @@ MonoBehaviour:
     displayName: apple
     title: an apple
     text: rotten apple
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 13cb5597ec79f421d876a91568303d44, type: 3}
   specialEvidence:
     id: 
     displayName: 

@@ -17,7 +17,7 @@ MonoBehaviour:
     displayName: rag
     title: rag
     text: "rag\t\t"
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 05205b359048b4f7c88937c763ca5d1e, type: 3}
   specialEvidence:
     id: lover_cloth
     displayName: lover cloth

@@ -17,7 +17,7 @@ MonoBehaviour:
     displayName: paper
     title: paper
     text: paper
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: b8bf9659dc8ea470f881b416034027d4, type: 3}
   specialEvidence:
     id: 
     displayName: 

@@ -40,8 +40,8 @@ public class GameStateManager : MonoBehaviour
 
         // If you want to start with just the investigator:
         partyMembers.Clear();
-        partyMembers.Add(CharacterID.Main);
-        currentCharacter = CharacterID.Main;
+        partyMembers.Add(CharacterID.Player);
+        currentCharacter = CharacterID.Player;
     }
 
     // ---- PLAYER (Character) Logic ----

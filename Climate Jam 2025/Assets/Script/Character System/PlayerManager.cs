@@ -8,9 +8,7 @@ public class PlayerManager : MonoBehaviour
 {
     public GameObject[] characters; // assign Main, Qiu, Ella, Mateo in order
     public CharacterID[] characterIDs = new CharacterID[4]; // [0]=Main, [1]=Qiu, [2]=Ella, [3]=Mateo
-
-    public TMP_Text profileText;
-    private int activeIndex = 0;
+    public GameObject[] characterIcons;
 
     private List<CharacterID> playableList = new List<CharacterID>();
     private Dictionary<CharacterID, int> characterIndexMap = new Dictionary<CharacterID, int>();
@@ -56,15 +54,12 @@ public class PlayerManager : MonoBehaviour
     {
         if (!characterIndexMap.TryGetValue(id, out int idx) || idx < 0) return;
 
-        profileText.text = $"{idx + 1}";
-
         for (int i = 0; i < characters.Length; i++)
         {
             var renderer = characters[i].GetComponent<MeshRenderer>();
             if (renderer != null)
                 renderer.enabled = (i == idx);
         }
-        activeIndex = idx;
 
         // Update GameStateManager with new active character
         if (GameStateManager.Instance != null)
@@ -74,6 +69,7 @@ public class PlayerManager : MonoBehaviour
     void UpdatePlayableList()
     {
         var party = GameStateManager.Instance.GetPartyMembers();
+
         // Sort playableList by your fixed characterIDs order (always Main, Qiu, Ella, Mateo order)
         playableList = new List<CharacterID>();
         for (int i = 0; i < characterIDs.Length; i++)
@@ -81,9 +77,21 @@ public class PlayerManager : MonoBehaviour
             if (party.Contains(characterIDs[i]))
                 playableList.Add(characterIDs[i]);
         }
+
+        UpdatePlayerListUI();
     }
 
-    public int GetActiveIndex() => activeIndex;
+    void UpdatePlayerListUI()
+    {
+        if (characterIcons == null || characterIcons.Length != characterIDs.Length)
+            return;
+
+        for (int i = 0; i < characterIcons.Length; i++)
+        {
+            bool shouldShow = playableList.Contains(characterIDs[i]);
+            characterIcons[i].SetActive(shouldShow);
+        }
+    }
 
     void OnEnable()
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public enum CharacterID
 {
-    Main,
+    Player,
     Qiu,
     Ella,
     Mateo,

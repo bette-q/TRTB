@@ -49,26 +49,26 @@ public class CharacterManager : MonoBehaviour
     }
 
     // Instantiate left (controlled) and right (target/NPC) characters
-    public void ArrangeForDialogue(CharacterID controlled, string targetName)
+    public void ArrangeForDialogue(string leftName, string rightName)
     {
         HideAllCharacters();
 
         // Left = controlled
-        var leftData = characters.Find(c => c.characterID == controlled);
+        var leftData = characters.Find(c => c.name.ToLower() == leftName.ToLower());
         if (leftData != null && leftData.prefab != null)
         {
             currentLeftCharacter = Instantiate(leftData.prefab, leftCharacterSlot, false);
             SetupCharacterImage(currentLeftCharacter, leftCharacterSlot);
-            leftName = leftData.name.ToLower();
+            this.leftName = leftData.name.ToLower();
         }
 
         // Right = NPC/target
-        var rightData = characters.Find(c => c.name.ToLower() == targetName.ToLower());
+        var rightData = characters.Find(c => c.name.ToLower() == rightName.ToLower());
         if (rightData != null && rightData.prefab != null)
         {
             currentRightCharacter = Instantiate(rightData.prefab, rightCharacterSlot, false);
             SetupCharacterImage(currentRightCharacter, rightCharacterSlot);
-            rightName = rightData.name.ToLower();
+            this.rightName = rightData.name.ToLower();
         }
 
         if (currentLeftCharacter) currentLeftCharacter.SetActive(false);
@@ -91,10 +91,10 @@ public class CharacterManager : MonoBehaviour
     }
 
     // Shows only the speaking character; hides the other
-    public void ShowSpeaker(string speakerName, CharacterID controlledID)
+    public void ShowSpeaker(string speakerName)
     {
         string s = speakerName.ToLower();
-        bool leftIsSpeaker = !string.IsNullOrEmpty(leftName) && (leftName == s || controlledID.ToString().ToLower() == s);
+        bool leftIsSpeaker = !string.IsNullOrEmpty(leftName) && leftName == s;
         bool rightIsSpeaker = !string.IsNullOrEmpty(rightName) && rightName == s;
 
         if (currentLeftCharacter) currentLeftCharacter.SetActive(leftIsSpeaker);
@@ -103,6 +103,7 @@ public class CharacterManager : MonoBehaviour
         // Debug
         Debug.Log($"[CharacterManager] ShowSpeaker: speaker={speakerName}, left={leftName}, right={rightName}, leftIsSpeaker={leftIsSpeaker}, rightIsSpeaker={rightIsSpeaker}");
     }
+
 
 
     // Optional: Change sprite for a character in slot

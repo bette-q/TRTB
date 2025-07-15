@@ -104,10 +104,10 @@ public class UIManager : MonoBehaviour
     }
 
     // ---- CHARACTER ----
-    public void ArrangeCharacters(CharacterID controlled, string targetName)
+    public void ArrangeCharacters(string leftName, string rightName)
     {
         if (characterManager != null)
-            characterManager.ArrangeForDialogue(controlled, targetName);
+            characterManager.ArrangeForDialogue(leftName, rightName);
     }
 
     public void ChangeCharacterSprite(string side, string tagName)
@@ -118,8 +118,9 @@ public class UIManager : MonoBehaviour
     public void ShowSpeaker(string speakerName)
     {
         if (characterManager != null)
-            characterManager.ShowSpeaker(speakerName, GameStateManager.Instance.GetCurrentCharacter());
+            characterManager.ShowSpeaker(speakerName);
     }
+
     public void HideCharacters()
     {
         if (characterManager != null)

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7b61ba13111c27c49bf11f4ff140e83f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 307881
+  packageName: 'Pure Nature 2 : Savanna'
+  packageVersion: 1.0
+  assetPath: Assets/BK/Pure_Common/Shaders/BK_StandardLayer_Mask.shader
+  uploadId: 724032

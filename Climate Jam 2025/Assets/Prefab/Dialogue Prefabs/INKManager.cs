@@ -89,21 +89,21 @@ public class LinearInkController : MonoBehaviour
             string spriteTag = parts[2];
 
             Debug.Log($"[Ink Tag] 显示角色：{characterName}（表情：{spriteTag}）");
-            characterManager.ForceShowCharacter(characterName, spriteTag);
+           // characterManager.ForceShowCharacter(characterName, spriteTag);
         }
 
         else if (parts.Length == 2 && parts[0] == "hide")
         {
             string characterName = parts[1];
             Debug.Log($"[Ink Tag] 隐藏角色：{characterName}");
-            characterManager.HideCharacter(characterName);
+           // characterManager.HideCharacter(characterName);
         }
 
         else if (parts.Length == 2 && parts[0] == "hide" && parts[1] == "all")
         {
             foreach (var character in characterManager.characters)
             {
-                character.image.gameObject.SetActive(false);
+                //character.image.gameObject.SetActive(false);
             }
         }
     }

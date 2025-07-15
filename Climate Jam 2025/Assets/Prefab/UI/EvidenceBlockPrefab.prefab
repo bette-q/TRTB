@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.93878114, b: 0.023584902, a: 1}
+  m_Color: {r: 1, g: 0.93878114, b: 0.023584902, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -365,8 +365,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5680065511696158783}
-  - {fileID: 8627680124065391318}
   - {fileID: 4185140362089999820}
+  - {fileID: 8627680124065391318}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -486,10 +486,5 @@ MonoBehaviour:
   linkManager: {fileID: 0}
   myBlock:
     id: 
-    info:
-      id: 
-      displayName: 
-      title: 
-      text: 
-      icon: {fileID: 0}
     blockType: 0
+    missionFinished: 0

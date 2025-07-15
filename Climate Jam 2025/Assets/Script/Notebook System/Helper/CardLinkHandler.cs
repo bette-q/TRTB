@@ -24,8 +24,7 @@ public class CardLinkHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log("Right click received on block: " + name);
-            linkManager.RemoveOutgoingLinks(this);
+            linkManager.RemoveLink(this);
         }
     }
 

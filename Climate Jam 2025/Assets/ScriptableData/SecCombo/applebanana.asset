@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: applebanana
   m_EditorClassIdentifier: 
   comboOrder:
-  - e001
-  - e002
+  - apple
+  - banana
   resultEvidence:
-    id: sc001
+    id: applebanana
     displayName: applebanana
     title: applebanana
     text: applebanana

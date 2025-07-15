@@ -20,15 +20,21 @@ public class EvidenceEventAction : EventAction
 
     public static EvidenceBlock GenerateEvidenceBlock(EvidenceData ed, CharacterID characterID)
     {
-        if (ed.specialEvidence.characterID == characterID)
-            return new EvidenceBlock(ed.specialEvidence, ed.type);
-        else
-            return new EvidenceBlock(ed.info, ed.type);
+        // Get the proper EvidenceInfo and id for this character
+        EvidenceInfo chosenInfo = (ed.specialEvidence != null && ed.specialEvidence.characterID == characterID)
+            ? ed.specialEvidence
+            : ed.info;
+
+        return new EvidenceBlock(chosenInfo.id, ed.type);
     }
 }
+
+
+
 
 // Holds the currently "active" evidence for this event
 public static class EvidenceEventContext
 {
     public static EvidenceData CurrentEvidenceData;
 }
+

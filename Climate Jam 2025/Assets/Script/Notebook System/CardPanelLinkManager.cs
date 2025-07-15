@@ -55,32 +55,23 @@ public class CardPanelLinkManager : MonoBehaviour
         if (chain.Contains(to))
             return;
 
-        // Remove existing outgoing link -> can have at most one outgoing
-        for (int i = links.Count - 1; i >= 0; i--)
-        {
-            var (f, t, oldLine) = links[i];
-            if (f == from)
-            {
-                Destroy(oldLine);
-                links.RemoveAt(i);
-                break;
-            }
-        }
+        // 5. Remove existing outgoing link (can have at most one outgoing)
+        RemoveLink(from);
 
-        // 5. Add new link and redraw
+        // 6. Add new link and redraw
         var line = Instantiate(linePrefab, linesOverlay);
         links.Add((from, to, line));
         RedrawAllLines();
 
-        // 6. Find full chain from head (always linear)
+        // 7. Find full chain from head (always linear)
         chain = GetChainFromHead(from);
 
-        // 7. Build ID list for combo check
+        // 8. Build ID list for combo check
         List<string> selectedIDs = new List<string>();
         foreach (var handler in chain)
             selectedIDs.Add(handler.myBlock.info.id);
 
-        // 8. Determine which combo list to check
+        // 9. Determine which combo list to check
         var type = from.myBlock.blockType;
         var combo = ComboManager.Instance.FindValidCombo(selectedIDs, type);
         if (combo != null)
@@ -100,34 +91,68 @@ public class CardPanelLinkManager : MonoBehaviour
         }
     }
 
-    // Remove a specific link and redraw
-    public void RemoveLink(CardLinkHandler from, CardLinkHandler to)
+    /// <summary>
+    /// Removes a link. If 'to' is specified, removes the specific link (either direction).
+    /// If 'to' is null, removes all outgoing links from 'from'.
+    /// Checks for possible combos in resulting chains after any removal.
+    /// </summary>
+    public void RemoveLink(CardLinkHandler from, CardLinkHandler to = null)
     {
-        for (int i = 0; i < links.Count; i++)
+        for (int i = links.Count - 1; i >= 0; i--)
         {
             var (f, t, line) = links[i];
-            if ((f == from && t == to) || (f == to && t == from))
+            bool match = false;
+
+            // Remove only links that start from 'from' if 'to' is null (i.e., remove all outgoing from 'from')
+            if (to == null)
+                match = (f == from);
+            else
+                match = (f == from && t == to) || (f == to && t == from);
+
+            if (match)
             {
                 Destroy(line);
                 links.RemoveAt(i);
-                break;
+
+                // After removing, check both blocks for possible new combos
+                if (f != null) CheckComboAfterLinkChange(f);
+                if (t != null) CheckComboAfterLinkChange(t);
+
+                // If removing outgoing, only one possible, so break
+                if (to == null) break;
             }
         }
     }
 
-    // Remove all outgoing links from a block
-    public void RemoveOutgoingLinks(CardLinkHandler block)
+    /// <summary>
+    /// Checks if the chain starting at 'block' can form a combo after unlink.
+    /// If a valid combo is found, notifies UI manager and removes all involved links/lines in the chain.
+    /// </summary>
+    private void CheckComboAfterLinkChange(CardLinkHandler block)
     {
-        for (int i = links.Count - 1; i >= 0; i--)
-        {
-            var (from, to, line) = links[i];
-            if (from == block)
-            {
-                Destroy(line);
-                links.RemoveAt(i);
+        var chain = GetChainFromHead(block);
 
-                // Only one outgoing possible, so break.
-                break;
+        if (chain.Count < 2) return; // Minimum length for a combo
+
+        List<string> selectedIDs = new List<string>();
+        foreach (var handler in chain)
+            selectedIDs.Add(handler.myBlock.info.id);
+
+        var type = block.myBlock.blockType;
+        var combo = ComboManager.Instance.FindValidCombo(selectedIDs, type);
+        if (combo != null)
+        {
+            deductionUIMan.OnComboCreated(combo,
+                type == EvidenceBlockType.Evidence ? EvidenceBlockType.SecCombo : EvidenceBlockType.FinalCombo);
+
+            // Remove all involved links/lines in the chain
+            for (int i = links.Count - 1; i >= 0; i--)
+            {
+                if (chain.Contains(links[i].Item1) || chain.Contains(links[i].Item2))
+                {
+                    Destroy(links[i].Item3);
+                    links.RemoveAt(i);
+                }
             }
         }
     }

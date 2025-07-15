@@ -3,15 +3,6 @@ using System.Collections.Generic;
 using static UnityEditor.LightingExplorerTableColumn;
 
 //all evidence related object defined here
-public enum CharacterID
-{
-    Main,
-    Qiu,
-    Ella,
-    Mateo,
-    Null
-}
-
 [System.Serializable]
 public class EvidenceInfo
 {
@@ -69,7 +60,7 @@ public enum EvidenceBlockType
 public class EvidenceBlock
 {
     public string id;
-    public EvidenceInfo info;   
+    //public EvidenceInfo info;   
     public EvidenceBlockType blockType;
 
     public bool missionFinished;
@@ -77,20 +68,22 @@ public class EvidenceBlock
     public EvidenceBlock prev;
     public EvidenceBlock next;
 
-    public EvidenceBlock(EvidenceInfo infoIn, EvidenceDataType type)
+    public EvidenceInfo info => EvidenceDatabase.Instance.GetEvidenceInfo(id);
+
+    public EvidenceBlock(string infoId, EvidenceDataType type)
     {
-        this.id = infoIn.id;
-        this.info = infoIn;
+        this.id = infoId;
+        //this.info = infoIn;
         this.blockType = (type == EvidenceDataType.Info)
                             ? EvidenceBlockType.Info
                             : EvidenceBlockType.Evidence; ;
         missionFinished = false;
     }
 
-    public EvidenceBlock(EvidenceInfo infoIn, EvidenceBlockType type)
+    public EvidenceBlock(string infoId, EvidenceBlockType type)
     {
-        this.id = infoIn.id;
-        this.info = infoIn;
+        this.id = infoId;
+        //this.info = infoIn;
         this.blockType = type;
         missionFinished = false;
     }

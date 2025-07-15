@@ -2,13 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-//stores all valid combos and checks for them
+// Stores all valid combos and checks for them
 public class ComboManager : MonoBehaviour
 {
     public static ComboManager Instance { get; private set; }
-
-    public List<ComboData> secCombos;
-    public List<ComboData> finalCombos;
 
     void Awake()
     {
@@ -18,9 +15,9 @@ public class ComboManager : MonoBehaviour
     // Returns a matching combo recipe, or null if not found
     public ComboData FindValidCombo(List<string> selectedIDs, EvidenceBlockType type)
     {
-        var comboList = (type == EvidenceBlockType.Evidence)
-            ? secCombos        // List<ComboData> for EB¡úSecCombo
-            : finalCombos;     // List<ComboData> for SecCombo¡úFinalCombo
+        IReadOnlyList<ComboData> comboList = (type == EvidenceBlockType.Evidence)
+            ? EvidenceDatabase.Instance.AllSecCombos
+            : EvidenceDatabase.Instance.AllFinalCombos;
 
         foreach (var combo in comboList)
         {
@@ -32,5 +29,4 @@ public class ComboManager : MonoBehaviour
         }
         return null;
     }
-
 }

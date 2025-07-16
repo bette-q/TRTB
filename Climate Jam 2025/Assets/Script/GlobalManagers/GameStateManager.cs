@@ -21,12 +21,25 @@ public class GameStateManager : MonoBehaviour
     private List<EvidenceBlock> availableBlocks = new List<EvidenceBlock>();
 
     // Progress Tracking
+    private HashSet<EventSequence> triggeredSequences = new();
+    private HashSet<EventAction> triggeredActions = new();
+
     public string currentChapter;
     public List<string> completedChapters = new();
-    private Dictionary<string, ChapterProgress> chapters = new();
+    public Dictionary<int, ChapterProgress> chapters = new()
+    {
+        [0] = new ChapterProgress
+        {
+            missions = new()
+            {
+                [1] = new MissionProgress
+                {
+                    flags = new() { ["phone_call"] = false, ["mateo_init"] = false }
+                },
+            }
+        }
+    };
 
-    private HashSet<EventAction> triggeredActions = new();
-    private HashSet<EventSequence> triggeredSequences = new();
 
     void Awake()
     {
@@ -65,17 +78,17 @@ public class GameStateManager : MonoBehaviour
     public CharacterID SetCurrentCharacter(CharacterID charIn) => currentCharacter = charIn;
 
     // ---- PROGRESS TRACKING ----
-    public void SetFlag(string chapter, string mission, string flag, bool value = true)
+    public void SetFlag(int chapter, int mission, string flag)
     {
         if (!chapters.ContainsKey(chapter))
             chapters[chapter] = new ChapterProgress();
         if (!chapters[chapter].missions.ContainsKey(mission))
             chapters[chapter].missions[mission] = new MissionProgress();
 
-        chapters[chapter].missions[mission].flags[flag] = value;
+        chapters[chapter].missions[mission].flags[flag] = true;
     }
 
-    public bool GetFlag(string chapter, string mission, string flag)
+    public bool GetFlag(int chapter, int mission, string flag)
     {
         if (!chapters.TryGetValue(chapter, out var ch)) return false;
         if (!ch.missions.TryGetValue(mission, out var ms)) return false;
@@ -83,18 +96,26 @@ public class GameStateManager : MonoBehaviour
         return value;
     }
 
-    public bool Triggered(EventAction action)
+    // Replace your existing Triggered methods in GSM with these:
+
+    public bool HasTriggered(EventAction action)
     {
-        if (triggeredActions.Contains(action)) return true;
-        triggeredActions.Add(action);
-        return false;
+        return triggeredActions.Contains(action);
     }
 
-    public bool Triggered(EventSequence sequence)
+    public void MarkAsTriggered(EventAction action)
     {
-        if (triggeredSequences.Contains(sequence)) return true;
+        triggeredActions.Add(action);
+    }
+
+    public bool HasTriggered(EventSequence sequence)
+    {
+        return triggeredSequences.Contains(sequence);
+    }
+
+    public void MarkAsTriggered(EventSequence sequence)
+    {
         triggeredSequences.Add(sequence);
-        return false;
     }
 
     // ---- NOTEBOOK (Evidence) Logic ----
@@ -141,8 +162,8 @@ public class GameStateManager : MonoBehaviour
     public IReadOnlyList<EvidenceBlock> GetAvailableBlocks() => availableBlocks.AsReadOnly();
     public IReadOnlyCollection<EventAction> GetTriggeredActions() => triggeredActions;
     public IReadOnlyCollection<EventSequence> GetTriggeredSequences() => triggeredSequences;
-    public IReadOnlyDictionary<string, ChapterProgress> GetChapters()
-     => new System.Collections.ObjectModel.ReadOnlyDictionary<string, ChapterProgress>(chapters);
+    public IReadOnlyDictionary<int, ChapterProgress> GetChapters()
+     => new System.Collections.ObjectModel.ReadOnlyDictionary<int, ChapterProgress>(chapters);
 
     public void SetPartyMembers(IEnumerable<CharacterID> members)
     {
@@ -152,9 +173,9 @@ public class GameStateManager : MonoBehaviour
     {
         availableBlocks = new List<EvidenceBlock>(blocks);
     }
-    public void SetChapters(Dictionary<string, ChapterProgress> value)
+    public void SetChapters(Dictionary<int, ChapterProgress> value)
     {
-        chapters = new Dictionary<string, ChapterProgress>(value);
+        chapters = new Dictionary<int, ChapterProgress>(value);
     }
 
     public void SetTriggeredActions(IEnumerable<EventAction> set)
@@ -172,5 +193,10 @@ public class GameStateManager : MonoBehaviour
     public void LoadScene1()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void LoadMainScene()
+    {
+        SceneManager.LoadScene("Prototype Test");
     }
 }

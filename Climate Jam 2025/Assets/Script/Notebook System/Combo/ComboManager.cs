@@ -13,20 +13,20 @@ public class ComboManager : MonoBehaviour
     }
 
     // Returns a matching combo recipe, or null if not found
-    public ComboData FindValidCombo(List<string> selectedIDs, EvidenceBlockType type)
-    {
-        IReadOnlyList<ComboData> comboList = (type == EvidenceBlockType.Evidence)
-            ? EvidenceDatabase.Instance.AllSecCombos
-            : EvidenceDatabase.Instance.AllFinalCombos;
+    //public ComboData FindValidCombo(List<string> selectedIDs, EvidenceBlockType type)
+    //{
+    //    IReadOnlyList<ComboData> comboList = (type == EvidenceBlockType.Evidence)
+    //        ? EvidenceDatabase.Instance.AllSecCombos
+    //        : EvidenceDatabase.Instance.AllFinalCombos;
 
-        foreach (var combo in comboList)
-        {
-            if (combo.comboOrder.Count == selectedIDs.Count &&
-                combo.comboOrder.SequenceEqual(selectedIDs))
-            {
-                return combo;
-            }
-        }
-        return null;
-    }
+    //    foreach (var combo in comboList)
+    //    {
+    //        if (combo.comboOrder.Count == selectedIDs.Count &&
+    //            combo.comboOrder.SequenceEqual(selectedIDs))
+    //        {
+    //            return combo;
+    //        }
+    //    }
+    //    return null;
+    //}
 }

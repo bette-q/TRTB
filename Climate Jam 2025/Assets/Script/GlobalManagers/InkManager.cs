@@ -84,7 +84,7 @@ public class InkManager : MonoBehaviour
 
         if (!story.canContinue)
         {
-            UIManager.Instance.SetBlackOut(false);
+            //UIManager.Instance.SetBlackOut(false);
             UIManager.Instance.HideItem();
             UIManager.Instance.HideDialogue();
             UIManager.Instance.HideCharacters();

@@ -1,5 +1,7 @@
 ===0_0_0_Intro===
 
+#blackout on
+
 #speakers Player Professor
 
 Player: Professor, for this Survey in Bayvan… is it just a few sample points and a report?

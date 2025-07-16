@@ -101,7 +101,7 @@ public class CharacterManager : MonoBehaviour
         if (currentRightCharacter) currentRightCharacter.SetActive(rightIsSpeaker);
 
         // Debug
-        Debug.Log($"[CharacterManager] ShowSpeaker: speaker={speakerName}, left={leftName}, right={rightName}, leftIsSpeaker={leftIsSpeaker}, rightIsSpeaker={rightIsSpeaker}");
+        //Debug.Log($"[CharacterManager] ShowSpeaker: speaker={speakerName}, left={leftName}, right={rightName}, leftIsSpeaker={leftIsSpeaker}, rightIsSpeaker={rightIsSpeaker}");
     }
 
 

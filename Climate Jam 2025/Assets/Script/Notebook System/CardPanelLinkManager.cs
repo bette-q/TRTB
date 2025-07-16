@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 // Handles line drawing, linking, and combo chain logic
 public class CardPanelLinkManager : MonoBehaviour
@@ -73,7 +74,7 @@ public class CardPanelLinkManager : MonoBehaviour
 
         // 9. Determine which combo list to check
         var type = from.myBlock.blockType;
-        var combo = ComboManager.Instance.FindValidCombo(selectedIDs, type);
+        var combo = FindValidCombo(selectedIDs, type);
         if (combo != null)
         {
             deductionUIMan.OnComboCreated(combo,
@@ -123,6 +124,22 @@ public class CardPanelLinkManager : MonoBehaviour
             }
         }
     }
+    public ComboData FindValidCombo(List<string> selectedIDs, EvidenceBlockType type)
+    {
+        IReadOnlyList<ComboData> comboList = (type == EvidenceBlockType.Evidence)
+            ? EvidenceDatabase.Instance.AllSecCombos
+            : EvidenceDatabase.Instance.AllFinalCombos;
+
+        foreach (var combo in comboList)
+        {
+            if (combo.comboOrder.Count == selectedIDs.Count &&
+                combo.comboOrder.SequenceEqual(selectedIDs))
+            {
+                return combo;
+            }
+        }
+        return null;
+    }
 
     /// <summary>
     /// Checks if the chain starting at 'block' can form a combo after unlink.
@@ -139,7 +156,7 @@ public class CardPanelLinkManager : MonoBehaviour
             selectedIDs.Add(handler.myBlock.info.id);
 
         var type = block.myBlock.blockType;
-        var combo = ComboManager.Instance.FindValidCombo(selectedIDs, type);
+        var combo = FindValidCombo(selectedIDs, type);
         if (combo != null)
         {
             deductionUIMan.OnComboCreated(combo,

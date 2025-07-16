@@ -72,12 +72,12 @@ public class InkManager : MonoBehaviour
             story = new Story(inkJSONAsset.text);
 
             // Bind external functions once
-            story.BindExternalFunction("set_flag", (int chapterId, int missionId, string flagName) =>
+            story.BindExternalFunction("SET_FLAG", (int chapterId, int missionId, string flagName) =>
             {
                 GameStateManager.Instance.SetFlag(chapterId, missionId, flagName);
             });
 
-            story.BindExternalFunction("get_flag", (int chapterId, int missionId, string flagName) =>
+            story.BindExternalFunction("GET_FLAG", (int chapterId, int missionId, string flagName) =>
             {
                 return GameStateManager.Instance.GetFlag(chapterId, missionId, flagName);
             });

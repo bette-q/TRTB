@@ -1,6 +1,6 @@
 # External Function Declarations
-EXTERNAL set_flag(chapterId, missionId, flagName)
-EXTERNAL get_flag(chapterId, missionId, flagName)
+EXTERNAL SET_FLAG(chapterId, missionId, flagName)
+EXTERNAL GET_FLAG(chapterId, missionId, flagName)
 
 ===0_0_0_Intro===
 
@@ -35,7 +35,7 @@ Player: Huh, the visitor center’s newer than I expected. Not bad.
 Player: Though that murky sea… the dead pier… and that smell in the air…
 Player: Seems Professor really brought something for me.
 Player: Guess I'd better go find Ms. Ella. He said she’s handling my onboarding. 
-Player: Let's see if the visitor center has a map for this place. 
+Player: Let's see if there's anyone in the visitor center that knows where she is.
 
 -> DONE
 
@@ -49,7 +49,7 @@ Player: Pristine? Coexistence? Really?… Eco-orb, you’re the “Living Record
 -> DONE
 
 
-=== 0_1_2_front_desk ===
+===0_1_2_FrontDesk===
 
 # speakers Player FD
 
@@ -63,9 +63,9 @@ She hands you a city map and a business card.
 
 FD: It's at this address, really easy to find!
 
-#show_popup "Received Map"
+//#show_popup "Received Map"
 
-#Enable Map
+//#Enable Map
 
 #show_popup "Received Ella name card"
 
@@ -93,7 +93,7 @@ Email Body: (Attachment: An arsenic concentration monitoring line chart. Most of
 Player: (pupils contract, finger sliding across that glaring red spike on the screen):  
 Player: Manually smoothed...? Qiu? The genius sampler Professor mentioned—the one who left the project? He sent me an email? Arsenic... Yucun Majiajing?
 
-//~ set_flag(0,1,phone_call)
+~ SET_FLAG(0,1,"phone_call")
 
 -> END
 

@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc8f0873fe548642b85db8f86f6b075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSONAsset: {fileID: 4900000, guid: 939f655724a02f5448b3ecc26dc02594, type: 3}
+  inkJSONAsset: {fileID: 4900000, guid: 8cc239e7c6bc73f4b85fab78ec526d58, type: 3}

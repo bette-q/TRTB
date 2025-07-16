@@ -44,13 +44,7 @@ public class InkManager : MonoBehaviour
         };
         commandHandlers["blackout"] = a =>
         {
-            // If no arguments, toggle on by default
-            bool turnOn = true;
-            if (a.Count > 0)
-            {
-                // Accept #blackout off or #blackout 0 as well
-                turnOn = !(a[0].ToLower() == "off" || a[0] == "0");
-            }
+            bool turnOn = a[0].ToLower() == "on" ? true : false;
             UIManager.Instance.SetBlackOut(turnOn);
         };
 
@@ -66,9 +60,42 @@ public class InkManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        InitializeStory();
+    }
+
+    void InitializeStory()
+    {
+        if (inkJSONAsset != null)
+        {
+            story = new Story(inkJSONAsset.text);
+
+            // Bind external functions once
+            story.BindExternalFunction("set_flag", (int chapterId, int missionId, string flagName) =>
+            {
+                GameStateManager.Instance.SetFlag(chapterId, missionId, flagName);
+            });
+
+            story.BindExternalFunction("get_flag", (int chapterId, int missionId, string flagName) =>
+            {
+                return GameStateManager.Instance.GetFlag(chapterId, missionId, flagName);
+            });
+        }
+        else
+        {
+            Debug.LogError("InkJSONAsset is not assigned!");
+        }
+    }
+
     public void StartDialogue(string knot)
     {
-        story = new Story(inkJSONAsset.text);
+        if (story == null)
+        {
+            Debug.LogError("Story not initialized! Make sure inkJSONAsset is assigned.");
+            return;
+        }
+
         story.ChoosePathString(knot);
         isWaitingForInput = false;
         ContinueByPlayer();

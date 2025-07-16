@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("[UIManager] OnSceneLoaded called for: " + scene.name);
+        //Debug.Log("[UIManager] OnSceneLoaded called for: " + scene.name);
 
         GameObject canvas = GameObject.Find("UICanvas");
         if (canvas == null)
@@ -107,7 +107,7 @@ public class UIManager : MonoBehaviour
         }
 
         HideAllPanel();
-        Debug.Log("[UIManager] Auto-linked UI panels for scene: " + scene.name);
+        //Debug.Log("[UIManager] Auto-linked UI panels for scene: " + scene.name);
     }
 
     private void HideAllPanel()

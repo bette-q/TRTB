@@ -173,4 +173,9 @@ public class GameStateManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+
+    public void LoadMainScene()
+    {
+        SceneManager.LoadScene("Prototype Test");
+    }
 }

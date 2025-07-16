@@ -19,7 +19,7 @@ public class SaveLoadManager : MonoBehaviour
             availableBlocks = new List<EvidenceBlock>(gsm.GetAvailableBlocks()),
             currentChapter = gsm.currentChapter,
             completedChapters = new List<string>(gsm.completedChapters),
-            chapters = new Dictionary<string, ChapterProgress>(gsm.GetChapters()),
+            chapters = new Dictionary<int, ChapterProgress>(gsm.GetChapters()),
             triggeredActions = new List<string>(),
             triggeredSequences = new List<string>()
         };

@@ -18,7 +18,7 @@ public class MissionProgress
 [System.Serializable]
 public class ChapterProgress
 {
-    public Dictionary<string, MissionProgress> missions = new(); // missionName ¡ú MissionProgress
+    public Dictionary<int, MissionProgress> missions = new(); // missionName ¡ú MissionProgress
 }
 
 [System.Serializable]
@@ -36,7 +36,7 @@ public class GameSaveData
     // Progress
     public string currentChapter;
     public List<string> completedChapters = new();
-    public Dictionary<string, ChapterProgress> chapters = new();
+    public Dictionary<int, ChapterProgress> chapters = new();
 
     // Triggers (use string IDs for build compatibility, see notes)
     public List<string> triggeredActions = new();

@@ -13,7 +13,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ADVANCED_SHADING
-  - _CAUSTICS
   - _DISTANCE_NORMALS
   - _REFRACTION
   - _SHARP_INERSECTION
@@ -142,8 +141,8 @@ Material:
     - _CROSSPAN_INTERSECTIONOn: 1
     - _CausticsBrightness: 4
     - _CausticsChromance: 1
-    - _CausticsDistortion: 0.151
-    - _CausticsOn: 1
+    - _CausticsDistortion: 0.215
+    - _CausticsOn: 0
     - _CausticsSpeed: 0.075
     - _CausticsTiling: 0.15
     - _ColorAbsorption: 0
@@ -155,7 +154,7 @@ Material:
     - _DepthHorizontal: 1.7
     - _DepthMode: 0
     - _DepthTexture: 1
-    - _DepthVertical: 4.8
+    - _DepthVertical: 13.3
     - _DisableDepthTexture: 0
     - _DistanceNormalsOn: 1
     - _DistanceNormalsTiling: 0.25
@@ -230,7 +229,7 @@ Material:
     - _RefractionAmount: 0.05
     - _RefractionChromaticAberration: 1
     - _RefractionOn: 1
-    - _RefractionStrength: 0.172
+    - _RefractionStrength: 0
     - _RimRize: 1
     - _RimTiling: 0.025
     - _RiverModeOn: 0
@@ -296,7 +295,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 1, g: 1, b: 1, a: 0.12156863}
     - _FoamTiling: {r: 0.1, g: 0.1, b: 0, a: 0}
-    - _HorizonColor: {r: 0.68, g: 1, b: 0.99, a: 0.15}
+    - _HorizonColor: {r: 0, g: 0, b: 0, a: 0.15}
     - _IntersectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _NormalTiling: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}

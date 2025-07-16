@@ -14,7 +14,9 @@ public class InkManager : MonoBehaviour
     private Story story;
     private readonly Dictionary<string, Action<List<string>>> commandHandlers = new();
     private bool isWaitingForInput;
-    private string currentSpeakingTo;
+    //private string currentSpeakingTo;
+
+    private List<string> currentSpeakers = new List<string>();
 
     public event Action<string> OnLine;
     public event Action<List<string>> OnChoices;
@@ -22,22 +24,37 @@ public class InkManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
-        else { Destroy(gameObject); return; }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(this.gameObject);
 
         commandHandlers["show_item"] = a => UIManager.Instance.ShowItem(a[0]);
         commandHandlers["show_popup"] = a => UIManager.Instance.ShowPopup(a[0]);
         commandHandlers["enable"] = a => UIManager.Instance.EnablePanel(a[0]);
-        commandHandlers["add_notebook"] = a => GameStateManager.Instance.AddEvidenceById(a[0]);
-        commandHandlers["speaking_to"] = a =>
+        commandHandlers["speakers"] = a =>
         {
-            if (a.Count == 0) return;
-            currentSpeakingTo = a[0];
-            UIManager.Instance.ArrangeCharacters(
-                GameStateManager.Instance.GetCurrentCharacter(),
-                currentSpeakingTo
-            );
+            currentSpeakers = a;
+            string leftName = a.Count > 0 ? a[0] : "";
+            string rightName = a.Count > 1 ? a[1] : "";
+            UIManager.Instance.ArrangeCharacters(leftName, rightName);
         };
+        commandHandlers["blackout"] = a =>
+        {
+            // If no arguments, toggle on by default
+            bool turnOn = true;
+            if (a.Count > 0)
+            {
+                // Accept #blackout off or #blackout 0 as well
+                turnOn = !(a[0].ToLower() == "off" || a[0] == "0");
+            }
+            UIManager.Instance.SetBlackOut(turnOn);
+        };
+
+        commandHandlers["add_notebook"] = a => GameStateManager.Instance.AddEvidenceById(a[0]);
     }
 
     void Update()
@@ -67,6 +84,7 @@ public class InkManager : MonoBehaviour
 
         if (!story.canContinue)
         {
+            //UIManager.Instance.SetBlackOut(false);
             UIManager.Instance.HideItem();
             UIManager.Instance.HideDialogue();
             UIManager.Instance.HideCharacters();
@@ -133,14 +151,24 @@ public class InkManager : MonoBehaviour
         else Debug.LogWarning($"[InkManager] No handler for #{cmd}");
     }
 
-    List<string> ParseArguments(string raw)
+/*    List<string> ParseArguments(string raw)
     {
         var list = new List<string>();
         var r = new Regex("\"([^\"]*)\"|([^,]+)");
         foreach (Match m in r.Matches(raw))
             list.Add((m.Groups[1].Success ? m.Groups[1] : m.Groups[2]).Value.Trim());
         return list;
+    }*/
+
+    List<string> ParseArguments(string raw)
+    {
+        var list = new List<string>();
+        var r = new Regex("\"([^\"]*)\"|(\\S+)");
+        foreach (Match m in r.Matches(raw))
+            list.Add(m.Groups[1].Success ? m.Groups[1].Value : m.Groups[2].Value);
+        return list;
     }
+
 }
 
 

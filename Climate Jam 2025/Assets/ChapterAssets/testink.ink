@@ -1,6 +1,30 @@
+===0_0_0_Intro===
+
+#blackout on
+
+#speakers Player Professor
+
+Player: Professor, for this Survey in Bayvan… is it just a few sample points and a report?
+Player: Sounds like my thesis is going to be easier than I thought.
+
+The Professor doesn’t turn around right away, pausing mid-motion.
+Professor: …Samples, yes. Records, too.
+
+He turns to face you, holding a slightly worn, intricately structured device.
+Professor: Use this. The core recording unit.
+Player: The Sphere? Isn’t that… the old ‘Living Recorder’ project that got shelved? I heard there were… incidents.
+Professor: It records resonance. Truer than data…Especially after disasters.
+
+Research my thesis using that blacklisted device? Well… He knew the accident briefings and never brought them up.
+Bayvan… Is there something significant there for you?
+
+-> DONE
+
+
+
 === 0_1_2_front_desk ===
 
-# speaking_to FD
+# speakers Player FD
 
 FD: ...Yes, yes, Ella! The person is here—looks like a student... holding a weird ball? ...Got it, I'll say you were delayed by an urgent interview at the sewage plant, and tell him to—what? Take photos of the sediment? Noted, noted!
 

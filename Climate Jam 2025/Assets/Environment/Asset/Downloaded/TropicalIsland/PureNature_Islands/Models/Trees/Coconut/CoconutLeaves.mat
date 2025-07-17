@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!28 &-1831802758639834323
+Texture2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: z__GradientRampTex{"mode":0,"colorKeys":[{"color":{"r":0.8406585454940796,"g":1.0,"b":0.7216981053352356,"a":1.0},"time":0.0},{"color":{"r":0.0,"g":0.3679245114326477,"b":0.08887197822332382,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":1.0}]}
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 3
+  m_Width: 256
+  m_Height: 1
+  m_CompleteImageSize: 1024
+  m_MipsStripped: 0
+  m_TextureFormat: 5
+  m_MipCount: 1
+  m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMipmapLimit: 1
+  m_MipmapLimitGroupName: 
+  m_StreamingMipmaps: 0
+  m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
+  m_AlphaIsTransparency: 0
+  m_ImageCount: 1
+  m_TextureDimension: 2
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_LightmapFormat: 0
+  m_ColorSpace: 1
+  m_PlatformBlob: 
+  image data: 1024
+  _typelessdata: ffd6ffb8ffd6feb7ffd5feb7ffd4fdb6ffd3fcb6ffd2fcb5ffd1fbb4ffd0fbb4ffd0fab3ffcff9b2ffcef9b2ffcdf8b1ffccf7b0ffcbf7b0ffcbf6afffcaf6afffc9f5aeffc8f4adffc7f4adffc6f3acffc6f2abffc5f2abffc4f1aaffc3f0a9ffc2f0a9ffc1efa8ffc1efa8ffc0eea7ffbfeda6ffbeeda6ffbdeca5ffbceba4ffbbeba4ffbbeaa3ffbaeaa3ffb9e9a2ffb8e8a1ffb7e8a1ffb6e7a0ffb6e69fffb5e69fffb4e59effb3e49dffb2e49dffb1e39cffb1e39cffb0e29bffafe19affaee19affade099ffacdf98ffabdf98ffabde97ffaade96ffa9dd96ffa8dc95ffa7dc95ffa6db94ffa6da93ffa5da93ffa4d992ffa3d891ffa2d891ffa1d790ffa1d790ffa0d68fff9fd58eff9ed58eff9dd48dff9cd38cff9cd38cff9bd28bff9ad18aff99d18aff98d089ff97d089ff96cf88ff96ce87ff95ce87ff94cd86ff93cc85ff92cc85ff91cb84ff91cb84ff90ca83ff8fc982ff8ec982ff8dc881ff8cc780ff8cc780ff8bc67fff8ac57eff89c57eff88c47dff87c47dff87c37cff86c27bff85c27bff84c17aff83c079ff82c079ff81bf78ff81bf77ff80be77ff7fbd76ff7ebd76ff7dbc75ff7cbb74ff7cbb74ff7bba73ff7ab972ff79b972ff78b871ff77b871ff77b770ff76b66fff75b66fff74b56eff73b46dff72b46dff71b36cff71b36bff70b26bff6fb16aff6eb16aff6db069ff6caf68ff6caf68ff6bae67ff6aad66ff69ad66ff68ac65ff67ac64ff67ab64ff66aa63ff65aa63ff64a962ff63a861ff62a861ff62a760ff61a75fff60a65fff5fa55eff5ea55eff5da45dff5ca35cff5ca35cff5ba25bff5aa15aff59a15aff58a059ff57a058ff579f58ff569e57ff559e57ff549d56ff539c55ff529c55ff529b54ff519a53ff509a53ff4f9952ff4e9952ff4d9851ff4c9750ff4c9750ff4b964fff4a954eff49954eff48944dff47944cff47934cff46924bff45924bff44914aff439049ff429049ff428f48ff418e47ff408e47ff3f8d46ff3e8d45ff3d8c45ff3d8b44ff3c8b44ff3b8a43ff3a8942ff398942ff388841ff378840ff378740ff36863fff35863fff34853eff33843dff32843dff32833cff31823bff30823bff2f813aff2e8139ff2d8039ff2d7f38ff2c7f38ff2b7e37ff2a7d36ff297d36ff287c35ff287c34ff277b34ff267a33ff257a33ff247932ff237831ff227831ff227730ff21762fff20762fff1f752eff1e752dff1d742dff1d732cff1c732cff1b722bff1a712aff19712aff187029ff187028ff176f28ff166e27ff156e26ff146d26ff136c25ff126c25ff126b24ff116a23ff106a23ff0f6922ff0e6921ff0d6821ff0d6720ff0c6720ff0b661fff0a651eff09651eff08641dff08641cff07631cff06621bff05621aff04611aff036019ff036019ff025f18ff015e17ff005e17
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -8,22 +54,20 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CoconutLeaves
-  m_Shader: {fileID: 4800000, guid: 0f96a2937f6bace459a5fdaac39c0fb3, type: 3}
+  m_Shader: {fileID: 4800000, guid: 2a230514c860643f69b6a4d1871d3825, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _BASEWINDCHANNEL_R
-  - _BASEWIND_B
-  - _HIDEHARDANGLES_ON
-  - _MICROWINDCHANNEL_B
-  - _MICROWIND_R
-  - _USEDITHER_ON
+  m_ValidKeywords:
+  - DR_OUTLINE_ON
+  - _DETAILMAPBLENDINGMODE_MULTIPLY
+  - _TEXTUREBLENDINGMODE_MULTIPLY
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -32,6 +76,14 @@ Material:
     - _Albedo:
         m_Texture: {fileID: 2800000, guid: f702406db7a985649ade93cb60009e67, type: 3}
         m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _BakedGIRamp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: b529e9437da14cbb9eddeca07f1b2bdf, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BranchMask:
         m_Texture: {fileID: 2800000, guid: 296d8bd5dac2bef43b444df76b60a97f, type: 3}
@@ -46,6 +98,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -68,6 +124,10 @@ Material:
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 2, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GradientRamp:
+        m_Texture: {fileID: -1831802758639834323}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: f702406db7a985649ade93cb60009e67, type: 3}
@@ -135,15 +195,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
     - _AlphaCutoff: 0.5
+    - _BaseMapPremultiply: 0
     - _BaseWind: 2
     - _BaseWindChannel: 0
     - _Bias: 1
+    - _Blend: 0
     - _BranchPhase: 0.35
     - _BranchPhase1: 1.05
     - _BumpScale: 1
+    - _CameraDistanceImpact: 0.5
     - _ColorVariationPower: 1
+    - _Cull: 2
     - _Cutoff: 0.4
+    - _DetailMapBlendingMode: 0
+    - _DetailMapImpact: 0
     - _DetailNormalMapScale: 1
     - _Dither: 3
     - _DitherPower: 2.5
@@ -151,6 +218,11 @@ Material:
     - _EdgeFlutter: 4
     - _EdgeFlutter1: 1.93
     - _EnvironmentReflections: 1
+    - _FlatRimEdgeSmoothness: 0.5
+    - _FlatRimLightAlign: 0
+    - _FlatRimSize: 0.5
+    - _FlatSpecularEdgeSmoothness: 0
+    - _FlatSpecularSize: 0.1
     - _Float0: 1
     - _Float1: 1
     - _Frequency: 10
@@ -160,15 +232,23 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
+    - _GradientAngle: 0
+    - _GradientCenterX: 0
+    - _GradientCenterY: 0
+    - _GradientEnabled: 0
     - _GradientFalloff: 0
     - _GradientFaloff: 1
     - _GradientPosition: 0
+    - _GradientSize: 10
     - _HideHardAngles: 1
     - _HidePower: 2.3
     - _HideSides: 0
     - _Int0: 0
     - _InvertGradient: 0
     - _Keyword0: 0
+    - _LightContribution: 1
+    - _LightmapDirectionPitch: 0
+    - _LightmapDirectionYaw: 0
     - _Metallic: 0
     - _MicroFrequency: 5
     - _MicroPower: 0.1
@@ -182,6 +262,13 @@ Material:
     - _NormalDistortion: 1
     - _NormalPower: 1
     - _OcclusionStrength: 1
+    - _OutlineDepthOffset: 0.046
+    - _OutlineEnabled: 1
+    - _OutlineScale: 1
+    - _OutlineWidth: 2
+    - _OverrideBakedGi: 0
+    - _OverrideLightAttenuation: 0
+    - _OverrideLightmapDir: 0
     - _Parallax: 0.02
     - _Power: 0.1
     - _PrimaryFactor: 1.01
@@ -189,18 +276,24 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RimEnabled: 0
     - _Scale: -1
     - _ScatteringPower: 0
     - _ScatteringScale: 0.15
     - _SecondaryFactor: 1.7
     - _SecondaryFactor1: 1.16
     - _SeeVertexColor: 0
+    - _SelfShadingSize: 0
     - _Shininess: 0.1
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
+    - _SpecularEnabled: 0
     - _SpecularHighlights: 1
     - _Speed: 0.5
     - _SrcBlend: 1
+    - _Surface: 0
+    - _TextureBlendingMode: 0
+    - _TextureImpact: 0.547
     - _Trans: 1
     - _TransAmbient: 1
     - _TransDirect: 1
@@ -213,7 +306,9 @@ Material:
     - _TrunkWindAmplitude: 0.09
     - _TrunkWindPower: 1
     - _UVSec: 0
+    - _UnityShadowOcclusion: 0
     - _UseDither: 1
+    - _VertexColorsEnabled: 0
     - _VertexOcclusionPower: 0.333
     - _WindBurstsPower: 10
     - _WindBurstsScale: 1
@@ -230,14 +325,23 @@ Material:
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BranchesColor: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 1, g: 1, b: 1, a: 0}
+    - _ColorGradient: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
     - _ColorVariation: {r: 0.055823162, g: 0.49056602, b: 0, a: 1}
+    - _DetailMapColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlatRimColor: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
+    - _FlatSpecularColor: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
     - _GradientColor: {r: 0.6981132, g: 0.402349, b: 0.14269605, a: 1}
+    - _LightAttenuation: {r: 0, g: 1, b: 0, a: 0}
+    - _LightmapDirection: {r: 0, g: 1, b: 0, a: 0}
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0.41037738, g: 0.15797126, b: 0.07742968, a: 1}
     - _ScatteringColor: {r: 0.56218994, g: 1, b: 0, a: 0}
+    - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _Tiling: {r: 4, g: 4, b: 0, a: 0}
     - _TilingOffset: {r: 1, g: 1, b: 0, a: 0}

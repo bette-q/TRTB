@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: VCEnter
   m_EditorClassIdentifier: 
   prerequisites: []
+  repeat: 1
   targetSceneName: VisitorCenter
   pairedDoorID: VCDoor
   references:

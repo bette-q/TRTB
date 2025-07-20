@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: VCExit
   m_EditorClassIdentifier: 
   prerequisites: []
+  repeat: 1
   targetSceneName: Prototype Test
   pairedDoorID: VCDoor
   references:

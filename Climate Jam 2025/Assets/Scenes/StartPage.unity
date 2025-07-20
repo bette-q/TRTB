@@ -2286,6 +2286,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: EvidenceDB
       objectReference: {fileID: 0}
+    - target: {fileID: 5593777566724100201, guid: 6add967fdbf83b74f8fbab72fe3001a6, type: 3}
+      propertyPath: allEvidenceData.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593777566724100201, guid: 6add967fdbf83b74f8fbab72fe3001a6, type: 3}
+      propertyPath: 'allEvidenceData.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3886f7a8e81f36543807451399de3ad7, type: 2}
+    - target: {fileID: 5593777566724100201, guid: 6add967fdbf83b74f8fbab72fe3001a6, type: 3}
+      propertyPath: 'allEvidenceData.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 06d2f6ff0ddfee641953647677cfb4e5, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

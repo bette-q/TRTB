@@ -1612,8 +1612,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventSeq: {fileID: 11400000, guid: b7d66bfa10f019149b9f4ee0a2cd3e05, type: 2}
-  eventAction: {fileID: 11400000, guid: 07aeef43774619a459ef815c002534f7, type: 2}
-  evidenceId: apple
+  eventAction: {fileID: 0}
+  evidenceId: TestPuzzle
 --- !u!135 &2058414385
 SphereCollider:
   m_ObjectHideFlags: 0

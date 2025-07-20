@@ -146,7 +146,7 @@ public class PerspectiveAlignmentManager : MonoBehaviour
     }
     void OnReturnToGame()
     {
-        //SceneManager.LoadScene("YourGameScene");
-        Debug.Log("Return to main game scene!");
+        SceneManager.LoadScene("Prototype Test");
+       // Debug.Log("Return to main game scene!");
     }
 }

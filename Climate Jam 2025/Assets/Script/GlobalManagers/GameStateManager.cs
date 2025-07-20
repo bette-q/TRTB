@@ -165,6 +165,11 @@ public class GameStateManager : MonoBehaviour
         return curEvidence;
     }
 
+    public void SetCurEvidence(string id)
+    {
+        curEvidence = id;
+    }
+
     // ---- SAVE/LOAD LOGIC ----
     public IReadOnlyCollection<CharacterID> GetPartyMembers() => partyMembers;
     public IReadOnlyList<EvidenceBlock> GetAvailableBlocks() => availableBlocks.AsReadOnly();

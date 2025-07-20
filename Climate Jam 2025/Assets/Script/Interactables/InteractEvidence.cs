@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteractEvidence : Interactable
 {
@@ -13,9 +14,14 @@ public class InteractEvidence : Interactable
             Debug.LogWarning("No EvidenceData found for evidenceId: " + evidenceId);
             return;
         }
-        EvidenceEventContext.CurrentEvidenceData = ed;
-        base.Interact(); // Will execute the eventSequence (should include EvidenceEventAction)
-        EvidenceEventContext.CurrentEvidenceData = null;
-        gameObject.SetActive(false); // Or whatever cleanup you need
+
+        string tmpID = evidenceId;
+        CharacterID cID = GameStateManager.Instance.currentCharacter;
+        if (cID == ed.specialEvidence.characterID) tmpID = ed.specialEvidence.id;
+
+        GameStateManager.Instance.SetCurEvidence(tmpID);
+
+        gameObject.SetActive(false); 
+        SceneManager.LoadScene("POVGame");
     }
 }

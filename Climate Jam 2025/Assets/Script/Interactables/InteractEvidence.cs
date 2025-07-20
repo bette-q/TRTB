@@ -21,7 +21,7 @@ public class InteractEvidence : Interactable
 
         GameStateManager.Instance.SetCurEvidence(tmpID);
 
-        gameObject.SetActive(false); 
-        SceneManager.LoadScene("POVGame");
+        Destroy(gameObject);
+        SceneController.Instance.EnterAdditiveScene("POVGame");
     }
 }

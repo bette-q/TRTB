@@ -45,7 +45,10 @@ public class PlayerInteraction : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         var interactable = other.GetComponent<Interactable>();
-        if (interactable != null && !nearbyInteractables.Contains(interactable))
+        // Ignore area triggers for prompt/interact key logic
+        if (interactable != null
+            && !(interactable is InteractAreaTrigger)
+            && !nearbyInteractables.Contains(interactable))
         {
             nearbyInteractables.Add(interactable);
         }
@@ -54,9 +57,12 @@ public class PlayerInteraction : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         var interactable = other.GetComponent<Interactable>();
-        if (interactable != null && nearbyInteractables.Contains(interactable))
+        if (interactable != null
+            && !(interactable is InteractAreaTrigger)
+            && nearbyInteractables.Contains(interactable))
         {
             nearbyInteractables.Remove(interactable);
         }
     }
+
 }

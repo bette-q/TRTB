@@ -6,6 +6,7 @@ public class EventSequence : ScriptableObject
 {
     public List<EventAction> actions = new List<EventAction>();
     [SerializeReference] private List<Prerequisite> prerequisites = new List<Prerequisite>();
+    [SerializeField] private bool repeat;
 
     public bool ArePrerequisitesMet()
     {
@@ -16,6 +17,8 @@ public class EventSequence : ScriptableObject
         }
         return true;
     }
+    public bool IsRepeat()
+    { return repeat; }
 
     public void Execute()
     {

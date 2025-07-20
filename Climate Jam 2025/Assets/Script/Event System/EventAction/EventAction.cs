@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 public abstract class EventAction : ScriptableObject
 {
     [SerializeReference] private List<Prerequisite> prerequisites = new List<Prerequisite>();
+    [SerializeField] private bool repeat;
 
     public bool ArePrerequisitesMet()
     {
@@ -14,6 +16,8 @@ public abstract class EventAction : ScriptableObject
         }
         return true;
     }
+    public bool IsRepeat()
+    { return repeat; }
 
     public abstract void Execute();
 }

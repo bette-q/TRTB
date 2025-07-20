@@ -20,3 +20,25 @@ public class StoryFlagPrerequisite : Prerequisite
         return GameStateManager.Instance.GetFlag(chapter, mission, flag);
     }
 }
+public class EvidencePrerequisite : Prerequisite
+{
+    [SerializeField] private string id;
+    //[SerializeField] private bool requiredValue = true;
+
+    public override bool IsMet()
+    {
+        return GameStateManager.Instance.HasBlock(id);
+    }
+}
+
+public class CharacterPrerequisite : Prerequisite
+{
+    [SerializeField] private CharacterID id;
+    //[SerializeField] private bool requiredValue = true;
+
+    public override bool IsMet()
+    {
+        return GameStateManager.Instance.HasCharacter(id);
+    }
+}
+

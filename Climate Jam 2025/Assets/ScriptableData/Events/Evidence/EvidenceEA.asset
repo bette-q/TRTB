@@ -12,3 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef2f1e1b0df158479c42ff9d4255144, type: 3}
   m_Name: EvidenceEA
   m_EditorClassIdentifier: 
+  prerequisites: []
+  repeat: 1
+  references:
+    version: 2
+    RefIds: []

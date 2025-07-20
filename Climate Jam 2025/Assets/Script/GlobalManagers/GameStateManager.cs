@@ -17,6 +17,10 @@ public class GameStateManager : MonoBehaviour
     public SerializableVector3 playerPosition;
     public float playerRotationY;
 
+    [Header("Scene Transition Door System")]
+    private string targetDoorID; // Which door ID to spawn near
+    private bool hasPendingDoorSpawn = false;
+
     // Collected notebook + combined blocks
     private List<EvidenceBlock> availableBlocks = new List<EvidenceBlock>();
 
@@ -95,8 +99,6 @@ public class GameStateManager : MonoBehaviour
         if (!ms.flags.TryGetValue(flag, out var value)) return false;
         return value;
     }
-
-    // Replace your existing Triggered methods in GSM with these:
 
     public bool HasTriggered(EventAction action)
     {
@@ -188,7 +190,6 @@ public class GameStateManager : MonoBehaviour
         triggeredSequences = new HashSet<EventSequence>(set);
     }
 
-
     // ---- SCENE SWITCHING ----
     public void LoadScene1()
     {
@@ -198,5 +199,62 @@ public class GameStateManager : MonoBehaviour
     public void LoadMainScene()
     {
         SceneManager.LoadScene("Prototype Test");
+    }
+
+    public void SetPlayerSpawnInfo(string doorID)
+    {
+        targetDoorID = doorID;
+        hasPendingDoorSpawn = true;
+
+        Debug.Log($"Set target door ID: {doorID}");
+    }
+
+    public bool HasPendingDoorSpawn() => hasPendingDoorSpawn;
+
+    public string GetTargetDoorID() => targetDoorID;
+
+    public void ClearPendingDoorSpawn()
+    {
+        hasPendingDoorSpawn = false;
+        targetDoorID = null;
+    }
+
+    // Method to spawn player near a specific door
+    public void SpawnPlayerNearDoor(string doorID)
+    {
+        // Find all BuildingDoors in the scene
+        BuildingDoor[] allDoors = FindObjectsByType<BuildingDoor>(FindObjectsSortMode.None);
+
+        Debug.Log($"Found {allDoors.Length} doors in scene, looking for doorID: {doorID}");
+
+        foreach (BuildingDoor door in allDoors)
+        {
+            if (door.GetDoorID() == doorID)
+            {
+                // Found the matching door! Spawn player near it
+                Vector3 spawnPosition = door.GetSpawnPosition();
+
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                {
+                    player.transform.position = spawnPosition;
+                    Debug.Log($"Player spawned near door: {doorID} at position {spawnPosition}");
+                }
+                else
+                {
+                    Debug.LogWarning("Player GameObject not found! Make sure player has 'Player' tag.");
+                }
+                return;
+            }
+        }
+
+        Debug.LogWarning($"Could not find door with ID: {doorID} in scene {SceneManager.GetActiveScene().name}");
+    }
+
+    // Enhanced scene loading with door spawn
+    public void LoadSceneWithDoorSpawn(string sceneName, string doorID)
+    {
+        SetPlayerSpawnInfo(doorID);
+        SceneManager.LoadScene(sceneName);
     }
 }

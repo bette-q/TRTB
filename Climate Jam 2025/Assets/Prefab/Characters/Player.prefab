@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 469168082497849338}
   - component: {fileID: 1694910472552232837}
   - component: {fileID: 5912509380054351320}
-  - component: {fileID: 3076911415887971565}
+  - component: {fileID: 6390389011339599887}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -226,27 +226,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactKey: 101
   interactPrompt: {fileID: 0}
---- !u!135 &3076911415887971565
-SphereCollider:
+--- !u!114 &6390389011339599887
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1777170281275902397}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5443ac2b82ee634d8effbcd76792455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3432341381371483639
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +686,7 @@ Transform:
   m_GameObject: {fileID: 6085357472408538122}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 7.46, z: -8}
+  m_LocalPosition: {x: 0, y: 7.459999, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -886,4 +877,4 @@ MonoBehaviour:
   - {fileID: 3972507058721400235}
   - {fileID: 27160278130316321}
   characterIDs: 00000000010000000200000003000000
-  profileText: {fileID: 0}
+  characterIcons: []

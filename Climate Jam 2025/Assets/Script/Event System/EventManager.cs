@@ -40,7 +40,10 @@ public class EventManager : MonoBehaviour
             return;
         }
 
-        GameStateManager.Instance.MarkAsTriggered(sequence);
+        if (!sequence.IsRepeat())
+        {
+            GameStateManager.Instance.MarkAsTriggered(sequence);
+        }
         sequence.Execute();
     }
 
@@ -67,7 +70,10 @@ public class EventManager : MonoBehaviour
             return;
         }
 
-        GameStateManager.Instance.MarkAsTriggered(action);
+        if (!action.IsRepeat())
+        {
+            GameStateManager.Instance.MarkAsTriggered(action);
+        }
         action.Execute(); // Assuming your EventAction has an Execute() method
     }
 }

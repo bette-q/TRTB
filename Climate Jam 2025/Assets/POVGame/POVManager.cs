@@ -59,7 +59,7 @@ public class PerspectiveAlignmentManager : MonoBehaviour
             bool isAligned = dist <= distanceThreshold;
 
             // 每帧输出调试信息
-            Debug.Log($"[AlignDebug] idx={i}  dist={dist:F2}m  threshold={distanceThreshold}m  aligned={isAligned}");
+            //Debug.Log($"[AlignDebug] idx={i}  dist={dist:F2}m  threshold={distanceThreshold}m  aligned={isAligned}");
 
             if (isAligned)
             {

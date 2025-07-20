@@ -23,6 +23,7 @@ public class GameStateManager : MonoBehaviour
 
     // Collected notebook + combined blocks
     private List<EvidenceBlock> availableBlocks = new List<EvidenceBlock>();
+    private string curEvidence = "TestPuzzle";
 
     // Progress Tracking
     private HashSet<EventSequence> triggeredSequences = new();
@@ -157,6 +158,11 @@ public class GameStateManager : MonoBehaviour
         var characterID = GetCurrentCharacter();
         var eb = EvidenceEventAction.GenerateEvidenceBlock(ed, characterID);
         return AddBlock(eb);
+    }
+
+    public string GetCurEvidence()
+    {
+        return curEvidence;
     }
 
     // ---- SAVE/LOAD LOGIC ----

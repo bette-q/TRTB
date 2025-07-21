@@ -17,14 +17,18 @@ public class GameStateManager : MonoBehaviour
     public SerializableVector3 playerPosition;
     public float playerRotationY;
 
+    // Scene
     [Header("Scene Transition Door System")]
     private string targetDoorID; // Which door ID to spawn near
     private bool hasPendingDoorSpawn = false;
 
+
     // Collected notebook + combined blocks
     private List<EvidenceBlock> availableBlocks = new List<EvidenceBlock>();
+    private string curEvidence = "TestPuzzle";
 
     // Progress Tracking
+    public bool sphereEnabled = false;
     private HashSet<EventSequence> triggeredSequences = new();
     private HashSet<EventAction> triggeredActions = new();
 
@@ -159,6 +163,16 @@ public class GameStateManager : MonoBehaviour
         return AddBlock(eb);
     }
 
+    public string GetCurEvidence()
+    {
+        return curEvidence;
+    }
+
+    public void SetCurEvidence(string id)
+    {
+        curEvidence = id;
+    }
+
     // ---- SAVE/LOAD LOGIC ----
     public IReadOnlyCollection<CharacterID> GetPartyMembers() => partyMembers;
     public IReadOnlyList<EvidenceBlock> GetAvailableBlocks() => availableBlocks.AsReadOnly();
@@ -191,22 +205,17 @@ public class GameStateManager : MonoBehaviour
     }
 
     // ---- SCENE SWITCHING ----
-    public void LoadScene1()
-    {
-        SceneManager.LoadScene(1);
-    }
-
-    public void LoadMainScene()
-    {
-        SceneManager.LoadScene("Prototype Test");
-    }
+    //public void LoadScene1()
+    //{
+    //    SceneManager.LoadScene(1);
+    //}
 
     public void SetPlayerSpawnInfo(string doorID)
     {
         targetDoorID = doorID;
         hasPendingDoorSpawn = true;
 
-        Debug.Log($"Set target door ID: {doorID}");
+        //Debug.Log($"Set target door ID: {doorID}");
     }
 
     public bool HasPendingDoorSpawn() => hasPendingDoorSpawn;
@@ -225,7 +234,7 @@ public class GameStateManager : MonoBehaviour
         // Find all BuildingDoors in the scene
         BuildingDoor[] allDoors = FindObjectsByType<BuildingDoor>(FindObjectsSortMode.None);
 
-        Debug.Log($"Found {allDoors.Length} doors in scene, looking for doorID: {doorID}");
+        //Debug.Log($"Found {allDoors.Length} doors in scene, looking for doorID: {doorID}");
 
         foreach (BuildingDoor door in allDoors)
         {
@@ -238,7 +247,7 @@ public class GameStateManager : MonoBehaviour
                 if (player != null)
                 {
                     player.transform.position = spawnPosition;
-                    Debug.Log($"Player spawned near door: {doorID} at position {spawnPosition}");
+                    //Debug.Log($"Player spawned near door: {doorID} at position {spawnPosition}");
                 }
                 else
                 {

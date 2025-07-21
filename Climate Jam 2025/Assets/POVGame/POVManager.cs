@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;  
+using UnityEngine.SceneManagement;
+using TMPro;
 
 [ExecuteAlways]
 public class PerspectiveAlignmentManager : MonoBehaviour
@@ -23,9 +26,19 @@ public class PerspectiveAlignmentManager : MonoBehaviour
     // 内部记录每个点是否已触发过
     private bool[] _hasAligned;
 
+    // ========== 新增：UI和控制 ==========
+    [Header("Solved UI")]
+    public GameObject popUpPanel;    
+    public TextMeshProUGUI solvedText;           // 唯一文本框
+    public Button returnButton;
+
+    public MonoBehaviour cameraOrbitScript;
+
+
     void Awake()
     {
         InitState();
+        if (popUpPanel) popUpPanel.SetActive(false);
     }
 
     void OnValidate()
@@ -59,13 +72,14 @@ public class PerspectiveAlignmentManager : MonoBehaviour
             bool isAligned = dist <= distanceThreshold;
 
             // 每帧输出调试信息
-            Debug.Log($"[AlignDebug] idx={i}  dist={dist:F2}m  threshold={distanceThreshold}m  aligned={isAligned}");
+            //Debug.Log($"[AlignDebug] idx={i}  dist={dist:F2}m  threshold={distanceThreshold}m  aligned={isAligned}");
 
             if (isAligned)
             {
                 _hasAligned[i] = true;
                 Debug.Log($"[AlignDebug] 🎯 Position Alignment SUCCESS for idx={i}");
                 onAligned.Invoke(i);
+                OnPuzzleSolved();
             }
         }
     }
@@ -109,5 +123,30 @@ public class PerspectiveAlignmentManager : MonoBehaviour
             Gizmos.DrawWireSphere(target.position, 0.5f);
             Gizmos.DrawLine(target.position, detectionCamera.transform.position);
         }
+    }
+
+    void OnPuzzleSolved()
+    {
+        // 锁定摄像机控制
+        if (cameraOrbitScript) cameraOrbitScript.enabled = false;
+
+        // 展示UI和文本
+        if (popUpPanel) popUpPanel.SetActive(true);
+
+        // 拼接文本：“证物名 solved!”
+        string evidenceName = GameStateManager.Instance.GetCurEvidence();
+        if (solvedText) solvedText.text = $"{evidenceName} solved!";
+
+        // 按钮监听
+        if (returnButton)
+        {
+            returnButton.onClick.RemoveAllListeners();
+            returnButton.onClick.AddListener(OnReturnToGame);
+        }
+    }
+    void OnReturnToGame()
+    {
+        SceneController.Instance.ExitAdditiveScene("POVGame");
+       // Debug.Log("Return to main game scene!");
     }
 }

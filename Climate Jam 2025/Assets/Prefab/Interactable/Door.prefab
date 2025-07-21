@@ -51,7 +51,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3673042462832328585}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -124,9 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventSeq: {fileID: 0}
   eventAction: {fileID: 0}
-  targetScene: 
   doorID: 
-  spawnOffset: 2
+  spawnOffset: 5
 --- !u!65 &979435325760398680
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -31,7 +31,8 @@ public class DoorEventAction : EventAction
         GameStateManager.Instance.SetPlayerSpawnInfo(pairedDoorID);
 
         // Load the target scene
-        SceneManager.LoadScene(targetSceneName);
+        SceneController.Instance.EnterAdditiveScene(targetSceneName);
+
     }
 
     // Method for BuildingDoor to get the paired door ID

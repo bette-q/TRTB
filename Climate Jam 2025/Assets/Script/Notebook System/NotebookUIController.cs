@@ -52,6 +52,9 @@ public class NotebookUIController : MonoBehaviour
 
     public void Open()
     {
+        if (UIManager.Instance.IsDialogueActive)
+            return;
+
         notebookPanel.SetActive(true);
         IsOpen = true;
         SwitchTab(currentTab); // Refresh current tab/page on open

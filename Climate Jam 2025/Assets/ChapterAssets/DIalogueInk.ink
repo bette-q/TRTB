@@ -121,7 +121,7 @@ Mateo: And sure as hell can’t bring Noah back!
 The beach  falls silent.
 You alone notice the orb trembling slightly in your hands, cloudy swirls rising inside it.
 
-#enable UI Orb
+#enable sphere
 #show_popup "EcoSphere is now active"
 
 -> DONE

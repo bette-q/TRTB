@@ -62,11 +62,13 @@ public class SceneController : MonoBehaviour
 
         var unloadOp = SceneManager.UnloadSceneAsync(sceneName);
 
-        SetMainSceneRootsActive(true);
 
-        //only reload uiman until scene switch complete
         unloadOp.completed += (op) =>
         {
+            SetMainSceneRootsActive(true);
+            // Ensure only one AudioListener is enabled in the entire game
+            CleanupAudioListeners();
+
             // Always run on main thread in Unity
             UIManager.Instance.ReactivateMainUICanvas();
         };
@@ -83,6 +85,25 @@ public class SceneController : MonoBehaviour
         foreach (var go in mainSceneRoots)
             if (go != null)
                 go.SetActive(value);
+    }
+
+    private void CleanupAudioListeners()
+    {
+        var listeners = Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
+
+        bool first = true;
+        foreach (var listener in listeners)
+        {
+            if (first)
+            {
+                listener.enabled = true;
+                first = false;
+            }
+            else
+            {
+                listener.enabled = false;
+            }
+        }
     }
 
     // Optional: Add async overloads, loading screen triggers, etc.

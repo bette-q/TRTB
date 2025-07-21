@@ -42,11 +42,23 @@ public class InfoReportUIManager : MonoBehaviour
         ShowDetails(null); // Hide detail by default
     }
 
-    void Start()
-    {
-        prevButton.onClick.AddListener(OnPrevPage);
-        nextButton.onClick.AddListener(OnNextPage);
-    }
+    //void Start()
+    //{
+    //    prevButton.onClick.AddListener(OnPrevPage);
+    //    nextButton.onClick.AddListener(OnNextPage);
+    //}
+
+    //private void OnEnable()
+    //{
+    //    prevButton.onClick.AddListener(OnPrevPage);
+    //    nextButton.onClick.AddListener(OnNextPage);
+    //}
+
+    //private void OnDisable()
+    //{
+    //    prevButton.onClick.RemoveAllListeners();
+    //    nextButton.onClick.RemoveAllListeners();
+    //}
 
     void RefreshGrid()
     {
@@ -73,7 +85,7 @@ public class InfoReportUIManager : MonoBehaviour
         nextButton.interactable = end < filteredBlocks.Count;
     }
 
-    void OnPrevPage()
+    public void OnPrevPage()
     {
         if (currentPage > 0)
         {
@@ -82,7 +94,7 @@ public class InfoReportUIManager : MonoBehaviour
         }
     }
 
-    void OnNextPage()
+    public void OnNextPage()
     {
         if ((currentPage + 1) * blocksPerPage < filteredBlocks.Count)
         {

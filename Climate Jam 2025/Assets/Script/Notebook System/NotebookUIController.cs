@@ -28,16 +28,27 @@ public class NotebookUIController : MonoBehaviour
     public enum NotebookTab { Info, Deduction, Report }
     public NotebookTab currentTab = NotebookTab.Info;
 
-    void Start()
-    {
-        notebookPanel.SetActive(false);
-        IsOpen = false;
+    //void Start()
+    //{
+    //    notebookPanel.SetActive(false);
+    //    IsOpen = false;
 
-        tabInfo.onClick.AddListener(() => SwitchTab(NotebookTab.Info));
-        tabDeduction.onClick.AddListener(() => SwitchTab(NotebookTab.Deduction));
-        tabReport.onClick.AddListener(() => SwitchTab(NotebookTab.Report));
-        SwitchTab(currentTab); // Default to deduction
-    }
+    //    tabInfo.onClick.AddListener(() => SwitchTab(NotebookTab.Info));
+    //    tabDeduction.onClick.AddListener(() => SwitchTab(NotebookTab.Deduction));
+    //    tabReport.onClick.AddListener(() => SwitchTab(NotebookTab.Report));
+    //    SwitchTab(currentTab); // Default to deduction
+    //}
+
+    //private void OnEnable()
+    //{
+    //    notebookPanel.SetActive(false);
+    //    IsOpen = false;
+
+    //    tabInfo.onClick.AddListener(() => SwitchTab(NotebookTab.Info));
+    //    tabDeduction.onClick.AddListener(() => SwitchTab(NotebookTab.Deduction));
+    //    tabReport.onClick.AddListener(() => SwitchTab(NotebookTab.Report));
+    //    SwitchTab(currentTab); // Default to deduction
+    //}
 
     void Update()
     {
@@ -80,4 +91,9 @@ public class NotebookUIController : MonoBehaviour
         else if (tab == NotebookTab.Report && reportPageManager != null)
             reportPageManager.SetBlocks(GameStateManager.Instance.GetAvailableBlocks());
     }
+
+    public void SwitchToInfoTab() => SwitchTab(NotebookTab.Info);
+    public void SwitchToDeductionTab() => SwitchTab(NotebookTab.Deduction);
+    public void SwitchToReportTab() => SwitchTab(NotebookTab.Report);
+
 }

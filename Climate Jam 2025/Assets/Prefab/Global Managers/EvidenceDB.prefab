@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1432890097829728229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 211902002608999269}
+  - component: {fileID: 5593777566724100201}
+  m_Layer: 0
+  m_Name: EvidenceDB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &211902002608999269
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432890097829728229}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5593777566724100201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432890097829728229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be39f39aa1cdf0046a990eccbd45a6cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allEvidenceData:
+  - {fileID: 11400000, guid: 72972499771f74e4cb691405431349ca, type: 2}
+  - {fileID: 11400000, guid: 4f268bb3b61417d4a9f6692106964bc9, type: 2}
+  - {fileID: 11400000, guid: 0e7e80ac99bf1a44782a767724f2093e, type: 2}
+  - {fileID: 11400000, guid: ca4d532a8cca0b449a673dc57cabeb49, type: 2}
+  - {fileID: 11400000, guid: e669959138a9bbb4d80b99b5a29b5495, type: 2}
+  - {fileID: 11400000, guid: 3886f7a8e81f36543807451399de3ad7, type: 2}
+  - {fileID: 11400000, guid: 06d2f6ff0ddfee641953647677cfb4e5, type: 2}
+  allSecComboData:
+  - {fileID: 11400000, guid: d0440e6abceccd04d9ff7c908309ade3, type: 2}
+  - {fileID: 11400000, guid: 68c278510de10024bb573fce58886092, type: 2}
+  allFinalComboData:
+  - {fileID: 11400000, guid: 9882268f29f0eee409047f7575d7b99e, type: 2}
+  allEvidenceInfoList: []

@@ -13,7 +13,7 @@ public class Movement : MonoBehaviour
 
     void FixedUpdate() // Physics updates go here!
     {
-        if (NotebookUIController.IsOpen)
+        if (NotebookUIController.IsOpen || UIManager.Instance.IsDialogueActive)
         {
             rb.linearVelocity = Vector3.zero; // Stop movement if notebook is open
             return;

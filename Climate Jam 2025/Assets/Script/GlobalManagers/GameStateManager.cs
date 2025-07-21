@@ -14,8 +14,8 @@ public class GameStateManager : MonoBehaviour
     public event System.Action OnPlayableCharacterListChanged; //event for player man
 
     // Player state
-    public SerializableVector3 playerPosition;
-    public float playerRotationY;
+    [HideInInspector]public SerializableVector3 playerPosition;
+    [HideInInspector]public float playerRotationY;
 
     // Scene
     [Header("Scene Transition Door System")]
@@ -25,15 +25,15 @@ public class GameStateManager : MonoBehaviour
 
     // Collected notebook + combined blocks
     private List<EvidenceBlock> availableBlocks = new List<EvidenceBlock>();
-    private string curEvidence = "TestPuzzle";
+    [SerializeField]private string curEvidence;
 
     // Progress Tracking
-    public bool sphereEnabled = false;
+    [HideInInspector]public bool sphereEnabled = false;
     private HashSet<EventSequence> triggeredSequences = new();
     private HashSet<EventAction> triggeredActions = new();
 
-    public string currentChapter;
-    public List<string> completedChapters = new();
+    [HideInInspector] public string currentChapter;
+    [HideInInspector] public List<string> completedChapters = new();
     public Dictionary<int, ChapterProgress> chapters = new()
     {
         [0] = new ChapterProgress

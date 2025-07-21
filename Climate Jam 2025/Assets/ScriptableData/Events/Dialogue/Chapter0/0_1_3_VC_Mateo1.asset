@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16621dd689672f041beddc85480f6b5e, type: 3}
-  m_Name: 0_1_3_VC_MateoConflict
+  m_Name: 0_1_3_VC_Mateo1
   m_EditorClassIdentifier: 
   prerequisites:
   - rid: 8178725301489500234
-  inkKnot: 0_1_3_VC_MateoConflict
+  repeat: 0
+  inkKnot: 0_1_3_VC_Mateo1
   references:
     version: 2
     RefIds:

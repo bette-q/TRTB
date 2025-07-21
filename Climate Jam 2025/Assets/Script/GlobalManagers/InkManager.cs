@@ -49,6 +49,33 @@ public class InkManager : MonoBehaviour
         };
 
         commandHandlers["add_notebook"] = a => GameStateManager.Instance.AddEvidenceById(a[0]);
+        commandHandlers["addtoparty"] = args => {
+            if (args.Count == 0)
+            {
+                Debug.LogWarning("[InkManager] #AddToParty called with no name");
+                return;
+            }
+            var name = args[0];
+            if (!System.Enum.TryParse<CharacterID>(name, true, out var charID))
+            {
+                Debug.LogWarning($"[InkManager] #AddToParty: Unknown CharacterID '{name}'");
+                return;
+            }
+            GameStateManager.Instance.AddSwitchableCharacter(charID);
+
+            var npcGO = AddCharacterEventContext.CurrentSourceGameObject;
+            if (npcGO != null)
+            {
+                Debug.Log($"[AddCharacterEventAction] Destroying NPC object: {npcGO.name}");
+                UnityEngine.Object.Destroy(npcGO);
+            }
+            else
+            {
+                Debug.LogWarning("[AddCharacterEventAction] No NPC GameObject context found to destroy.");
+            }
+        };
+
+
     }
 
     void Update()
@@ -178,14 +205,6 @@ public class InkManager : MonoBehaviour
         else Debug.LogWarning($"[InkManager] No handler for #{cmd}");
     }
 
-/*    List<string> ParseArguments(string raw)
-    {
-        var list = new List<string>();
-        var r = new Regex("\"([^\"]*)\"|([^,]+)");
-        foreach (Match m in r.Matches(raw))
-            list.Add((m.Groups[1].Success ? m.Groups[1] : m.Groups[2]).Value.Trim());
-        return list;
-    }*/
 
     List<string> ParseArguments(string raw)
     {

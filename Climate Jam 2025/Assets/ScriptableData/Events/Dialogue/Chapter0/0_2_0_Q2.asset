@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ebbb119d488d3847b8c47e4c741d0bb, type: 3}
-  m_Name: AddCharEA_Ella
+  m_Script: {fileID: 11500000, guid: 16621dd689672f041beddc85480f6b5e, type: 3}
+  m_Name: 0_2_0_Q2
   m_EditorClassIdentifier: 
-  characterID: 2
+  prerequisites: []
+  repeat: 0
+  inkKnot: 0_2_0_Q2
+  references:
+    version: 2
+    RefIds: []

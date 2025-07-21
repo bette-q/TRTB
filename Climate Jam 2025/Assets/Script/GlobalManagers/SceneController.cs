@@ -57,9 +57,19 @@ public class SceneController : MonoBehaviour
     // Exit secondary scene and return to main
     public void ExitAdditiveScene(string sceneName)
     {
+        Debug.Log("back to main");
         curScene = mainScene;
-        SceneManager.UnloadSceneAsync(sceneName);
+
+        var unloadOp = SceneManager.UnloadSceneAsync(sceneName);
+
         SetMainSceneRootsActive(true);
+
+        //only reload uiman until scene switch complete
+        unloadOp.completed += (op) =>
+        {
+            // Always run on main thread in Unity
+            UIManager.Instance.ReactivateMainUICanvas();
+        };
     }
 
     public void LoadMainScene()

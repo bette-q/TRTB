@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class InteractEvidence : Interactable
 {
@@ -8,6 +8,12 @@ public class InteractEvidence : Interactable
 
     public override void Interact()
     {
+        if (!GameStateManager.Instance.sphereEnabled)
+        {
+            StartCoroutine(ShowDialogueAndWaitForClick());
+            return;
+        }
+
         var ed = EvidenceDatabase.Instance.GetEvidenceData(evidenceId); // <-- This fetches the SO
         if (ed == null)
         {
@@ -23,5 +29,19 @@ public class InteractEvidence : Interactable
 
         Destroy(gameObject);
         SceneController.Instance.EnterAdditiveScene("POVGame");
+    }
+
+    private IEnumerator ShowDialogueAndWaitForClick()
+    {
+        UIManager.Instance.ShowDialogue("", "Nothing is happening");
+
+        // Wait until the player clicks the left mouse button
+        while (!Input.GetMouseButtonDown(0))
+        {
+            yield return null; // Wait for next frame
+        }
+
+        UIManager.Instance.HideDialogue();
+        // Now the player can continue; do any additional logic here if needed
     }
 }

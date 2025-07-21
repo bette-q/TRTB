@@ -31,7 +31,7 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        if (NotebookUIController.IsOpen)
+        if (NotebookUIController.IsOpen || UIManager.Instance.IsDialogueActive)
             return;
 
         UpdatePlayableList();

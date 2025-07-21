@@ -9,7 +9,7 @@ public class StartDialogueEventAction : EventAction
     public override void Execute()
     {
         // No "speaking_to" or target assignment here¡ªInk script handles it.
-        InkManager.Instance.StartDialogue(inkKnot);
+      InkManager.Instance.StartDialogue(inkKnot);
 
         // (Optional) You can subscribe to OnDialogueEnd for follow-up EAs.
         // InkManager.Instance.OnDialogueEnd += OnDialogueComplete;

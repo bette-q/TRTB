@@ -28,6 +28,7 @@ public class GameStateManager : MonoBehaviour
     private string curEvidence = "TestPuzzle";
 
     // Progress Tracking
+    public bool sphereEnabled = false;
     private HashSet<EventSequence> triggeredSequences = new();
     private HashSet<EventAction> triggeredActions = new();
 

@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject dialoguePanel;
     public TMP_Text dialogueText;
     public TMP_Text nameText;
+    public bool IsDialogueActive;
 
     [Header("Popup UI")]
     public GameObject popupPanel;
@@ -53,10 +54,22 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        //Debug.Log("[UIManager] OnSceneLoaded called for: " + scene.name);
+        Debug.Log("[UIManager] OnSceneLoaded called for: " + scene.name);
+        RelinkPanels();
+    }
+    public void ReactivateMainUICanvas()
+    {
+        Debug.Log("[UIManager] OnSceneLoaded called for: main");
+        RelinkPanels();
+    }
 
+    void RelinkPanels()
+    {
+       
         GameObject canvas = GameObject.Find("UICanvas");
         if (canvas == null)
         {
@@ -110,6 +123,7 @@ public class UIManager : MonoBehaviour
         //Debug.Log("[UIManager] Auto-linked UI panels for scene: " + scene.name);
     }
 
+
     private void HideAllPanel()
     {
         // Hide all UI by default
@@ -122,6 +136,7 @@ public class UIManager : MonoBehaviour
     // ---- DIALOGUE ----
     public void ShowDialogue(string speaker, string text)
     {
+        IsDialogueActive = true;
         if (dialoguePanel) dialoguePanel.SetActive(true);
         if (nameText) nameText.text = speaker ?? "";
         if (dialogueText) dialogueText.text = text;
@@ -129,6 +144,7 @@ public class UIManager : MonoBehaviour
 
     public void HideDialogue()
     {
+        IsDialogueActive = false;
         if (dialoguePanel) dialoguePanel.SetActive(false);
     }
 
@@ -213,9 +229,18 @@ public class UIManager : MonoBehaviour
             blackOutPanel.SetActive(on);
     }
 
-    public void EnablePanel(string panelName)
+    public void EnablePanel(string name)
     {
-        Debug.Log($"[UIManager] EnablePanel: {panelName} (implement as needed)");
+        if (name == "sphere")
+        {
+            GameStateManager.Instance.sphereEnabled = true;
+        }    
+        else
+        {
+            Debug.Log($"[UIManager] EnablePanel: {name} (implement as needed)");
+
+        }
+
     }
 
     // Optional: Force popup to appear instantly (no timer)

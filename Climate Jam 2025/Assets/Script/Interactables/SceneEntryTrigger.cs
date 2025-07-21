@@ -1,22 +1,27 @@
 using UnityEngine;
+using System.Collections;
 
 public class SceneEntryTrigger : MonoBehaviour
 {
     [SerializeField] private EventAction enterSceneDialogueAction;
     [SerializeField] private EventSequence enterSceneSequence;
 
-    void Start()
+    void OnEnable()
     {
-        // Try to execute the enter scene dialogue action
-        if (enterSceneDialogueAction != null)
-        {
-            EventManager.Instance.Execute(enterSceneDialogueAction);
-        }
-
-        // Or try to execute the enter scene sequence
-        if (enterSceneSequence != null)
-        {
-            EventManager.Instance.Execute(enterSceneSequence);
-        }
+        StartCoroutine(DelayedTrigger());
     }
+
+    IEnumerator DelayedTrigger()
+    {
+        // Wait for 1 frame (you can increase to 2¨C3 if needed)
+        yield return null;
+
+        if (enterSceneDialogueAction != null)
+            EventManager.Instance.Execute(enterSceneDialogueAction);
+
+        if (enterSceneSequence != null)
+            EventManager.Instance.Execute(enterSceneSequence);
+    }
+
+
 }

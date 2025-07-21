@@ -897,6 +897,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   puzzlePrefabs:
   - {fileID: 919132149155446097, guid: 2ee5857017d064cd28454dfe56c19b03, type: 3}
+  - {fileID: 919132149155446097, guid: a7105a5e572a57b4883871c2edff5d83, type: 3}
+  - {fileID: 919132149155446097, guid: 63c1c0de6ebc9ce4a9b84b7cc969fd1c, type: 3}
+  - {fileID: 919132149155446097, guid: 0dec85bebe3a83a4d90c66f0c759b084, type: 3}
   placeholder: {fileID: 1049604759}
 --- !u!4 &1443320875
 Transform:
@@ -1219,7 +1222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 442814938328086523, guid: 33f93ec3dd365ef4380c0e409b11a7ba, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1952916751290848344, guid: 33f93ec3dd365ef4380c0e409b11a7ba, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1260,6 +1263,10 @@ PrefabInstance:
     - target: {fileID: 1952916751290848344, guid: 33f93ec3dd365ef4380c0e409b11a7ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8022056689885749865, guid: 33f93ec3dd365ef4380c0e409b11a7ba, type: 3}
+      propertyPath: curEvidence
+      value: SEA_WATER_SAMPLE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

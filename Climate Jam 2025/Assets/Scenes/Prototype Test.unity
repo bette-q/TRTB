@@ -459,7 +459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &701309273
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -605,7 +605,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &715990377
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1024,6 +1024,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractableNPC (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6853357285949389383, guid: c40d8b4ad01b92c4ca47d3baa0b8871e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1049,7 +1053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1524792934
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1464,7 +1468,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &2105544522
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2029,6 +2033,10 @@ PrefabInstance:
     - target: {fileID: 6853357285949389383, guid: c40d8b4ad01b92c4ca47d3baa0b8871e, type: 3}
       propertyPath: m_Name
       value: InteractableNPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 6853357285949389383, guid: c40d8b4ad01b92c4ca47d3baa0b8871e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -97,7 +97,7 @@ Player: Manually smoothed...? Qiu? The genius sampler Professor mentioned—the 
 
 -> END
 
-===0_1_3_VC_MateoConflict===
+===0_1_3_VC_Mateo1===
 
 // Triggers immediately upon exiting the visitor center. Background zooms out.
 At the dock, a disheveled, middle-aged man hurls a bucket of rotting fish onto the deck of a shiny new tourist yacht!
@@ -125,3 +125,51 @@ You alone notice the orb trembling slightly in your hands, cloudy swirls rising 
 #show_popup "EcoSphere is now active"
 
 -> DONE
+
+===0_2_0_Q2===
+
+#speakers Player Qiu 
+
+Outside the Baylan Laboratory of Environments.
+You walk across a gravel path and spot a man standing at the gate.  
+Player: Excuse me… Are you Mr Qiu? My Professor said a senior researcher was stationed here.  
+Player: He also asked me to bring this along—said maybe it could still be of use.
+Qiu: Hmmm…Welcome. 
+The moment he sees the Orb on your hand, something shifts subtly in his expression.
+Qiu: Well, so he still remembers it.  
+Qiu: It’s not that it’s useless. It’s that no one wants to be responsible for what happens after it works.
+Player: You mean the incident? The files I found... they’re all redacted.
+
+Qiu: The things you should find, you won’t. And the things you won’t find, I won’t tell.  
+Qiu: Let me see... if I remember correctly, it works like this...
+
+You hand him the eco-orb. You notice the suspended particles inside begin to shift. 
+Under some strange force, they disassemble and recombine—gradually forming a faint, symbolic pattern.
+
+Qiu: It activates near a live sample source. Just keep it away from strong electromagnetic fields. And don't let it touch seawater.
+
+Player: My advisor said it records "resonance," not just numbers.
+
+Qiu: Resonance is data. Just not the kind that looks good on a spreadsheet.  
+Qiu: But sometimes... what it shows—well, you’ll understand once you start recording.
+
+He hands the orb back and gestures toward the beach and the tourist center in the distance.  
+Qiu: I doubt you're here just to admire the station. Others have noticed the problem before you did.
+
+Player: Who?
+
+Qiu: A journalist. Name's Ella. She doesn't wait for approval letters to get moving.
+
+Player: You know her?
+
+Qiu: She asks the kind of questions you’re carrying too. Maybe the two of you will find some answers together.
+
+He unlocks the door to the research station, but doesn’t step inside right away.  
+Qiu: While you’re in Bihaven, I’ll help where I can... Just don’t expect too much.  
+Qiu: What you learn depends on what you’re willing to ask. But don’t take too long. Some people are running out of time.
+
+#show_popup("Qiu joined team")  
+#addtoparty Qiu
+
+-> DONE
+

@@ -9,15 +9,25 @@ public class InteractableNPC : Interactable
 
     public override void Interact()
     {
-        // 1. Set the context before executing the event.
         AddCharacterEventContext.CurrentSourceGameObject = this.gameObject;
 
-        // 2. Run the event as usual.
-        base.Interact();
+        // Subscribe to dialogue end event (one-time)
+        InkManager.Instance.OnDialogueEnd += ClearNPCContext;
 
-        // 3. (Optional) Clear the context after use, to avoid future issues.
+        base.Interact();
+    }
+
+    void ClearNPCContext()
+    {
         AddCharacterEventContext.CurrentSourceGameObject = null;
+        // Unsubscribe so it only runs once
+        InkManager.Instance.OnDialogueEnd -= ClearNPCContext;
     }
 
 
+}
+public static class AddCharacterEventContext
+{
+    // Holds the reference to the currently interacted NPC GameObject
+    public static GameObject CurrentSourceGameObject;
 }

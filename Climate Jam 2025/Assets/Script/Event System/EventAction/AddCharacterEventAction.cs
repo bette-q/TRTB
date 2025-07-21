@@ -24,8 +24,3 @@ public class AddCharacterEventAction : EventAction
     }
 }
 
-public static class AddCharacterEventContext
-{
-    // Holds the reference to the currently interacted NPC GameObject
-    public static GameObject CurrentSourceGameObject;
-}

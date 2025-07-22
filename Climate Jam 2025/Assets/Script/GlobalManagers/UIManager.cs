@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Panels")]
     public GameObject blackOutPanel;
+    public GameObject ecoIcon;
 
     [Header("CharacterManager")]
     public CharacterManager characterManager;
@@ -82,6 +83,7 @@ public class UIManager : MonoBehaviour
         blackOutPanel = canvas.transform.Find("BlackOutPanel")?.gameObject;
         popupPanel = canvas.transform.Find("PopUpPanel")?.gameObject;
         showItemPanel = canvas.transform.Find("ShowItemPanel")?.gameObject;
+        ecoIcon = canvas.transform.Find("EcoIcon")?.gameObject;
 
         // DialoguePanel children
         if (dialoguePanel != null)
@@ -131,6 +133,11 @@ public class UIManager : MonoBehaviour
         if (showItemPanel) showItemPanel.SetActive(false);
         if (dialoguePanel) dialoguePanel.SetActive(false);
         if (blackOutPanel) blackOutPanel.SetActive(false);
+
+        if (ecoIcon)
+        {
+            ecoIcon.SetActive(GameStateManager.Instance.sphereEnabled);
+        }
     }
 
     // ---- DIALOGUE ----
@@ -234,6 +241,7 @@ public class UIManager : MonoBehaviour
         if (name == "sphere")
         {
             GameStateManager.Instance.sphereEnabled = true;
+            if (ecoIcon) ecoIcon.SetActive(true);
         }    
         else
         {

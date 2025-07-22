@@ -63,11 +63,11 @@ Player: Pristine? Coexistence? Really?… Hey Sphere, you’re the “Living Rec
 
 Front Desk: ...Yes, yes, Ella! The person is here—looks like a student... holding a weird ball? ...Got it, I'll say you were delayed by an urgent interview at the sewage plant, and tell him to—what? Take photos of the sediment? Noted, noted!
 
-She sees you, immediately hangs up, takes a deep breath, and forces a professional smile.
+He sees you, immediately hangs up, takes a deep breath, and forces a professional smile.
 
 Front Desk: Sorry for the wait! Miss Ella was just called away for an urgent interview at the sewage plant! She apologizes and said you can go meet her directly in the new district!
 
-She hands you a business card.
+He hands you a business card.
 
 Front Desk: Here's the address, it's really easy to find!
 

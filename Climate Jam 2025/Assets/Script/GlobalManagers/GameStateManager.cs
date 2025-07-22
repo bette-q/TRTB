@@ -28,7 +28,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField]private string curEvidence;
 
     // Progress Tracking
-    [HideInInspector]public bool sphereEnabled = true;
+    [HideInInspector]public bool sphereEnabled = false;
     private HashSet<EventSequence> triggeredSequences = new();
     private HashSet<EventAction> triggeredActions = new();
 

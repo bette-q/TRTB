@@ -20,7 +20,7 @@ public class InteractEvidence : Interactable
         InkManager.Instance.OnDialogueEnd += ClearGOContext;
 
         //EvidenceEventContext.CurrentEvidenceData = EvidenceDatabase.Instance.GetEvidenceData(evidenceId);
-        //base.Interact();
+        base.Interact();
     }
 
     private IEnumerator ShowDialogueAndWaitForClick()

@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
-using static UnityEditor.LightingExplorerTableColumn;
 
 //all evidence related object defined here
 [System.Serializable]

@@ -3481,6 +3481,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5205806463134606933, guid: cb18a3e46c5bfbb478148a33951cd89b, type: 3}
+      propertyPath: eventAction
+      value: 
+      objectReference: {fileID: 11400000, guid: e5bdce42a521eb9479cf0c4bd91ea209, type: 2}
     - target: {fileID: 7126025303744396756, guid: cb18a3e46c5bfbb478148a33951cd89b, type: 3}
       propertyPath: m_Name
       value: MateoNPC

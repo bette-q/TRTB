@@ -6,19 +6,24 @@ EXTERNAL GET_FLAG(chapterId, missionId, flagName)
 
 #blackout on
 
+A cluttered office/laboratory. Through the window, the faint outline of a coastline is visible. The Professor is facing away from the Player, sorting papers. A young man stands nearby, perhaps still holding internship documents. There's a subtle tension in the air.
+
 #speakers Player Professor
 
-Player: Professor, for this Survey in Bayvan… is it just a few sample points and a report?
+Player: Professor, this Bayvan ecological survey... it's just collecting a few samples and writing a report?
 Player: Sounds like my thesis will be easier than I thought.
 
 The Professor doesn’t turn around right away, pausing mid-motion.
 Professor: …Samples, yes. But records, too.
 
-He turns to face you, holding a slightly worn, intricately structured device.
+He turns to face you, holding a slightly worn, intricately structured orb-like device.
 Professor: Use this. The core recording unit.
 
-Player: The Sphere? Isn’t that… the old ‘Living Recorder’ project that got shelved? I heard there were… incidents.
-Professor: It records resonance. Truth deeper than numbers… Especially after disasters.
+Player: The EcoSphere? Isn’t it from the old ‘Living Recorder’ project that got shelved? I heard there were… incidents.
+Professor: It records resonance. The real truth hiding behind data.
+Player: Resonance? You mean…
+
+Professor: ...Especially the kind of “real” you find after a disaster.
 
 Research my thesis using that blacklisted device? Well… He knew about those accident briefings and never said a word.
 
@@ -77,9 +82,9 @@ You take the note. Suddenly, your phone vibrates violently in your pocket.
 
 Player: ...?
 
-Player: Urgent interview at the sewage plant? Seriously...?
+Player: Urgent interview at the sewage plant? Seriously?
 
-Your phone screen lights up—a new email. 
+Your phone screen lights up, a new email. Who could it be? 
 
 #show_popup "Received UnknownMail"
 
@@ -87,7 +92,7 @@ Your phone screen lights up—a new email.
 
 #show_item UnknownMail
 
-Sender: [Data Deleted], Subject: For the person with the sphere. 
+Sender: [Data Deleted], Subject: For the person with the orb. 
 
 Email Body: Research station, Basement Level 3, Section B, sample port of the recirculating water tank. This is a real water sample. Don’t trust their "qualified" report. The arsenic adsorption data was manually smoothed. The attachment is the original graph.  
 Email Body: (Attachment: An arsenic concentration monitoring line chart. Most of the line is a smooth green, but one point is circled in red, showing a sudden spike. Beside it is a small note: Sample Point: Yucun Majiajing – 7/14.)
@@ -175,3 +180,41 @@ Qiu: What you learn depends on what you’re willing to ask. But don’t take to
 
 -> DONE
 
+===0_2_1_M2===
+
+#speakers Player Mateo 
+
+At the edge of the fishing village, the rusted utility poles are covered with hand-written posters. In the distance, you spot Mateo pasting another one onto a stone wall.
+
+He notices you approaching. His eyes settle first on the orb at your waist, then on your face.
+
+Mateo: So you’re the new keeper of that thing? Hah, what a cursed reunion.
+
+Player: No need to be so tense. I'm just a student assistant. Got this thing a couple days ago. My professor said it might "come in handy," but honestly, I still don’t know how it works.
+
+Mateo studies you for a moment. His gaze softens slightly, though there's still a wary edge to it.
+
+Mateo: You lab-coat types like to talk about "objective recordings"—but we fishermen, we read the waves, the water, the eyes of the fish. What your gadget shows is only what someone up top wants you to see.
+
+Player: That’s exactly why I’m here. To see more. I heard things aren't right around here. If you're willing, I'd like to hear your side.
+
+He doesn’t reply immediately, but then he tears off one of the posters and hands it to you.
+
+Mateo: We used to live off this sea. These days, it’s more like it’s swallowing us. Look around—boats rot faster, fish float belly-up, and nobody gives a damn.
+
+Player: You mean… Noah?
+
+Mateo’s face stiffens. His voice drops.
+
+Mateo: The fish he pulled up right before he died looked exactly like the ones I dumped at the dock. But the report called it a "rare red tide." You think that’s a coincidence?
+
+Player: If someone really is covering this up, I want to find out. Maybe the orb can still record something real.
+
+He watches you in silence for a few seconds, then nods.
+
+Mateo: If you’ve got the guts, go look. Don’t trust the research folks too much. Hell, don’t trust me either. But if you’ve got the guts to face the truth, I’ll walk with you a while. Maybe this time, we can save more than just a few fish.
+
+#show_popup("Mateo joined team")  
+#addtoparty Mateo
+
+-> DONE

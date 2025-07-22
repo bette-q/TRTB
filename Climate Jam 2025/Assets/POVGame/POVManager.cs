@@ -135,7 +135,10 @@ public class PerspectiveAlignmentManager : MonoBehaviour
 
         // 拼接文本：“证物名 solved!”
         string evidenceName = GameStateManager.Instance.GetCurEvidence();
-        if (solvedText) solvedText.text = $"{evidenceName} solved!";
+        GameStateManager.Instance.AddBlock(new EvidenceBlock(evidenceName, EvidenceBlockType.Evidence));
+
+        if (solvedText) solvedText.text = $"{evidenceName} Solved!";
+
 
         // 按钮监听
         if (returnButton)

@@ -108,6 +108,10 @@ public class InkManager : MonoBehaviour
             {
                 return GameStateManager.Instance.GetFlag(chapterId, missionId, flagName);
             });
+            story.BindExternalFunction("get_current_character", () =>
+            {
+                return GameStateManager.Instance.GetCurrentCharacter().ToString();
+            });
         }
         else
         {
@@ -165,7 +169,8 @@ public class InkManager : MonoBehaviour
             content = line[(colon + 1)..].Trim();
         }
 
-        UIManager.Instance.ShowSpeaker(speaker); // <-- Only the correct one is shown
+        string speakerID = speaker.Replace(" ", "").ToLower();
+        UIManager.Instance.ShowSpeaker(speakerID); // <-- Only the correct one is shown
         UIManager.Instance.ShowDialogue(speaker, content);
         OnLine?.Invoke(line);
     }

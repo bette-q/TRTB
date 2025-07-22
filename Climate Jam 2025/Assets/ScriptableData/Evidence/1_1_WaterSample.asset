@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1db006bf5789a4b459ae753d38fdb7f4, type: 3}
-  m_Name: EV1.1 WaterSample
+  m_Name: 1_1_WaterSample
   m_EditorClassIdentifier: 
   info:
-    id: Sea Water Sample
+    id: 1_1_WaterSample
     displayName: Sea Water Sample
     title: Sea Water Sample
     text: 'Water Sample from the Fisher''s village.
@@ -21,10 +21,10 @@ MonoBehaviour:
 '
     icon: {fileID: 21300000, guid: 13cb5597ec79f421d876a91568303d44, type: 3}
   specialEvidence:
-    id: 
-    displayName: 
-    title: 
-    text: 
-    icon: {fileID: 0}
-    characterID: 4
+    id: 1_1_Turtle
+    displayName: Injured Turtle
+    title: Injured Turtle
+    text: Injured Turtle
+    icon: {fileID: 21300000, guid: f8c8f3b7aa7ab4c3d8f1424b8f8b1873, type: 3}
+    characterID: 3
   type: 0

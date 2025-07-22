@@ -1,6 +1,7 @@
 # External Function Declarations
 EXTERNAL SET_FLAG(chapterId, missionId, flagName)
 EXTERNAL GET_FLAG(chapterId, missionId, flagName)
+EXTERNAL get_current_character()
 
 ===0_0_0_Intro===
 
@@ -58,7 +59,7 @@ Player: Pristine? Coexistence? Really?… Hey Sphere, you’re the “Living Rec
 
 ===0_1_2_FrontDesk===
 
-# speakers Player FD
+# speakers Player frontdesk
 
 Front Desk: ...Yes, yes, Ella! The person is here—looks like a student... holding a weird ball? ...Got it, I'll say you were delayed by an urgent interview at the sewage plant, and tell him to—what? Take photos of the sediment? Noted, noted!
 
@@ -95,7 +96,7 @@ Your phone screen lights up, a new email. Who could it be?
 Sender: [Data Deleted], Subject: For the person with the orb. 
 
 Email Body: Research station, Basement Level 3, Section B, sample port of the recirculating water tank. This is a real water sample. Don’t trust their "qualified" report. The arsenic adsorption data was manually smoothed. The attachment is the original graph.  
-Email Body: (Attachment: An arsenic concentration monitoring line chart. Most of the line is a smooth green, but one point is circled in red, showing a sudden spike. Beside it is a small note: Sample Point: Yucun Majiajing – 7/14.)
+Email Body: (Attachment: An arsenic concentration monitoring line chart. Most of the line is a smooth green, but one point is circled in red, showing a sudden spike. Beside it is a small note: Sample Point: Fisherman’s Village Well – 7/14.)
 
 Player: (pupils contract, finger sliding across that glaring red spike on the screen):  
 Player: Manually smoothed...? Qiu? The genius sampler Professor mentioned—the one who left the project? He sent me an email? Arsenic... Fisherman’s Village Well?
@@ -218,3 +219,40 @@ Mateo: If you’ve got the guts, go look. Don’t trust the research folks too m
 #addtoparty Mateo
 
 -> DONE
+
+===1_0_0_OldFisherman===
+
+{get_current_character() == "Player":
+
+    // Player version
+    #speakers Player OldFisherman
+    
+    The moment you step into the fishing village, a strange tension settles in your chest.
+    The sea breeze blows as usual, the sun beats down—yet there’s something uneasy in the air, something you can’t quite name.
+    You wander forward without a clear aim and spot an old fisherman by the dock, mending his nets.
+    Your eyes meet. He gives you a small nod.
+    You walk over.
+
+    Player: Nice weather today, sir.
+    Old Fisherman: Yeah... the sea’s gotten a few degrees warmer. The fish don’t follow their old routes anymore.
+    He lets out a sigh, then slowly begins to talk about the old days of the village.
+    You listen, half-lost in thought.
+- else:
+    // Mateo version
+    #speakers Mateo OldFisherman
+    
+    Your boots hit the dock with a familiar creak of old wood.
+    The wind carries a hint of briny rot, but you barely notice.
+    This is home—the place you return to, again and again.
+    Off in the distance, the old fisherman always sitting in the shadows, mending his nets, gives you a wave.
+    
+    Old Fisherman: Matteo? Back again already, huh?
+    Mateo: Yeah. Just did my good deed for the day.
+    Old Fisherman: Hm… right. I saw something earlier, near the water out front.
+    As he says “something,” his eyes flicker briefly, then glance over at you without a hint of expression.
+    Old Fisherman: You might want to… take a look.
+    You don’t answer. You just slowly turn your gaze in the direction he pointed.
+ 
+}
+-> DONE
+

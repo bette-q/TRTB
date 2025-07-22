@@ -8,6 +8,7 @@ public class PuzzleManager : MonoBehaviour
 
     [Header("Single placeholder where the puzzle will appear")]
     public Transform placeholder;
+    public Vector3 offset;
 
     private GameObject _activePuzzleInstance;
 
@@ -34,7 +35,7 @@ public class PuzzleManager : MonoBehaviour
         // Instantiate at the placeholder
         _activePuzzleInstance = Instantiate(
             match,
-            placeholder.position,
+            placeholder.position + offset,
             placeholder.rotation,
             placeholder // parent to placeholder (optional)
         );

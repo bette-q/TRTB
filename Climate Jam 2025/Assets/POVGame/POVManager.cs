@@ -79,7 +79,7 @@ public class PerspectiveAlignmentManager : MonoBehaviour
                 _hasAligned[i] = true;
                 Debug.Log($"[AlignDebug] 🎯 Position Alignment SUCCESS for idx={i}");
                 onAligned.Invoke(i);
-                OnPuzzleSolved();
+                //OnPuzzleSolved();
             }
         }
     }

@@ -35,7 +35,7 @@ public class SceneController : MonoBehaviour
 
         foreach (var go in roots)
         {
-            // Optional: add your own filter here (e.g., only objects with a tag/layer)
+            if (go.name == "White Model") continue; // Skip this object
             mainSceneRoots.Add(go);
         }
     }

@@ -3650,6 +3650,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialoguePanel
       objectReference: {fileID: 0}
+    - target: {fileID: 8429264059411458610, guid: 7421e176e2354a44098230734e48a6a0, type: 3}
+      propertyPath: characters.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429264059411458610, guid: 7421e176e2354a44098230734e48a6a0, type: 3}
+      propertyPath: characters.Array.data[4].name
+      value: FrontDske
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429264059411458610, guid: 7421e176e2354a44098230734e48a6a0, type: 3}
+      propertyPath: characters.Array.data[6].name
+      value: OldFisherman
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429264059411458610, guid: 7421e176e2354a44098230734e48a6a0, type: 3}
+      propertyPath: characters.Array.data[6].prefab
+      value: 
+      objectReference: {fileID: 8185022081740595005, guid: 72bd29c7ee5bd8b43a7951dd748a2f9c, type: 3}
+    - target: {fileID: 8429264059411458610, guid: 7421e176e2354a44098230734e48a6a0, type: 3}
+      propertyPath: characters.Array.data[6].characterID
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429264059411458610, guid: 7421e176e2354a44098230734e48a6a0, type: 3}
+      propertyPath: characters.Array.data[6].sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429264059411458610, guid: 7421e176e2354a44098230734e48a6a0, type: 3}
+      propertyPath: characters.Array.data[6].sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 32c3dfd14c7be42878cb4ef64ba65fdd, type: 3}
+    - target: {fileID: 8429264059411458610, guid: 7421e176e2354a44098230734e48a6a0, type: 3}
+      propertyPath: characters.Array.data[6].sprites.Array.data[0].tagName
+      value: Qiu
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

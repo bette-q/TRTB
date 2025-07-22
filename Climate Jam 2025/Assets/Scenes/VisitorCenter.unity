@@ -374,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8272120023926649944, guid: c35e6cdf5c8684cfeb1907018c64b955, type: 3}
       propertyPath: characters.Array.data[4].name
-      value: Front Desk
+      value: FrontDesk
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -793,7 +793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4631088229802004309, guid: 127d42b4263654758899534d11fcae3a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5032131016926480340, guid: 127d42b4263654758899534d11fcae3a, type: 3}
       propertyPath: allEvidenceData.Array.size

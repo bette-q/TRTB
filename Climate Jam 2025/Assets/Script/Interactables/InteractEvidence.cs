@@ -40,7 +40,7 @@ public class InteractEvidence : Interactable
 
     private IEnumerator ShowDialogueAndWaitForClick()
     {
-        UIManager.Instance.ShowDialogue("", "Nothing is happening");
+        UIManager.Instance.ShowDialogue("", "Nothing happened");
 
         // Wait until the player clicks the left mouse button
         while (!Input.GetMouseButtonDown(0))

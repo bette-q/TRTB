@@ -122,6 +122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventSeq: {fileID: 11400000, guid: 2adf949cae3c01a48b69cf5ec681c14f, type: 2}
-  eventAction: {fileID: 11400000, guid: 6446defffb7a5b9428633fd0f718a5c6, type: 2}
+  eventAction: {fileID: 11400000, guid: e5bdce42a521eb9479cf0c4bd91ea209, type: 2}
   npcID: 
   displayName: 

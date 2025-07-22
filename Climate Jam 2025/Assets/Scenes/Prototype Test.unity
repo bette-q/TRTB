@@ -129,6 +129,51 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 539142520543943435, guid: c35e6cdf5c8684cfeb1907018c64b955, type: 3}
   m_PrefabInstance: {fileID: 3727476655328662269}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &204986286
+GameObject:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 204986288}
+  - component: {fileID: 204986287}
+  m_Layer: 0
+  m_Name: PrefabPainterSceneSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &204986287
+MonoBehaviour:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204986286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0d71238b38a4a38b35b955fbf5c019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentForPrefabs: {fileID: 0}
+--- !u!4 &204986288
+Transform:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204986286}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &221067305 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6959993716780336580, guid: c35e6cdf5c8684cfeb1907018c64b955, type: 3}
@@ -3453,26 +3498,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1997845083401819570, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 7.459999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4847565739246265354, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 5912509380054351320, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
       propertyPath: interactPrompt
       value: 
       objectReference: {fileID: 36737190}
-    - target: {fileID: 5925368282590799020, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
-      propertyPath: profileText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925368282590799020, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
-      propertyPath: characterIcons.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5925368282590799020, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
       propertyPath: 'characterIcons.Array.data[0]'
       value: 
@@ -3527,22 +3556,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7926098086330869719, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8653019478088597002, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
-      propertyPath: m_BackGroundColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8653019478088597002, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8653019478088597002, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8653019478088597002, guid: 17e262bcf70e045db8df49e56c8a0e73, type: 3}
-      propertyPath: m_BackGroundColor.r
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3639,3 +3652,4 @@ SceneRoots:
   - {fileID: 1302275225407960421}
   - {fileID: 961334553}
   - {fileID: 6429895943062943189}
+  - {fileID: 204986288}

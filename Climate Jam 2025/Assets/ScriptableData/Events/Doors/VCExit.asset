@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prerequisites: []
   repeat: 1
-  targetSceneName: Level Test
+  targetSceneName: Prototype Test
   pairedDoorID: VCDoor
   references:
     version: 2

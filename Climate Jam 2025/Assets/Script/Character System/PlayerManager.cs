@@ -3,15 +3,18 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-// handles character switch
+// Handles character switch with a single player GameObject and sprite swapping
 public class PlayerManager : MonoBehaviour
 {
-    public GameObject[] characters; // assign Main, Qiu, Ella, Mateo in order
+    public GameObject player; // Assign your player prefab here (has child with SpriteRenderer)
+    public Sprite[] characterSprites; // Assign sprites in the same order as characterIDs
     public CharacterID[] characterIDs = new CharacterID[4]; // [0]=Main, [1]=Qiu, [2]=Ella, [3]=Mateo
     public GameObject[] characterIcons;
 
     private List<CharacterID> playableList = new List<CharacterID>();
     private Dictionary<CharacterID, int> characterIndexMap = new Dictionary<CharacterID, int>();
+
+    private SpriteRenderer spriteRenderer; // Cached ref to the child's SpriteRenderer
 
     void Awake()
     {
@@ -20,6 +23,16 @@ public class PlayerManager : MonoBehaviour
         {
             if (!characterIndexMap.ContainsKey(characterIDs[i]))
                 characterIndexMap[characterIDs[i]] = i;
+        }
+
+        // Find PlayerArt under Player
+        if (player != null)
+        {
+            var art = player.transform.Find("PlayerArt");
+            if (art != null)
+                spriteRenderer = art.GetComponent<SpriteRenderer>();
+            else
+                Debug.LogError("PlayerArt child not found under Player!");
         }
     }
 
@@ -49,17 +62,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-
     void SetActiveCharacter(CharacterID id)
     {
         if (!characterIndexMap.TryGetValue(id, out int idx) || idx < 0) return;
-
-        for (int i = 0; i < characters.Length; i++)
-        {
-            var renderer = characters[i].GetComponent<MeshRenderer>();
-            if (renderer != null)
-                renderer.enabled = (i == idx);
-        }
+        if (spriteRenderer != null && idx < characterSprites.Length)
+            spriteRenderer.sprite = characterSprites[idx];
 
         // Update GameStateManager with new active character
         if (GameStateManager.Instance != null)
@@ -70,7 +77,6 @@ public class PlayerManager : MonoBehaviour
     {
         var party = GameStateManager.Instance.GetPartyMembers();
 
-        // Sort playableList by your fixed characterIDs order (always Main, Qiu, Ella, Mateo order)
         playableList = new List<CharacterID>();
         for (int i = 0; i < characterIDs.Length; i++)
         {

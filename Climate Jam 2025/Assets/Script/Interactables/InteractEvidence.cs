@@ -19,23 +19,8 @@ public class InteractEvidence : Interactable
         // Subscribe to dialogue end event (one-time)
         InkManager.Instance.OnDialogueEnd += ClearGOContext;
 
-        base.Interact();
-
-        //var ed = EvidenceDatabase.Instance.GetEvidenceData(evidenceId); // <-- This fetches the SO
-        //if (ed == null)
-        //{
-        //    Debug.LogWarning("No EvidenceData found for evidenceId: " + evidenceId);
-        //    return;
-        //}
-
-        //string tmpID = evidenceId;
-        //CharacterID cID = GameStateManager.Instance.currentCharacter;
-        //if (cID == ed.specialEvidence.characterID) tmpID = ed.specialEvidence.id;
-
-        //GameStateManager.Instance.SetCurEvidence(tmpID);
-
-        //Destroy(gameObject);
-        //SceneController.Instance.EnterAdditiveScene("POVGame");
+        //EvidenceEventContext.CurrentEvidenceData = EvidenceDatabase.Instance.GetEvidenceData(evidenceId);
+        //base.Interact();
     }
 
     private IEnumerator ShowDialogueAndWaitForClick()

@@ -59,6 +59,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 36e63845396ad4156be02ca89b150ec1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 809957916724548194}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 36e63845396ad4156be02ca89b150ec1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3392990368245699622}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 36e63845396ad4156be02ca89b150ec1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7153052886413327107}
   m_SourcePrefab: {fileID: 100100000, guid: 36e63845396ad4156be02ca89b150ec1, type: 3}
 --- !u!1 &539417841401592373 stripped
 GameObject:
@@ -80,3 +86,45 @@ MonoBehaviour:
   eventSeq: {fileID: 0}
   eventAction: {fileID: 11400000, guid: ad5d27e273203f54ea258fc192eec6bd, type: 2}
   evidenceId: 1_1_WaterSample
+--- !u!65 &3392990368245699622
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539417841401592373}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.31177106, y: 0.11125335, z: 0.3112084}
+  m_Center: {x: -0.1364084, y: 0.03570112, z: -5.3198806e-10}
+--- !u!135 &7153052886413327107
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539417841401592373}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.2
+  m_Center: {x: -0.1364084, y: 0.03570112, z: -5.3198806e-10}

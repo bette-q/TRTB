@@ -16,6 +16,8 @@ public class EvidenceEventAction : EventAction
         EvidenceBlock block = GenerateEvidenceBlock(ed, characterID);
         GameStateManager.Instance.AddBlock(block);
         Debug.Log("[EvidenceEventAction] Collected evidence: " + ed.name);
+
+        EvidenceEventContext.CurrentEvidenceData = null;
     }
 
     public static EvidenceBlock GenerateEvidenceBlock(EvidenceData ed, CharacterID characterID)

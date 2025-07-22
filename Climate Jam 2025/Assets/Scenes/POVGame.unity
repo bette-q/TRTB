@@ -899,6 +899,8 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 2ee5857017d064cd28454dfe56c19b03, type: 3}
   - {fileID: 919132149155446097, guid: 5e660c2d55883472db5c68935005198c, type: 3}
   - {fileID: 919132149155446097, guid: 9229e9df2483d4501be7e5abaf2d5c1f, type: 3}
+  - {fileID: 919132149155446097, guid: 245186211734e4695981b07bb13f104f, type: 3}
+  - {fileID: 919132149155446097, guid: 94b31329bf29342f0b563e7946879467, type: 3}
   placeholder: {fileID: 1049604759}
 --- !u!4 &1443320875
 Transform:
@@ -1207,6 +1209,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1660640729
+GameObject:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1660640731}
+  - component: {fileID: 1660640730}
+  m_Layer: 0
+  m_Name: PrefabPainterSceneSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1660640730
+MonoBehaviour:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660640729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0d71238b38a4a38b35b955fbf5c019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentForPrefabs: {fileID: 0}
+--- !u!4 &1660640731
+Transform:
+  m_ObjectHideFlags: 19
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660640729}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1740637136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1265,7 +1312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8022056689885749865, guid: 33f93ec3dd365ef4380c0e409b11a7ba, type: 3}
       propertyPath: curEvidence
-      value: 1_1_Turtle
+      value: PZ_1_1_WaterSample
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1577,3 +1624,4 @@ SceneRoots:
   - {fileID: 1659702810}
   - {fileID: 1049604759}
   - {fileID: 1114755}
+  - {fileID: 1660640731}

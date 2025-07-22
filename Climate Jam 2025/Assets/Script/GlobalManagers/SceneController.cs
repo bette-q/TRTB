@@ -83,17 +83,19 @@ public class SceneController : MonoBehaviour
     private void SetMainSceneRootsActive(bool value)
     {
         foreach (var go in mainSceneRoots)
+        {
             if (go != null)
             {
-                if(!GameStateManager.Instance.GetFlag(0,1,"phone_call")
+                if (!GameStateManager.Instance.GetFlag(0, 1, "phone_call"))
                 {
-                    if(go.name == "OldFisherman" || go.name == "MateoNPC" || go.name == "Turtle")
+                    if (go.name == "OldFisherman" || go.name == "MateoNPC" || go.name == "Turtle")
                     {
                         continue;
                     }
                 }
                 go.SetActive(value);
             }
+        }
     }
 
     private void CleanupAudioListeners()

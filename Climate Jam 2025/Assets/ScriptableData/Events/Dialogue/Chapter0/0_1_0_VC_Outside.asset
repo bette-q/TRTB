@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 0_1_0_VC_Outside
   m_EditorClassIdentifier: 
   prerequisites: []
+  repeat: 0
   inkKnot: 0_1_0_VC_Outside
   references:
     version: 2

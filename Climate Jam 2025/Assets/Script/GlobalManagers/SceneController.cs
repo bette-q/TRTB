@@ -36,7 +36,6 @@ public class SceneController : MonoBehaviour
         foreach (var go in roots)
         {
             if (go.name == "White Model") continue; // Skip this object
-      
             mainSceneRoots.Add(go);
         }
     }
@@ -85,16 +84,7 @@ public class SceneController : MonoBehaviour
     {
         foreach (var go in mainSceneRoots)
             if (go != null)
-            {
-                if (go.name == "Turtle (1)" || go.name == "OldFisherman (1)" || go.name == "MateoNPC (1)")
-                {
-                    if (!GameStateManager.Instance.GetFlag(0, 1, "phone_call"))
-                    {
-                        continue;
-                    }
-                }
                 go.SetActive(value);
-            }
     }
 
     private void CleanupAudioListeners()

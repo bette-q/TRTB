@@ -513,8 +513,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2903695628993385147, guid: b2ff9aa6ceafea140bcb363cd0edfff7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 263099999}
   m_SourcePrefab: {fileID: 100100000, guid: b2ff9aa6ceafea140bcb363cd0edfff7, type: 3}
+--- !u!1 &263099998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2903695628993385147, guid: b2ff9aa6ceafea140bcb363cd0edfff7, type: 3}
+  m_PrefabInstance: {fileID: 263099997}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &263099999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263099998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de57d2a2b597b540977127536105484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &327915910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1861,7 +1881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introKnotName: 0_0_0_Intro
-  mainSceneName: Level Test
+  mainSceneName: Prototype Test
   menuPanel: {fileID: 199017390}
   terrain: {fileID: 493531217}
   water: {fileID: 1733935570}

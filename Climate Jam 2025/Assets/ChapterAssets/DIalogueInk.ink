@@ -98,6 +98,7 @@ Sender: [Data Deleted], Subject: For the person with the orb.
 Email Body: Research station, Basement Level 3, Section B, sample port of the recirculating water tank. This is a real water sample. Don’t trust their "qualified" report. The arsenic adsorption data was manually smoothed. The attachment is the original graph.  
 Email Body: (Attachment: An arsenic concentration monitoring line chart. Most of the line is a smooth green, but one point is circled in red, showing a sudden spike. Beside it is a small note: Sample Point: Fisherman’s Village Well – 7/14.)
 
+Player: (pupils contract, finger sliding across that glaring red spike on the screen):  
 Player: Manually smoothed...? Qiu? The genius sampler Professor mentioned—the one who left the project? He sent me an email? Arsenic... Fisherman’s Village Well?
 
 ~ SET_FLAG(0,1,"phone_call")

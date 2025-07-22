@@ -10,17 +10,17 @@ public class AddCharacterEventAction : EventAction
         GameStateManager.Instance.AddSwitchableCharacter(characterID);
         //Debug.Log($"[AddCharacterEventAction] Added {characterID} to playable characters.");
 
-        // Destroy the NPC GameObject (context)
-        var npcGO = AddCharacterEventContext.CurrentSourceGameObject;
-        if (npcGO != null)
-        {
-            //Debug.Log($"[AddCharacterEventAction] Destroying NPC object: {npcGO.name}");
-            Object.Destroy(npcGO);
-        }
-        else
-        {
-            //Debug.LogWarning("[AddCharacterEventAction] No NPC GameObject context found to destroy.");
-        }
+        //// Destroy the NPC GameObject (context)
+        //var npcGO = AddCharacterEventContext.CurrentSourceGameObject;
+        //if (npcGO != null)
+        //{
+        //    //Debug.Log($"[AddCharacterEventAction] Destroying NPC object: {npcGO.name}");
+        //    Object.Destroy(npcGO);
+        //}
+        //else
+        //{
+        //    //Debug.LogWarning("[AddCharacterEventAction] No NPC GameObject context found to destroy.");
+        //}
     }
 }
 

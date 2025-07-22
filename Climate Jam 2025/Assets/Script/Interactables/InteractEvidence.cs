@@ -14,21 +14,28 @@ public class InteractEvidence : Interactable
             return;
         }
 
-        var ed = EvidenceDatabase.Instance.GetEvidenceData(evidenceId); // <-- This fetches the SO
-        if (ed == null)
-        {
-            Debug.LogWarning("No EvidenceData found for evidenceId: " + evidenceId);
-            return;
-        }
+        DestroySelfEventContext.CurrentSourceGameObject = this.gameObject;
 
-        string tmpID = evidenceId;
-        CharacterID cID = GameStateManager.Instance.currentCharacter;
-        if (cID == ed.specialEvidence.characterID) tmpID = ed.specialEvidence.id;
+        // Subscribe to dialogue end event (one-time)
+        InkManager.Instance.OnDialogueEnd += ClearGOContext;
 
-        GameStateManager.Instance.SetCurEvidence(tmpID);
+        base.Interact();
 
-        Destroy(gameObject);
-        SceneController.Instance.EnterAdditiveScene("POVGame");
+        //var ed = EvidenceDatabase.Instance.GetEvidenceData(evidenceId); // <-- This fetches the SO
+        //if (ed == null)
+        //{
+        //    Debug.LogWarning("No EvidenceData found for evidenceId: " + evidenceId);
+        //    return;
+        //}
+
+        //string tmpID = evidenceId;
+        //CharacterID cID = GameStateManager.Instance.currentCharacter;
+        //if (cID == ed.specialEvidence.characterID) tmpID = ed.specialEvidence.id;
+
+        //GameStateManager.Instance.SetCurEvidence(tmpID);
+
+        //Destroy(gameObject);
+        //SceneController.Instance.EnterAdditiveScene("POVGame");
     }
 
     private IEnumerator ShowDialogueAndWaitForClick()
@@ -44,4 +51,12 @@ public class InteractEvidence : Interactable
         UIManager.Instance.HideDialogue();
         // Now the player can continue; do any additional logic here if needed
     }
+
+    void ClearGOContext()
+    {
+        DestroySelfEventContext.CurrentSourceGameObject = null;
+        // Unsubscribe so it only runs once
+        InkManager.Instance.OnDialogueEnd -= ClearGOContext;
+    }
+
 }

@@ -63,17 +63,37 @@ public class InkManager : MonoBehaviour
             }
             GameStateManager.Instance.AddSwitchableCharacter(charID);
 
-            var npcGO = AddCharacterEventContext.CurrentSourceGameObject;
+            var npcGO = DestroySelfEventContext.CurrentSourceGameObject;
             if (npcGO != null)
             {
-                Debug.Log($"[AddCharacterEventAction] Destroying NPC object: {npcGO.name}");
+                Debug.Log($"Destroying NPC object: {npcGO.name}");
                 UnityEngine.Object.Destroy(npcGO);
             }
             else
             {
-                Debug.LogWarning("[AddCharacterEventAction] No NPC GameObject context found to destroy.");
+                Debug.LogWarning("No NPC GameObject context found to destroy.");
             }
         };
+        commandHandlers["ecosphere"] = args =>
+        {
+            if (args.Count >= 1)
+            {
+                string evidenceId = args[0];
+                GameStateManager.Instance.SetCurEvidence(evidenceId);
+
+                if (DestroySelfEventContext.CurrentSourceGameObject != null)
+                {
+                    GameObject.Destroy(DestroySelfEventContext.CurrentSourceGameObject);
+                }
+
+                SceneController.Instance.EnterAdditiveScene("POVGame");
+            }
+            else
+            {
+                Debug.LogWarning("[InkManager] #ecosphere missing evidenceId");
+            }
+        };
+
 
 
     }

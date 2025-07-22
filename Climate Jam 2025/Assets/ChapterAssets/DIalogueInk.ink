@@ -256,3 +256,27 @@ Mateo: If you’ve got the guts, go look. Don’t trust the research folks too m
 }
 -> DONE
 
+===1_0_1_Turtle===
+//Player
+{ get_current_character() == "Player":
+It's a sea turtle, long dead. 
+You crouch down. The device in your hand gives a faint buzz.
+It seems to be prompting you to collect seawater.
+The water is murky, with unidentifiable debris drifting through it—something about it feels... off.
+You pause, then carefully take note of everything.
+
+#ecosphere 1_1_WaterSample
+
+- else:
+//Mateo
+As you approach the beach, the device hums low in your hand.
+You see the waves dragging something heavy toward shore.
+A sea turtle. The familiar notch on its shell tells you everything you need to know.
+It’s her. The one you’ve passed at dusk, again and again, in silence.
+You kneel. Your fingers hover above the cold, mottled shell.
+You never spoke. But you remembered each other.
+You stood there, eyes down as the tide washes up your legs.
+
+#ecosphere 1_1_Turtle
+}
+-> DONE

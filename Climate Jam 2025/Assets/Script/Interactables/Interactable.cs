@@ -27,3 +27,8 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 }
+public static class DestroySelfEventContext
+{
+    // Holds the reference to the currently interacted NPC GameObject
+    public static GameObject CurrentSourceGameObject;
+}

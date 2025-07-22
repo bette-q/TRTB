@@ -228,10 +228,10 @@ MonoBehaviour:
       sprite: {fileID: 21300000, guid: 32c3dfd14c7be42878cb4ef64ba65fdd, type: 3}
   - name: Professor
     characterID: 4
-    prefab: {fileID: 8185022081740595005, guid: 72bd29c7ee5bd8b43a7951dd748a2f9c, type: 3}
+    prefab: {fileID: 109173049704866202, guid: 386cf5a617bad83488319ef3c27f45f1, type: 3}
     sprites:
-    - tagName: Qiu
-      sprite: {fileID: 21300000, guid: 32c3dfd14c7be42878cb4ef64ba65fdd, type: 3}
+    - tagName: Professor
+      sprite: {fileID: 21300000, guid: fd22979303ac45f409a060328a0706ed, type: 3}
   leftCharacterSlot: {fileID: 3986634506853311077}
   rightCharacterSlot: {fileID: 4286312010619336774}
 --- !u!1001 &1722580873293268134

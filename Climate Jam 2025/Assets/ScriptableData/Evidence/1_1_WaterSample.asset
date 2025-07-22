@@ -16,15 +16,15 @@ MonoBehaviour:
     id: 1_1_WaterSample
     displayName: Sea Water Sample
     title: Sea Water Sample
-    text: 'Water Sample from the Fisher''s village.
-
-'
+    text: "A vial of murky water\u2014its troubling appearance obvious to anyone
+      who sees it.\r"
     icon: {fileID: 21300000, guid: 13cb5597ec79f421d876a91568303d44, type: 3}
   specialEvidence:
     id: 1_1_Turtle
-    displayName: Injured Turtle
-    title: Injured Turtle
-    text: Injured Turtle
+    displayName: Dead Turtle
+    title: Dead Turtle
+    text: "The body of a sea turtle washed ashore\u2014its belly bloated, foam clinging
+      to its mouth and nostrils. Matteo seems to have once cared deeply for it."
     icon: {fileID: 21300000, guid: f8c8f3b7aa7ab4c3d8f1424b8f8b1873, type: 3}
     characterID: 3
   type: 0

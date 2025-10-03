@@ -188984,7 +188984,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7402656308035360811, guid: f7d7ea090f1e54a46891acf75ded9094, type: 3}
       propertyPath: mainScene
-      value: Level Test
+      value: Main Scene
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -351444,7 +351444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2027682837
 Transform:
   m_ObjectHideFlags: 0

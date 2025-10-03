@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prerequisites: []
   repeat: 1
-  targetSceneName: VisitorCenter
+  targetSceneName: Visitor Center
   pairedDoorID: VCDoor
   references:
     version: 2

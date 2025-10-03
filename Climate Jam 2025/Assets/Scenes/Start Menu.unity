@@ -2145,7 +2145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introKnotName: 0_0_0_Intro
-  mainSceneName: Level Test
+  mainSceneName: Main Scene
   menuPanel: {fileID: 199017390}
   terrain: {fileID: 493531217}
   water: {fileID: 1733935570}
